@@ -223,4 +223,3 @@ fi
 echo "------------------------------------------------------------------------"
 echo "🎉 SUCCESS! Your repository is now empowered with enterprise AI agent rules."
 echo "Agents supported: Antigravity, Claude Code, Cursor, Copilot, Codex, Windsurf."
-EOF
