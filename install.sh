@@ -195,29 +195,69 @@ echo "  ✓ Templates installed (architecture-spec, adr, pr, postmortem)"
 
 # 5. Link Master Directives across AI Agents
 echo "🔗 Setting up Cross-Agent Entrypoints..."
-# AGENTS.md
-rm -f "$TARGET_DIR/AGENTS.md"
-if [ "$MODE" = "symlink" ]; then
-  ln -s "$SCRIPT_DIR/AGENTS.md" "$TARGET_DIR/AGENTS.md"
+if [ -f "$TARGET_DIR/AGENTS.md" ] && [ ! -L "$TARGET_DIR/AGENTS.md" ]; then
+  echo "  ℹ️ Existing AGENTS.md detected in target. Preserving and integrating..."
+  if ! grep -q "Enterprise Skills & Standards Integration" "$TARGET_DIR/AGENTS.md"; then
+    cat << 'EOF' >> "$TARGET_DIR/AGENTS.md"
+
+---
+
+## Enterprise Skills & Standards Integration
+This repository is augmented with foundational enterprise rules and on-demand skills:
+- **Core Directives**:
+  - [`00-agent-manifesto`](.agents/rules/00-agent-manifesto.md) — Principal Engineer operating standards
+  - [`01-solid-dry-clean-code`](.agents/rules/01-solid-dry-clean-code.md) — SOLID, DRY, and clean architectural boundaries
+  - [`02-architectural-pillars`](.agents/rules/02-architectural-pillars.md) — 9 Architectural Pillars (HA, Security, Resilience, Cost...)
+  - [`03-verification-loop`](.agents/rules/03-verification-loop.md) — Automated testing, linting, regression prevention loop
+  - [`04-documentation-and-diagrams`](.agents/rules/04-documentation-and-diagrams.md) — C4 Model & Mermaid diagram specifications
+  - [`05-logging-and-observability`](.agents/rules/05-logging-and-observability.md) — Structured JSON logging, PII masking & 5 checkpoints
+  - [`06-technical-writing-and-evidence-grounding`](.agents/rules/06-technical-writing-and-evidence-grounding.md) — Anti-wall-of-text, tables & anti-hallucination
+- **On-Demand Skills**:
+  - [`arch-designer`](.agents/skills/arch-designer/SKILL.md) — System design workflow with 9 pillars & C4 diagrams
+  - [`tech-writer`](.agents/skills/tech-writer/SKILL.md) — High-signal technical documentation & diagram crafting
+  - [`log-investigator`](.agents/skills/log-investigator/SKILL.md) — Log-driven incident investigation & root cause discovery
+  - [`desktop-app-hardening`](.agents/skills/desktop-app-hardening/SKILL.md) — Desktop app security auditing (Electron & Tauri)
+  - [`rust-optimizer`](.agents/skills/rust-optimizer/SKILL.md) — Rust performance profiling & safety auditing
+  - [`code-auditor`](.agents/skills/code-auditor/SKILL.md) — Full codebase audit against SOLID, DRY & OWASP
+EOF
+    echo "  ✓ Appended Enterprise Directives to AGENTS.md"
+  else
+    echo "  ✓ AGENTS.md already contains Enterprise Integration"
+  fi
 else
-  cp "$SCRIPT_DIR/AGENTS.md" "$TARGET_DIR/AGENTS.md"
+  rm -f "$TARGET_DIR/AGENTS.md"
+  if [ "$MODE" = "symlink" ]; then
+    ln -s "$SCRIPT_DIR/AGENTS.md" "$TARGET_DIR/AGENTS.md"
+  else
+    cp "$SCRIPT_DIR/AGENTS.md" "$TARGET_DIR/AGENTS.md"
+  fi
+  echo "  ✓ Configured master AGENTS.md"
 fi
 
 # CLAUDE.md
-rm -f "$TARGET_DIR/CLAUDE.md"
-ln -sf "AGENTS.md" "$TARGET_DIR/CLAUDE.md"
+if [ ! -f "$TARGET_DIR/CLAUDE.md" ] || [ -L "$TARGET_DIR/CLAUDE.md" ]; then
+  rm -f "$TARGET_DIR/CLAUDE.md"
+  ln -sf "AGENTS.md" "$TARGET_DIR/CLAUDE.md"
+  echo "  ✓ Linked CLAUDE.md"
+fi
 
 # .cursorrules
-rm -f "$TARGET_DIR/.cursorrules"
-ln -sf "AGENTS.md" "$TARGET_DIR/.cursorrules"
+if [ ! -f "$TARGET_DIR/.cursorrules" ] || [ -L "$TARGET_DIR/.cursorrules" ]; then
+  rm -f "$TARGET_DIR/.cursorrules"
+  ln -sf "AGENTS.md" "$TARGET_DIR/.cursorrules"
+  echo "  ✓ Linked .cursorrules"
+fi
 
 # GitHub Copilot / Codex
 mkdir -p "$TARGET_DIR/.github"
-rm -f "$TARGET_DIR/.github/copilot-instructions.md"
-if [ "$MODE" = "symlink" ]; then
-  ln -s "$SCRIPT_DIR/.github/copilot-instructions.md" "$TARGET_DIR/.github/copilot-instructions.md"
-else
-  cp "$SCRIPT_DIR/.github/copilot-instructions.md" "$TARGET_DIR/.github/copilot-instructions.md"
+if [ ! -f "$TARGET_DIR/.github/copilot-instructions.md" ] || [ -L "$TARGET_DIR/.github/copilot-instructions.md" ]; then
+  rm -f "$TARGET_DIR/.github/copilot-instructions.md"
+  if [ "$MODE" = "symlink" ]; then
+    ln -s "$SCRIPT_DIR/.github/copilot-instructions.md" "$TARGET_DIR/.github/copilot-instructions.md"
+  else
+    cp "$SCRIPT_DIR/.github/copilot-instructions.md" "$TARGET_DIR/.github/copilot-instructions.md"
+  fi
+  echo "  ✓ Configured .github/copilot-instructions.md"
 fi
 
 echo "------------------------------------------------------------------------"
