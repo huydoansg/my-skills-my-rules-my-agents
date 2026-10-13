@@ -135,7 +135,7 @@ for core_file in "$SCRIPT_DIR"/core/*.md; do
     cp "$core_file" "$target_file"
   fi
 done
-echo "  ✓ Core rules installed (00 to 05)"
+echo "  ✓ Core rules installed (00 to 06)"
 
 # 2. Install Conventions
 if [ -z "$STACKS" ] || [ "$STACKS" = "all" ]; then

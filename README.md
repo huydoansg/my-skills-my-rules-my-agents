@@ -24,7 +24,8 @@ my-skills-my-rules-my-agents/
 │   ├── 02-architectural-pillars.md        # The 9 Architectural Pillars & Scorecard
 │   ├── 03-verification-loop.md            # Mandatory test, linter & typecheck loop
 │   ├── 04-documentation-and-diagrams.md   # C4 Model & Mermaid diagram specifications
-│   └── 05-logging-and-observability.md    # Structured JSON logging, PII masking & 5 checkpoints
+│   ├── 05-logging-and-observability.md    # Structured JSON logging, PII masking & 5 checkpoints
+│   └── 06-technical-writing-and-evidence-grounding.md # Anti-wall-of-text, tables, alerts & anti-hallucination
 │
 ├── conventions/                           # Deep, stack-specific conventions
 │   ├── aws/conventions.md                 # Well-Architected, IAM least privilege, CDK/Terraform
@@ -42,6 +43,7 @@ my-skills-my-rules-my-agents/
 │
 ├── skills/                                # On-demand workflows (Progressive Disclosure)
 │   ├── arch-designer/SKILL.md             # System design workflow with 9 pillars & C4 diagrams
+│   ├── tech-writer/SKILL.md               # High-signal technical documentation & diagram crafting
 │   ├── log-investigator/SKILL.md          # Log-driven incident investigation & root cause discovery
 │   ├── aws-architect/SKILL.md             # AWS solution design, Well-Architected & FinOps
 │   ├── k8s-gitops-deployer/SKILL.md       # Production K8s manifests & ArgoCD pipelines

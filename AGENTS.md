@@ -14,6 +14,7 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Agent Verification Loop**: [`core/03-verification-loop.md`](core/03-verification-loop.md)
 - **Architecture Documentation & Mermaid Diagrams**: [`core/04-documentation-and-diagrams.md`](core/04-documentation-and-diagrams.md)
 - **Logging & Observability Standards**: [`core/05-logging-and-observability.md`](core/05-logging-and-observability.md)
+- **Technical Writing, Visualization & Evidence Grounding**: [`core/06-technical-writing-and-evidence-grounding.md`](core/06-technical-writing-and-evidence-grounding.md)
 
 ### Specialized Tech Stack Conventions
 - **AWS Cloud Architecture**: [`conventions/aws/conventions.md`](conventions/aws/conventions.md)
@@ -31,6 +32,7 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 
 ### On-Demand Progressive Skills
 - **Architecture Designer**: [`skills/arch-designer/SKILL.md`](skills/arch-designer/SKILL.md)
+- **Technical Writer & Doc Auditor**: [`skills/tech-writer/SKILL.md`](skills/tech-writer/SKILL.md)
 - **Log Investigator & Incident RCA**: [`skills/log-investigator/SKILL.md`](skills/log-investigator/SKILL.md)
 - **AWS Architect**: [`skills/aws-architect/SKILL.md`](skills/aws-architect/SKILL.md)
 - **K8s & GitOps Deployer**: [`skills/k8s-gitops-deployer/SKILL.md`](skills/k8s-gitops-deployer/SKILL.md)
