@@ -3,7 +3,7 @@
 - **Author / Designer:** [Name / Agent]
 - **Status:** [Draft | Under Review | Approved | Superseded]
 - **Target Release:** [vX.Y.Z]
-- **ADR Reference:** [ADR-000X](docs/architecture/adr/ADR-000X.md)
+- **ADR Reference:** [ADR-000X](.docs/adr/ADR-000X-slug.md)
 
 ---
 

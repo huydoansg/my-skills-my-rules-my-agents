@@ -44,3 +44,11 @@ pub enum DatabaseError {
   - Offload blocking work via `tokio::task::spawn_blocking`.
 - **Cancellation Safety**: Ensure all async loops, channels, and `select!` branches are cancellation-safe and do not leak resources upon cancellation.
 - **Graceful Shutdown**: Implement clean shutdown loops listening for `tokio::signal::ctrl_c()`, closing channels, and waiting for worker threads to finish.
+
+## 5. LOGGING, TESTS, NAMING & PERFORMANCE
+- **Logging**: Use `tracing` macros (`info!`, `warn!`, `error!`, `debug!`); never `println!`/`eprintln!` in library code. Never log secrets or PII.
+- **Async runtime & locks**: Use one runtime (`tokio`). Use `std::sync::Mutex` for short critical sections that never hold the guard across `.await`; use `tokio::sync::Mutex` only when the guard must cross `.await`. Use `Arc<T>` (not `Rc<T>`) for shared state in async code.
+- **Tests**: Unit tests in `#[cfg(test)] mod tests`, integration tests in `tests/`. Use `#[tokio::test]` for async (`flavor = "multi_thread"` when `block_in_place` is needed). Name tests by behavior (`it_<does_x>_when_<condition>`) and assert concrete values, not `assert!(result.is_ok())`.
+- **Docs**: Public APIs have `///` doc comments; keep comments accurate and update them when behavior changes.
+- **Naming**: `snake_case` fn/var/module/file, `SCREAMING_SNAKE_CASE` const/static, `PascalCase` type/trait/enum/variant, `kebab-case` crate names.
+- **Hot paths**: Avoid allocations in hot paths; prefer `&str` over `&String`; batch database writes in transactions.
