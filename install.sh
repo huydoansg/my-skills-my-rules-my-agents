@@ -11,6 +11,7 @@ TARGET_DIR=""
 MODE="symlink" # or "copy"
 STACKS=""
 GLOBAL=false
+WITH_DOCS=false
 
 print_banner() {
   cat << 'EOF'
@@ -36,11 +37,14 @@ Options:
                            Available: aws,typescript-javascript,react,rust,python,golang,
                                       postgresql,docker,kubernetes,gitops,electron,tauri,all
   -g, --global             Install rules/skills globally into ~/.gemini/config/
+  -d, --with-docs          Also create the .docs/ skeleton (adr, plans, research, ...
+                           each with an index file) in the target project
   -h, --help               Show this help message
 
 Examples:
   ./install.sh --target /path/to/my-app --stacks typescript-javascript,react,docker
   ./install.sh --target /path/to/my-desktop-app --stacks rust,tauri,postgresql --mode copy
+  ./install.sh --target /path/to/my-app --with-docs
   ./install.sh --global
 EOF
   exit 0
@@ -63,6 +67,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     -g|--global)
       GLOBAL=true
+      shift
+      ;;
+    -d|--with-docs)
+      WITH_DOCS=true
       shift
       ;;
     -h|--help)
@@ -121,7 +129,7 @@ echo "⚙️ Mode: $MODE"
 # Create .agents structure in target
 AGENTS_TARGET="$TARGET_DIR/.agents"
 mkdir -p "$AGENTS_TARGET/rules" "$AGENTS_TARGET/skills" "$AGENTS_TARGET/templates"
-mkdir -p "$TARGET_DIR/docs/architecture/specs" "$TARGET_DIR/docs/architecture/adr"
+mkdir -p "$TARGET_DIR/.docs"
 
 # 1. Install Core Rules
 echo "📦 Installing Core Rules & Pillars..."
@@ -135,7 +143,7 @@ for core_file in "$SCRIPT_DIR"/core/*.md; do
     cp "$core_file" "$target_file"
   fi
 done
-echo "  ✓ Core rules installed (00 to 06)"
+echo "  ✓ Core rules installed (00 to 09)"
 
 # 2. Install Conventions
 if [ -z "$STACKS" ] || [ "$STACKS" = "all" ]; then
@@ -191,7 +199,31 @@ for tpl_file in "$SCRIPT_DIR"/templates/*.md; do
     cp "$tpl_file" "$target_tpl"
   fi
 done
-echo "  ✓ Templates installed (architecture-spec, adr, pr, postmortem)"
+echo "  ✓ Templates installed (architecture-spec, adr, plan, investigation, requirement, verification, developer-guidelines, pr, postmortem)"
+
+# 4b. Install workflow description (skills and rules refer to .docs/workflow.md)
+workflow_target="$TARGET_DIR/.docs/workflow.md"
+rm -f "$workflow_target"
+if [ "$MODE" = "symlink" ]; then
+  ln -s "$SCRIPT_DIR/workflow/workflow.md" "$workflow_target"
+else
+  cp "$SCRIPT_DIR/workflow/workflow.md" "$workflow_target"
+fi
+echo "  ✓ Workflow installed (.docs/workflow.md)"
+
+# 4c. Optional .docs skeleton (never overwrites existing files)
+if [ "$WITH_DOCS" = true ]; then
+  for sub in adr plans research requirements investigations verifications; do
+    mkdir -p "$TARGET_DIR/.docs/$sub"
+    index_name="INDEX.md"
+    [ "$sub" = "adr" ] && index_name="README.md"
+    index_file="$TARGET_DIR/.docs/$sub/$index_name"
+    if [ ! -e "$index_file" ]; then
+      printf '# %s index\n\n| ID | Title | Status | Link |\n| --- | --- | --- | --- |\n' "$sub" > "$index_file"
+    fi
+  done
+  echo "  ✓ .docs skeleton created (adr, plans, research, requirements, investigations, verifications)"
+fi
 
 # 5. Link Master Directives across AI Agents
 echo "🔗 Setting up Cross-Agent Entrypoints..."
@@ -223,6 +255,20 @@ EOF
     echo "  ✓ Appended Enterprise Directives to AGENTS.md"
   else
     echo "  ✓ AGENTS.md already contains Enterprise Integration"
+  fi
+  # Workflow policy block: idempotent, delimited by markers
+  POLICY_BEGIN="<!-- BEGIN my-skills-policy -->"
+  POLICY_END="<!-- END my-skills-policy -->"
+  if grep -q "$POLICY_BEGIN" "$TARGET_DIR/AGENTS.md"; then
+    echo "  ✓ AGENTS.md already contains the workflow policy block (left unchanged)"
+  else
+    {
+      echo ""
+      echo "$POLICY_BEGIN"
+      cat "$SCRIPT_DIR/snippets/agents-policy.md"
+      echo "$POLICY_END"
+    } >> "$TARGET_DIR/AGENTS.md"
+    echo "  ✓ Appended workflow policy block to AGENTS.md"
   fi
 else
   rm -f "$TARGET_DIR/AGENTS.md"

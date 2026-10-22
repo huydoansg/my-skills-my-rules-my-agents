@@ -5,6 +5,8 @@
 
 This repository houses a comprehensive, battle-tested system of **Engineering Rules**, **Tech Conventions**, **Progressive Skills**, and **Architectural Templates** tailored for autonomous coding assistants: **Antigravity (AGY)**, **Claude (Claude Code)**, **OpenAI Codex / Copilot**, **Cursor**, and **Windsurf**.
 
+Besides coding standards it ships a **gated engineering workflow** (research → ADR → plan → implement → verify) that is *chat-first*: the engineer and the agent settle the design in the chat window, and documents are written only after that.
+
 ---
 
 ## 🏗️ Repository Architecture
@@ -25,7 +27,16 @@ my-skills-my-rules-my-agents/
 │   ├── 03-verification-loop.md            # Mandatory test, linter & typecheck loop
 │   ├── 04-documentation-and-diagrams.md   # C4 Model & Mermaid diagram specifications
 │   ├── 05-logging-and-observability.md    # Structured JSON logging, PII masking & 5 checkpoints
-│   └── 06-technical-writing-and-evidence-grounding.md # Anti-wall-of-text, tables, alerts & anti-hallucination
+│   ├── 06-technical-writing-and-evidence-grounding.md # Anti-wall-of-text, tables, alerts & anti-hallucination
+│   ├── 07-workflow-governance.md          # Gates, approval, revision, status updates, evidence
+│   ├── 08-repo-layout-and-naming.md       # .agents/ vs .docs/, artifact locations, naming
+│   └── 09-language-and-communication.md   # Chat in engineer's language, documents in English
+│
+├── workflow/
+│   └── workflow.md                        # research -> ADR -> plan -> implement -> verify (chat-first)
+│
+├── snippets/
+│   └── agents-policy.md                   # Policy block appended to a project's existing AGENTS.md
 │
 ├── conventions/                           # Deep, stack-specific conventions
 │   ├── aws/conventions.md                 # Well-Architected, IAM least privilege, CDK/Terraform
@@ -42,6 +53,11 @@ my-skills-my-rules-my-agents/
 │   └── tauri/conventions.md               # Tauri v2 capabilities, Rust IPC commands, state
 │
 ├── skills/                                # On-demand workflows (Progressive Disclosure)
+│   ├── requirement-discovery/SKILL.md     # (optional) clarify large requirements in chat, then REQ files
+│   ├── architecture-design/SKILL.md       # Research + chat draft -> ADR (gated)
+│   ├── implementation-planning/SKILL.md   # Accepted ADR -> executor-ready PLAN
+│   ├── investigate-bugfix/SKILL.md        # Reproduce -> root cause -> TDD fix (no blind fixes)
+│   ├── implementation-verification/SKILL.md # Evidence-based VER report, status proposals
 │   ├── arch-designer/SKILL.md             # System design workflow with 9 pillars & C4 diagrams
 │   ├── tech-writer/SKILL.md               # High-signal technical documentation & diagram crafting
 │   ├── log-investigator/SKILL.md          # Log-driven incident investigation & root cause discovery
@@ -54,7 +70,12 @@ my-skills-my-rules-my-agents/
 │
 └── templates/                             # Production-ready technical templates
     ├── architecture-spec.md               # arc42 + C4 System Design Specification
-    ├── adr.md                             # Architecture Decision Record (ADR)
+    ├── adr.md                             # ADR = SAD for one topic (invariants, principles/rules)
+    ├── plan.md                            # Executor-ready plan (EARS AC, TDD phases, verification plan)
+    ├── investigation.md                   # Bug report: reproduction, hypotheses, root cause, fix plan
+    ├── requirement.md                     # Requirement analysis (optional)
+    ├── verification.md                    # Verification report with evidence table
+    ├── developer-guidelines.md            # Skeleton for a project runbook
     ├── pr-description.md                  # Pull Request template with verification checklist
     └── incident-postmortem.md             # Blameless postmortem template
 ```
@@ -111,11 +132,66 @@ Use the built-in `install.sh` script to configure rules and skills for any targe
   --mode copy
 ```
 
-### 3. Global Installation for Antigravity CLI
+### 3. Workflow and `.docs/` skeleton
+`install.sh` always installs `.docs/workflow.md` (the skills refer to it). Add `--with-docs`
+to create `.docs/{adr,plans,research,requirements,investigations,verifications}` with index
+files; existing files are never overwritten. If the target already has an `AGENTS.md`, the
+installer appends the *Enterprise* block and the workflow policy block
+(`snippets/agents-policy.md`) once, between `<!-- BEGIN/END my-skills-policy -->` markers.
+Symlink mode uses absolute paths and breaks on another machine; use `--mode copy` for
+portable repositories.
+
+### 4. Global Installation for Antigravity CLI
 ```bash
 # Mounts skills globally for all workspaces run by Antigravity on your machine
 ./install.sh --global
 ```
+
+---
+
+## 🔁 Engineering Workflow
+
+```mermaid
+flowchart LR
+  R[Research] --> B[Brainstorm + draft in chat]
+  B -->|not satisfied| B
+  B -->|engineer satisfied| A[ADR Proposed]
+  A -->|engineer approves| AC[ADR Accepted]
+  AC --> P[PLAN ready]
+  P --> T[TDD implementation]
+  I[INV: reproduction + root cause] --> T
+  T --> V[Verification with evidence]
+```
+
+| Principle | Rule | Defined in |
+|---|---|---|
+| **Chat first, document later** | No ADR/plan files while the design is still moving; saves tokens | `core/07` |
+| **Hard gates** | Feature = ADR `Accepted` + PLAN `ready`; bug fix = reproduction + root-cause evidence | `core/07` |
+| **Evidence & status discipline** | Claims cite file/line or command output; status changes are proposed, then confirmed by the engineer | `core/07` |
+| **Language** | Chat in the engineer's language; every written document, comment and commit in English; slang is clarified, not translated | `core/09` |
+| **Layout** | `.agents/` = agent tooling, `.docs/` = product & architecture; naming and INDEX rules | `core/08` |
+
+Skills: `requirement-discovery` (optional) → `architecture-design` → `implementation-planning`; `investigate-bugfix` for bugs; `implementation-verification` before claiming done. Details: [`workflow/workflow.md`](workflow/workflow.md).
+
+---
+
+## 📦 What Gets Installed Into a Project
+
+```text
+<project>/
+├── AGENTS.md                 # your project file + appended Enterprise block + workflow policy block
+├── CLAUDE.md, .cursorrules   # -> AGENTS.md
+├── .github/copilot-instructions.md
+├── .agents/
+│   ├── rules/                # core/00-09 + conventions/<stack>.md
+│   ├── skills/               # all skills
+│   └── templates/            # adr, plan, investigation, requirement, verification, ...
+└── .docs/
+    ├── workflow.md           # always installed
+    └── adr/ plans/ research/ requirements/ investigations/ verifications/   # only with --with-docs
+```
+
+Project-specific content (commands, architecture boundaries, ADR invariants, local conventions) stays in the project's own `AGENTS.md` and `.docs/`; this repository stays generic.
 
 ---
 
@@ -131,13 +207,9 @@ Use the built-in `install.sh` script to configure rules and skills for any targe
 
 ---
 
-## 📤 Git Remote & Pushing to GitHub
+## 🧭 Maintaining This Repository
 
-To push this repository to your GitHub account:
-
-```bash
-cd /Volumes/W/work/my-skills-my-rules-my-agents
-git add .
-git commit -m "feat: initialize enterprise AI agent skills and rules repository"
-git push -u origin main
-```
+- Keep every file **generic**: no project names, ADR numbers, product commands or paths that only exist in one project. Use placeholders such as `<check command>`.
+- Write in English. New rules/skills carry a `Revision history` entry; revisions are bumped only on the maintainer's confirmation.
+- When a project proves a practice worth sharing, generalize it here, then reinstall (symlink mode picks changes up immediately; copy mode needs a re-run of `install.sh`).
+- Test installer changes against a throw-away directory (`--target $(mktemp -d)`), twice, to confirm idempotency.
