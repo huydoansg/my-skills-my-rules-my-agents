@@ -15,6 +15,10 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Architecture Documentation & Mermaid Diagrams**: [`core/04-documentation-and-diagrams.md`](core/04-documentation-and-diagrams.md)
 - **Logging & Observability Standards**: [`core/05-logging-and-observability.md`](core/05-logging-and-observability.md)
 - **Technical Writing, Visualization & Evidence Grounding**: [`core/06-technical-writing-and-evidence-grounding.md`](core/06-technical-writing-and-evidence-grounding.md)
+- **Workflow Governance (gates, approval, status, evidence)**: [`core/07-workflow-governance.md`](core/07-workflow-governance.md)
+- **Repo Layout & Document Naming**: [`core/08-repo-layout-and-naming.md`](core/08-repo-layout-and-naming.md)
+- **Language & Communication**: [`core/09-language-and-communication.md`](core/09-language-and-communication.md)
+- **Workflow (research → ADR → plan → implement → verify)**: [`workflow/workflow.md`](workflow/workflow.md)
 
 ### Specialized Tech Stack Conventions
 - **AWS Cloud Architecture**: [`conventions/aws/conventions.md`](conventions/aws/conventions.md)
@@ -31,6 +35,11 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Tauri Desktop**: [`conventions/tauri/conventions.md`](conventions/tauri/conventions.md)
 
 ### On-Demand Progressive Skills
+- **Requirement Discovery (optional)**: [`skills/requirement-discovery/SKILL.md`](skills/requirement-discovery/SKILL.md)
+- **Architecture Design → ADR**: [`skills/architecture-design/SKILL.md`](skills/architecture-design/SKILL.md)
+- **Implementation Planning**: [`skills/implementation-planning/SKILL.md`](skills/implementation-planning/SKILL.md)
+- **Investigate & Bugfix**: [`skills/investigate-bugfix/SKILL.md`](skills/investigate-bugfix/SKILL.md)
+- **Implementation Verification**: [`skills/implementation-verification/SKILL.md`](skills/implementation-verification/SKILL.md)
 - **Architecture Designer**: [`skills/arch-designer/SKILL.md`](skills/arch-designer/SKILL.md)
 - **Technical Writer & Doc Auditor**: [`skills/tech-writer/SKILL.md`](skills/tech-writer/SKILL.md)
 - **Log Investigator & Incident RCA**: [`skills/log-investigator/SKILL.md`](skills/log-investigator/SKILL.md)
@@ -46,6 +55,8 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Architecture Decision Record (ADR)**: [`templates/adr.md`](templates/adr.md)
 - **Pull Request Template**: [`templates/pr-description.md`](templates/pr-description.md)
 - **Blameless Postmortem**: [`templates/incident-postmortem.md`](templates/incident-postmortem.md)
+- **Plan / Investigation / Requirement / Verification**: [`templates/plan.md`](templates/plan.md), [`templates/investigation.md`](templates/investigation.md), [`templates/requirement.md`](templates/requirement.md), [`templates/verification.md`](templates/verification.md)
+- **Developer Guidelines skeleton**: [`templates/developer-guidelines.md`](templates/developer-guidelines.md)
 
 ---
 
@@ -54,3 +65,8 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 2. **Defensive & Strict Typing**: No `any`, no unhandled errors, no silent `catch`.
 3. **Run the Verification Loop**: Always run linter, typecheck, and test suites before reporting a task complete.
 4. **Mermaid Diagrams for Architecture**: Static (C4), Dynamic (Sequence), Integration (Async), and Deployment views must be drawn in Mermaid.
+5. **Chat First, Document Later**: Work the design out with the engineer in chat; write ADR/plan files only when they are satisfied and ask for it.
+6. **Gated Execution**: No implementation until the ADR is `Accepted` and the PLAN is `ready`; no bug fix without reproduction and root-cause evidence (see `core/07-workflow-governance.md`).
+7. **Language**: Chat in the engineer's language; all written documents in English (see `core/09-language-and-communication.md`).
+
+Full policy block installed into target projects: [`snippets/agents-policy.md`](snippets/agents-policy.md).

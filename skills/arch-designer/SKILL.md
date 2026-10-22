@@ -19,7 +19,7 @@ Before drawing diagrams, clarify or determine:
 - **Pragmatism Check**: Can this be satisfied by a clean Modular Monolith? Avoid premature distributed microservices unless organizational or scaling boundaries demand it.
 
 ### Step 2: Validate Against the 9 Architectural Pillars
-Fill the Pillar Scorecard (found in `core/02-architectural-pillars.md`):
+Fill the Pillar Scorecard (rule `02-architectural-pillars`):
 1. **HA**: Is there any Single Point of Failure (SPOF)? Are services multi-AZ?
 2. **Resilience**: Are circuit breakers, retries with jitter, and DLQs planned?
 3. **Scalability**: Are services stateless? Is caching (Cache-Aside) planned?
@@ -37,6 +37,8 @@ Fill the Pillar Scorecard (found in `core/02-architectural-pillars.md`):
 4. **Deployment View**: VPC, Subnets, Kubernetes Pods / Serverless, Multi-AZ data tier.
 
 ### Step 4: Output Architecture Specification
-Write or update the Architecture Spec in `docs/architecture/specs/[feature-name].md` following the template in `templates/architecture-spec.md`.
-
-If a major architectural trade-off was decided (e.g., Kafka vs SQS, SQL vs NoSQL, Rust vs Go), generate an accompanying ADR in `docs/architecture/adr/ADR-[NNNN].md`.
+Follow the `architecture-design` skill and `.docs/workflow.md` when they are installed: keep
+the draft in the chat until the engineer is satisfied, then write the ADR (the architecture
+spec for one topic) from `templates/adr.md` with status `Proposed`. Use
+`templates/architecture-spec.md` only for a system-level overview, and place files per
+`08-repo-layout-and-naming`; never invent a `docs/architecture/` tree.
