@@ -94,6 +94,10 @@ graph TB
 ---
 
 ## 2. MERMAID SYNTAX RULES FOR AGENTS
+
+Encoding (subgraphs, colors, status, edge styles), palette, legend and highlighting rules
+live in [`10-visual-communication`](10-visual-communication.md); apply them to every view above.
+
 1. Quote all node labels containing special characters, brackets, or parentheses: `node["Label (v1.2)"]`.
 2. Do not use raw HTML tags inside node text.
 3. Keep diagrams legible: decompose into subgraphs when exceeding 10 components.

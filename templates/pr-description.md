@@ -7,6 +7,13 @@
 - [ ] **Data Consistency**: Transactions are atomic; mutations are idempotent.
 - [ ] **Observability**: Structured logs and telemetry intact; no noisy debug prints left behind.
 
+## 🔌 PUBLIC API & VERSIONING (SDKs / libraries only)
+- **SemVer impact**: none / PATCH / MINOR / MAJOR — reason: [...]
+- [ ] API diff tool run against the last release (command + result linked).
+- [ ] `CHANGELOG.md` `Unreleased` updated; breaking entries marked `**Breaking:**` with migration link.
+- [ ] Deprecations state since / replacement / removal target / migration link.
+- [ ] Breaking change: ADR [link] `Accepted`; commit uses `!` / `BREAKING CHANGE:`.
+
 ## 🧪 VERIFICATION CHECKLIST
 - [ ] Code formatted and linted (0 warnings).
 - [ ] Typecheck passed (strict mode, 0 errors).

@@ -35,7 +35,8 @@ Options:
   -m, --mode <symlink|copy> Installation mode: 'symlink' (default) or 'copy'
   -s, --stacks <list>      Comma-separated list of tech stacks to configure
                            Available: aws,typescript-javascript,react,rust,python,golang,
-                                      postgresql,docker,kubernetes,gitops,electron,tauri,all
+                                      postgresql,docker,kubernetes,gitops,electron,tauri,
+                                      sdk-library,all
   -g, --global             Install rules/skills globally into ~/.gemini/config/
   -d, --with-docs          Also create the .docs/ skeleton (adr, plans, research, ...
                            each with an index file) in the target project
@@ -143,7 +144,7 @@ for core_file in "$SCRIPT_DIR"/core/*.md; do
     cp "$core_file" "$target_file"
   fi
 done
-echo "  ✓ Core rules installed (00 to 09)"
+echo "  ✓ Core rules installed (00 to 10)"
 
 # 2. Install Conventions
 if [ -z "$STACKS" ] || [ "$STACKS" = "all" ]; then
@@ -199,7 +200,7 @@ for tpl_file in "$SCRIPT_DIR"/templates/*.md; do
     cp "$tpl_file" "$target_tpl"
   fi
 done
-echo "  ✓ Templates installed (architecture-spec, adr, plan, investigation, requirement, verification, developer-guidelines, pr, postmortem)"
+echo "  ✓ Templates installed (architecture-spec, adr, plan, investigation, requirement, verification, developer-guidelines, pr, postmortem, changelog, release-notes, migration-guide, sdk-versioning-policy)"
 
 # 4b. Install workflow description (skills and rules refer to .docs/workflow.md)
 workflow_target="$TARGET_DIR/.docs/workflow.md"
@@ -244,6 +245,7 @@ This repository is augmented with foundational enterprise rules and on-demand sk
   - [`04-documentation-and-diagrams`](.agents/rules/04-documentation-and-diagrams.md) — C4 Model & Mermaid diagram specifications
   - [`05-logging-and-observability`](.agents/rules/05-logging-and-observability.md) — Structured JSON logging, PII masking & 5 checkpoints
   - [`06-technical-writing-and-evidence-grounding`](.agents/rules/06-technical-writing-and-evidence-grounding.md) — Anti-wall-of-text, tables & anti-hallucination
+  - [`10-visual-communication`](.agents/rules/10-visual-communication.md) — Diagram encoding, palette, legend & text emphasis
 - **On-Demand Skills**:
   - [`arch-designer`](.agents/skills/arch-designer/SKILL.md) — System design workflow with 9 pillars & C4 diagrams
   - [`tech-writer`](.agents/skills/tech-writer/SKILL.md) — High-signal technical documentation & diagram crafting

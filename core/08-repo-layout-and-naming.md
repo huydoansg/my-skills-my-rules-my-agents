@@ -25,6 +25,8 @@ Both are committed. Do not create `docs/` or `.agents/docs/`.
 | Verification | `.docs/verifications/VER-YYYYMMDD-slug.md` + `INDEX.md` |
 | Research, spikes | `.docs/research/subject-YYYYMMDD.md`, `.docs/research/spikes/` |
 | Guides, standards | `.docs/guides/`, `.docs/standards/` |
+| SDK versioning policy, release notes, migration guides | `.docs/sdk/versioning-policy.md`, `.docs/sdk/releases/vX.Y.Z.md`, `.docs/sdk/migrations/vN-to-vM.md` |
+| `README.md`, `CHANGELOG.md`, `LICENSE`, `SECURITY.md` of a published package | Package/repo root (registry convention; the only root docs allowed) |
 | Workflow description | `.docs/workflow.md` |
 | Templates | `.agents/templates/` |
 | Rules, skills | `.agents/rules/`, `.agents/skills/` |
@@ -79,3 +81,4 @@ REQ / PLAN-NNN / INV / VER / ADR.
 ## 7. Revision history
 
 - rev 0: (draft) generic layout and naming rules extracted from a production project.
+- rev 0 (draft): added SDK release documentation locations and the root-docs exception for published packages.
