@@ -48,6 +48,8 @@ flowchart LR
 | Implementation plan | `implementation-planning` | `plans/PLAN-*` |
 | Bug / crash / regression | `investigate-bugfix` | `investigations/INV-*` |
 | Verify implementation / fix | `implementation-verification` | `verifications/VER-*` |
+| SDK public API change (SDK/library repos) | `sdk-api-evolution` | Compatibility report, `CHANGELOG.md` Unreleased |
+| SDK release (SDK/library repos) | `sdk-release` | `CHANGELOG.md`, `sdk/releases/`, `sdk/migrations/` |
 
 `arch-designer` (system design with the 9 pillars and C4) is a design-method skill that
 can be used inside `architecture-design`; it does not replace the gated flow.

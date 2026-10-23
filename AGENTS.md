@@ -18,6 +18,7 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Workflow Governance (gates, approval, status, evidence)**: [`core/07-workflow-governance.md`](core/07-workflow-governance.md)
 - **Repo Layout & Document Naming**: [`core/08-repo-layout-and-naming.md`](core/08-repo-layout-and-naming.md)
 - **Language & Communication**: [`core/09-language-and-communication.md`](core/09-language-and-communication.md)
+- **Visual Communication (diagram encoding, palette, legend, emphasis)**: [`core/10-visual-communication.md`](core/10-visual-communication.md)
 - **Workflow (research → ADR → plan → implement → verify)**: [`workflow/workflow.md`](workflow/workflow.md)
 
 ### Specialized Tech Stack Conventions
@@ -33,6 +34,7 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **GitOps & Declarative Infra**: [`conventions/gitops/conventions.md`](conventions/gitops/conventions.md)
 - **Electron Desktop**: [`conventions/electron/conventions.md`](conventions/electron/conventions.md)
 - **Tauri Desktop**: [`conventions/tauri/conventions.md`](conventions/tauri/conventions.md)
+- **SDK & Library (versioning, compatibility, release docs)**: [`conventions/sdk-library/conventions.md`](conventions/sdk-library/conventions.md)
 
 ### On-Demand Progressive Skills
 - **Requirement Discovery (optional)**: [`skills/requirement-discovery/SKILL.md`](skills/requirement-discovery/SKILL.md)
@@ -40,6 +42,8 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Implementation Planning**: [`skills/implementation-planning/SKILL.md`](skills/implementation-planning/SKILL.md)
 - **Investigate & Bugfix**: [`skills/investigate-bugfix/SKILL.md`](skills/investigate-bugfix/SKILL.md)
 - **Implementation Verification**: [`skills/implementation-verification/SKILL.md`](skills/implementation-verification/SKILL.md)
+- **SDK API Evolution (backward-compatible changes)**: [`skills/sdk-api-evolution/SKILL.md`](skills/sdk-api-evolution/SKILL.md)
+- **SDK Release (SemVer bump, changelog, release notes, migration guide)**: [`skills/sdk-release/SKILL.md`](skills/sdk-release/SKILL.md)
 - **Architecture Designer**: [`skills/arch-designer/SKILL.md`](skills/arch-designer/SKILL.md)
 - **Technical Writer & Doc Auditor**: [`skills/tech-writer/SKILL.md`](skills/tech-writer/SKILL.md)
 - **Log Investigator & Incident RCA**: [`skills/log-investigator/SKILL.md`](skills/log-investigator/SKILL.md)
@@ -57,6 +61,7 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Blameless Postmortem**: [`templates/incident-postmortem.md`](templates/incident-postmortem.md)
 - **Plan / Investigation / Requirement / Verification**: [`templates/plan.md`](templates/plan.md), [`templates/investigation.md`](templates/investigation.md), [`templates/requirement.md`](templates/requirement.md), [`templates/verification.md`](templates/verification.md)
 - **Developer Guidelines skeleton**: [`templates/developer-guidelines.md`](templates/developer-guidelines.md)
+- **SDK release docs**: [`templates/changelog.md`](templates/changelog.md), [`templates/release-notes.md`](templates/release-notes.md), [`templates/migration-guide.md`](templates/migration-guide.md), [`templates/sdk-versioning-policy.md`](templates/sdk-versioning-policy.md)
 
 ---
 
@@ -68,5 +73,7 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 5. **Chat First, Document Later**: Work the design out with the engineer in chat; write ADR/plan files only when they are satisfied and ask for it.
 6. **Gated Execution**: No implementation until the ADR is `Accepted` and the PLAN is `ready`; no bug fix without reproduction and root-cause evidence (see `core/07-workflow-governance.md`).
 7. **Language**: Chat in the engineer's language; all written documents in English (see `core/09-language-and-communication.md`).
+8. **SDKs & Libraries**: Establish the SDK profile (internal/public, kind) first. Never break consumers silently. Classify every public-surface change with SemVer, prefer expand → migrate → contract, record it in `CHANGELOG.md`, and never tag or publish without explicit authorization (see `conventions/sdk-library/conventions.md`).
+9. **Visual Communication**: Draw only when a picture is clearer; one visual channel = one meaning, standard palette, legend, at most 3 highlights; emphasis via bold, italic, ~~old~~ → <ins>new</ins> and lists (see `core/10-visual-communication.md`).
 
 Full policy block installed into target projects: [`snippets/agents-policy.md`](snippets/agents-policy.md).

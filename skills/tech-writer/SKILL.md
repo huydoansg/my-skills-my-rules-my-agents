@@ -44,6 +44,7 @@ If explaining:
 - **Inter-service API or network interactions** -> Draw a `sequenceDiagram` with both Happy Path and Failure/Timeout paths.
 - **Architectural boundaries & cloud components** -> Draw a C4 Container `graph TD` or `graph LR` with clear subgraphs.
 - *Mermaid Rule*: Quote node labels with special characters: `node["Label (Details)"]`.
+- *Visual language*: Draw only when `core/10-visual-communication` §1 applies; group teams/layers with subgraph frames, mark changes with status classes and prefixes, add a legend, keep ≤ 12 nodes and ≤ 3 highlights.
 
 ### Step 4: Hoist Risks into Strategic Alerts
 Extract all critical caveats, breaking changes, and high-risk operational steps from paragraphs and hoist them into GitHub-style callouts:
@@ -68,3 +69,4 @@ Before handing the document to the user:
 - [ ] Are alternative options organized in comparison tables?
 - [ ] Are warnings and cautions highlighted in callouts?
 - [ ] Can the reader grasp the core intent in 30 seconds?
+- [ ] Does the `core/10-visual-communication` §9 self-check pass?

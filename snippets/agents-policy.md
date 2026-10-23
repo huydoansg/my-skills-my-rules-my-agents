@@ -24,6 +24,11 @@
   roadmap together.
 - **Put documents in the right place.** `.agents/` = agent tooling, `.docs/` = product and
   architecture ([`08-repo-layout-and-naming`](.agents/rules/08-repo-layout-and-naming.md)).
+- **SDKs and libraries.** If this repository publishes a package, every public-surface
+  change is classified with SemVer, kept backward compatible where possible and recorded
+  in `CHANGELOG.md`; tags and publishes need explicit authorization
+  ([`sdk-library`](.agents/rules/conventions/sdk-library.md), skills `sdk-api-evolution`,
+  `sdk-release`).
 - **Governance first.** Read [`07-workflow-governance`](.agents/rules/07-workflow-governance.md)
   before any workflow skill.
 
