@@ -30,7 +30,8 @@ my-skills-my-rules-my-agents/
 │   ├── 06-technical-writing-and-evidence-grounding.md # Anti-wall-of-text, tables, alerts & anti-hallucination
 │   ├── 07-workflow-governance.md          # Gates, approval, revision, status updates, evidence
 │   ├── 08-repo-layout-and-naming.md       # .agents/ vs .docs/, artifact locations, naming
-│   └── 09-language-and-communication.md   # Chat in engineer's language, documents in English
+│   ├── 09-language-and-communication.md   # Chat in engineer's language, documents in English
+│   └── 10-visual-communication.md         # Diagram encoding, palette, legend, highlighting & text emphasis
 │
 ├── workflow/
 │   └── workflow.md                        # research -> ADR -> plan -> implement -> verify (chat-first)
@@ -50,7 +51,8 @@ my-skills-my-rules-my-agents/
 │   ├── kubernetes/conventions.md          # Probes, guaranteed QoS, PSS restricted, NetworkPolicy
 │   ├── gitops/conventions.md              # ArgoCD/Flux, Kustomize overlays, SOPS/Sealed Secrets
 │   ├── electron/conventions.md            # Hardened security (sandbox, contextIsolation), IPC
-│   └── tauri/conventions.md               # Tauri v2 capabilities, Rust IPC commands, state
+│   ├── tauri/conventions.md               # Tauri v2 capabilities, Rust IPC commands, state
+│   └── sdk-library/conventions.md         # SemVer, backward compatibility, deprecation, changelog & release docs
 │
 ├── skills/                                # On-demand workflows (Progressive Disclosure)
 │   ├── requirement-discovery/SKILL.md     # (optional) clarify large requirements in chat, then REQ files
@@ -58,6 +60,8 @@ my-skills-my-rules-my-agents/
 │   ├── implementation-planning/SKILL.md   # Accepted ADR -> executor-ready PLAN
 │   ├── investigate-bugfix/SKILL.md        # Reproduce -> root cause -> TDD fix (no blind fixes)
 │   ├── implementation-verification/SKILL.md # Evidence-based VER report, status proposals
+│   ├── sdk-api-evolution/SKILL.md         # Change a public API without breaking consumers
+│   ├── sdk-release/SKILL.md               # SemVer bump, changelog, release notes, migration guide
 │   ├── arch-designer/SKILL.md             # System design workflow with 9 pillars & C4 diagrams
 │   ├── tech-writer/SKILL.md               # High-signal technical documentation & diagram crafting
 │   ├── log-investigator/SKILL.md          # Log-driven incident investigation & root cause discovery
@@ -77,6 +81,10 @@ my-skills-my-rules-my-agents/
     ├── verification.md                    # Verification report with evidence table
     ├── developer-guidelines.md            # Skeleton for a project runbook
     ├── pr-description.md                  # Pull Request template with verification checklist
+    ├── changelog.md                       # Keep a Changelog 2.0.0 skeleton with Breaking markers
+    ├── release-notes.md                   # Per-version release notes with diagrams
+    ├── migration-guide.md                 # Major-version migration guide (before/after, search patterns)
+    ├── sdk-versioning-policy.md           # Public versioning, deprecation & support policy
     └── incident-postmortem.md             # Blameless postmortem template
 ```
 
@@ -172,6 +180,37 @@ flowchart LR
 | **Layout** | `.agents/` = agent tooling, `.docs/` = product & architecture; naming and INDEX rules | `core/08` |
 
 Skills: `requirement-discovery` (optional) → `architecture-design` → `implementation-planning`; `investigate-bugfix` for bugs; `implementation-verification` before claiming done. Details: [`workflow/workflow.md`](workflow/workflow.md).
+
+---
+
+## 📚 SDK & Library Standard
+
+For repositories that publish code others depend on (public or internal SDK, UI component
+library, generated client, CLI). Install with `--stacks sdk-library,<language>`. The agent
+first establishes the **SDK profile** (audience `internal`/`public`, kind `library`/
+`ui-components`/`api-client`/`cli`) and asks when it is unknown.
+
+```mermaid
+flowchart LR
+  C[Public API change] --> K{SemVer impact?}
+  K -->|additive / fix| E[Implement + CHANGELOG Unreleased]
+  K -->|breaking| X[Expand → deprecate → migrate]
+  X -->|still breaking| A[ADR Accepted]
+  A --> E
+  E --> R[sdk-release: API diff → version → notes → migration guide]
+  R -->|explicit authorization| P[Tag + publish]
+```
+
+| Concern | Standard | Defined in |
+|---|---|---|
+| Profile | Audience (`internal`/`public`) × kind; drives window, support, docs depth | `conventions/sdk-library` §1 |
+| Version numbers | Semantic Versioning 2.0.0, Conventional Commits 1.0.0 | §3 |
+| Backward compatibility | Public surface, change → bump table, expand/contract, API diff tools per ecosystem | §2, §4, §6 |
+| Deprecation | since / replacement / removal / link; window per audience | §5 |
+| UI components | Props, a11y, styling hooks, tokens; visual changes classified by impact; visual regression + axe | §2, §3.3, §7 |
+| Documentation | Keep a Changelog 2.0.0; release notes and migration guides in one "most important first" skeleton | §8, `templates/` |
+| Visuals | Draw only when a picture is clearer; status classes, palette, legend, ≤ 3 highlights | `core/10` |
+| Release | Evidence-based bump, dry-run, publish only with authorization | §9, `skills/sdk-release` |
 
 ---
 

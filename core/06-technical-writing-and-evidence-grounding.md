@@ -84,7 +84,15 @@ Whenever evaluating two or more alternatives, trade-offs, technologies, or archi
 
 ---
 
-## 5. DOCUMENTATION LINT CHECKLIST (BEFORE PUBLISHING)
+## 5. EMPHASIS AND DIAGRAM STYLE
+
+The emphasis vocabulary (bold, italic, ~~old~~ → <ins>new</ins>, lists, callout limits) and
+the diagram encoding, palette and legend rules are defined once in
+[`10-visual-communication`](10-visual-communication.md).
+
+---
+
+## 6. DOCUMENTATION LINT CHECKLIST (BEFORE PUBLISHING)
 
 Before finalizing any technical document, the Agent must execute this self-audit:
 
@@ -94,3 +102,4 @@ Before finalizing any technical document, the Agent must execute this self-audit
 - [ ] **Evidence Verified**: Are all mentioned files, symbols, and line numbers verified against actual code on disk?
 - [ ] **No Fluff**: Are generic filler words eliminated ("very robust", "seamlessly", "cutting-edge", "obviously")?
 - [ ] **Structured Tables**: Are multiple options or configurations organized into comparison tables?
+- [ ] **Visual Language**: Does the `10-visual-communication` self-check pass (legend, ≤ 3 highlights, one meaning per channel)?
