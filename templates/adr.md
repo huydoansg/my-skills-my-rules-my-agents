@@ -1,9 +1,10 @@
 # ADR-NNN — Topic title
 
 <!--
-An ADR is the SAD for one specific topic. Create this file only after the engineer has
-discussed the draft in chat and is satisfied (see .docs/workflow.md). Do not create an ADR
-for an idea that is not finalized; keep research in .docs/research/.
+An ADR is the design for one specific topic. File: ADR-NNN-slug.md in its ADR folder (Docs layout).
+Create it only after the engineer has discussed the draft in chat, every point is clear
+(core/11) and the engineer is satisfied (see .agents/workflow.md). Research worth keeping
+goes to the ADR's research folder; plans go to its plans folder.
 Write in English (core/09-language-and-communication).
 -->
 
@@ -14,10 +15,10 @@ Write in English (core/09-language-and-communication).
 | Approval snapshot | None yet: who / when / confirmed content |
 | Date | YYYY-MM-DD |
 | Deciders | Engineer(s) |
-| Requirement | (optional) `.docs/requirements/REQ-...` |
 | Related ADRs | ADR-NNN (status) |
-| SAD affected | SAD section to update on Accepted |
-| Roadmap | Area / milestone |
+| Architecture affected | Architecture overview section to update on Accepted |
+| Roadmap | Technical roadmap entry; product roadmap feature (if any) |
+| Components | Component cards touched |
 | Read first | ADR that gives the bigger picture |
 | Read next | More detailed / related ADRs |
 
@@ -28,7 +29,7 @@ Write in English (core/09-language-and-communication).
 ## 1. Context and problem
 
 What problem, why now, current state of the code (file/line), research done (link
-`.docs/research/...`).
+research folder, references).
 
 ## 2. Requirements and constraints
 
@@ -99,11 +100,12 @@ Migration, rollback, how to verify (tests, measurement), measurable AC.
 
 - **Positive:** …
 - **Negative and mitigations:** …
-- Next work, SAD/other ADRs to update, remaining risks.
+- Next work, architecture overview/other ADRs to update, remaining risks.
 
 ## 8. Open questions
 
-Must be empty (or turned into owned follow-ups) before `Accepted`.
+Must be empty before `Accepted` (core/11): every question is resolved, or split out as a
+discovery plan that no decision in this ADR depends on.
 
 ## Sources
 

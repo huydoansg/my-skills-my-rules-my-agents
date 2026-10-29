@@ -1,73 +1,85 @@
-# Workflow: research → ADR → plan → implement → verify
+# Workflow: chat → ADR → plans → implement → verify
 
 Gates, approval and evidence: [`core/07-workflow-governance.md`](../core/07-workflow-governance.md).
+Clarity: [`core/11-clarity-first.md`](../core/11-clarity-first.md).
 Where files go and how they are named: [`core/08-repo-layout-and-naming.md`](../core/08-repo-layout-and-naming.md).
 Language: [`core/09-language-and-communication.md`](../core/09-language-and-communication.md).
-When installed, this file is copied to `.docs/workflow.md` in the target project and
-templates live in `.agents/templates/`. Paths in skills are relative to the repo root.
+When installed, this file is copied to `.agents/workflow.md` in the target project and
+templates live in `.agents/templates/`. Artifact names below (ADR folder, plans folder,
+technical roadmap…) resolve to paths through the project's **Docs layout** table in
+`AGENTS.md`; the defaults are the Product Brain layout.
 
 ## Flow
 
-The engineer works with the agent **in the chat window until satisfied**; documents are
-written only after that, so no tokens are spent on documents for unsettled ideas.
+The engineer works with the agent **in the chat window until every point is clear and
+settled**; documents are written only after that.
 
 ```mermaid
+---
+title: Gated flow (purpose - show where each artifact appears and which gate releases the next step)
+---
 flowchart LR
-  R[Research<br/>research/] --> B[Brainstorm + draft design<br/>in chat]
-  B -->|not satisfied| B
-  B -->|engineer satisfied, asks to write| A[ADR-NNN Proposed<br/>adr/]
-  A -->|review ok, engineer approves| AC[ADR Accepted]
-  AC --> S[Sync: roadmap, SAD, indexes]
-  S --> P[PLAN ready<br/>plans/]
-  P --> S2[Sync: roadmap, plans INDEX]
+  C[Chat: research, brainstorm, clarity loop] -->|not clear| C
+  C -->|engineer settles| A[ADR folder: ADR Proposed]
+  A -->|engineer approves| AC[ADR Accepted]
+  AC --> S[Sync: ADR index, architecture overview, roadmaps]
+  AC --> M[01-slug-master-plan.md]
+  M --> D[NN-spike-slug: discovery for ambiguous parts]
+  D --> M
+  M --> P[NN-component-slug: plan ready]
   P --> T[TDD implementation]
-  I[INV: reproduction + root cause<br/>investigations/] --> F[Fix plan + RED regression test]
-  F --> T
-  T --> V[Verification against AC<br/>verifications/]
+  B[Bug: reproduction + root cause in chat] --> T
+  T --> V[Verification: verify-NN-slug.md or PR evidence]
   V --> G{Required checks pass?}
   G -- yes --> Done[done / fixed]
   G -- no --> X[failed / blocked, keep evidence]
 ```
 
-1. **Research** worth keeping → `research/subject-YYYYMMDD.md` (+ `research/spikes/`).
-2. **The design draft stays in chat** until the engineer is satisfied. No separate design file.
-3. **ADR** (`adr/ADR-NNN-slug.md`) = the SAD for one topic: context, options, decision,
-   detailed design, diagrams, invariants. Created only when the engineer is satisfied.
-   An ADR may be accepted before it is implemented.
-4. Engineer reviews and **approves** → ADR `Accepted` → only then a concrete **PLAN**.
-5. A roadmap (`plans/roadmap-*.md`) links ADRs when useful.
-6. After every approval (ADR Accepted, PLAN ready/done) reflect it into the roadmap, SAD,
-   indexes and related documents (table in governance section 5).
+1. **Chat first.** Research, brainstorm and design stay in chat until the engineer is
+   satisfied and no point is ambiguous (`core/11`).
+2. **ADR.** Create the ADR folder with the ADR (status `Proposed`); move research worth
+   keeping into its research folder; contracts too large for the ADR go to
+   `contract-<name>.md` in the ADR docs folder.
+3. Engineer **approves** → ADR `Accepted` → sync the ADR index, the architecture
+   overview and the roadmaps (governance §5).
+4. **Master plan** `01-<slug>-master-plan.md` in the plans folder: splits the ADR into plans, one per
+   component and outcome; ambiguous parts become discovery plans first.
+5. **Plans** `NN-<component>-<slug>.md`, written only when clear; each follows the
+   Accepted ADR and is executable by an agent that has never seen the repo.
+6. **Bugfix:** reproduction and root cause settled in chat; the fix commit/PR records them;
+   a regression test is the persisted evidence.
+7. **Verify** against the AC before claiming done; propose status updates; sync the
+   master plan and the roadmaps after confirmation.
 
 ## Skills
 
 | Stage | Skill | Output |
 | --- | --- | --- |
-| Large/unclear requirement (optional) | `requirement-discovery` | `requirements/REQ-*` |
-| Research + design → ADR | `architecture-design` | `research/*`, then `adr/ADR-*` |
-| Implementation plan | `implementation-planning` | `plans/PLAN-*` |
-| Bug / crash / regression | `investigate-bugfix` | `investigations/INV-*` |
-| Verify implementation / fix | `implementation-verification` | `verifications/VER-*` |
+| Research + design → ADR | `architecture-design` | ADR folder |
+| Master plan + plans | `implementation-planning` | Plans folder |
+| Bug / crash / regression | `investigate-bugfix` | Chat evidence, regression test, fix commit/PR body |
+| Verify implementation / fix | `implementation-verification` | `verify-NN-<slug>.md` in the ADR docs folder, or PR evidence |
 | SDK public API change (SDK/library repos) | `sdk-api-evolution` | Compatibility report, `CHANGELOG.md` Unreleased |
-| SDK release (SDK/library repos) | `sdk-release` | `CHANGELOG.md`, `sdk/releases/`, `sdk/migrations/` |
+| SDK release (SDK/library repos) | `sdk-release` | `CHANGELOG.md`, release notes, migration guides |
 
 `arch-designer` (system design with the 9 pillars and C4) is a design-method skill that
 can be used inside `architecture-design`; it does not replace the gated flow.
 
 ## Artifacts
 
-| Type | Location and ID | Status |
+| Type | Docs layout artifact (Product Brain default) | Status |
 | --- | --- | --- |
-| Research | `research/subject-YYYYMMDD.md` | draft (no gate) |
-| Requirement (optional) | `requirements/REQ-YYYYMMDD-slug/{raw*,analysis}.md` | draft → analyzed; superseded/rejected |
-| ADR | `adr/ADR-NNN-slug.md` + `adr/README.md` | Proposed → Accepted; Rejected; Superseded |
-| Plan | `plans/PLAN-NNN-slug.md` + `plans/INDEX.md` | draft → ready → in-progress → done; blocked/abandoned |
-| Investigation | `investigations/INV-YYYYMMDD-slug/{raw,report}.md` | open → root-caused → fixed; wontfix |
-| Verification | `verifications/VER-YYYYMMDD-slug.md` | draft → running → passed/failed/blocked |
+| ADR | ADR folder + ADR index (`decisions/ADR-NNN-slug/`, `decisions/README.md`) | Proposed → Accepted; Rejected; Superseded |
+| Research | Research folder (`<ADR folder>/.researchs/<subject>.md`) | no gate (written when the ADR is created) |
+| Contract | ADR docs folder (`<ADR folder>/.docs/contract-<name>.md`) | follows the ADR |
+| Master plan | Plans folder (`<ADR folder>/.plans/01-<slug>-master-plan.md`) | draft → active → done; paused/abandoned |
+| Plan | Plans folder (`<ADR folder>/.plans/NN-<component>-<slug>.md`) | draft → ready → in-progress → done; blocked/abandoned |
+| Verification | ADR docs folder (`<ADR folder>/.docs/verify-NN-<slug>.md`) | draft → running → passed/failed/blocked |
+| Component card | Component cards (`components/<name>/README.md`) | updated when an ADR changes its interfaces |
+| Roadmaps, architecture overview | `product-roadmap.md`, `technical-roadmap.md`, `architecture.md` | synced after approvals |
 
-(All paths are under `.docs/` by default.) Raw files are immutable: keep wording, order
-and typos; follow-ups go to `raw-002.md`, `raw-003.md`… Status changes after completion
-are proposed with evidence, then written after the engineer confirms.
+Status changes after completion are proposed with evidence, then written after the
+engineer confirms.
 
 ## Revision
 
@@ -77,3 +89,5 @@ snapshot.
 ## Revision history
 
 - rev 0: (draft) generic workflow extracted from a production project; chat-first emphasis.
+- rev 0 (draft): Docs layout artifact names (Product Brain defaults), master plan + per-component plans, clarity loop,
+  bugfix without INV files.

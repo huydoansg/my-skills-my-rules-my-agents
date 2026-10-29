@@ -1,6 +1,15 @@
 ## 📌 SUMMARY OF CHANGES
 - [Concise explanation of the changes and motivation]
 
+## 🐞 BUGFIX (bug fixes only)
+- **Reproduction**: [command/input, environment, expected vs actual]
+- **Root cause**: [`path:line` + mechanism, with evidence]
+- **Fix**: [what changed and at which layer]
+- **Regression test**: [test name] — failed before the fix, passes after (output linked)
+
+## 🧭 DECISION & PLAN (features only)
+- ADR: [ADR-NNN-slug link] · Plan: [NN-<component>-<slug>.md link] · Verification: [verify-NN-<slug>.md link]
+
 ## 🎯 ARCHITECTURAL & PILLARS COMPLIANCE
 - [ ] **High Availability & Resilience**: No SPOF introduced; timeouts and retries calibrated.
 - [ ] **Security & Privacy**: No hardcoded secrets; inputs validated at boundaries; no PII logged.

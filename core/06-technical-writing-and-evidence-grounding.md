@@ -103,3 +103,18 @@ Before finalizing any technical document, the Agent must execute this self-audit
 - [ ] **No Fluff**: Are generic filler words eliminated ("very robust", "seamlessly", "cutting-edge", "obviously")?
 - [ ] **Structured Tables**: Are multiple options or configurations organized into comparison tables?
 - [ ] **Visual Language**: Does the `10-visual-communication` self-check pass (legend, ≤ 3 highlights, one meaning per channel)?
+- [ ] **Precision**: No banned vague word (§7); terms consistent with the glossary and the ADR.
+
+---
+
+## 7. PRECISION
+
+Ambiguous wording is a defect in any document (`11-clarity-first`).
+
+- **Banned vague words** (replace with the concrete action, value or condition):
+  handle, support, improve, properly, appropriately, as needed, etc., similar to,
+  TBD, should probably, robust, seamless.
+- **One term per concept** across a document and its ADR; define it once in a glossary.
+- **One default, not a menu.** Offer options only in design discussions; documents state the choice.
+- **Example over description.** Point to a canonical example (`path:symbol`) instead of describing a pattern.
+- **Only what the reader lacks.** Do not explain general knowledge.

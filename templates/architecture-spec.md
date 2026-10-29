@@ -3,7 +3,8 @@
 - **Author / Designer:** [Name / Agent]
 - **Status:** [Draft | Under Review | Approved | Superseded]
 - **Target Release:** [vX.Y.Z]
-- **ADR Reference:** [ADR-000X](.docs/adr/ADR-000X-slug.md)
+- **File:** the architecture overview in the Docs layout (Product Brain: `architecture.md`)
+- **ADR References:** [ADR-NNN](<ADR folder>/ADR-NNN-slug.md)
 
 ---
 

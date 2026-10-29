@@ -93,7 +93,7 @@ flowchart TD
 8. **Propose** the exact tag and publish commands, plus the release page body. Wait.
 9. **After authorization:** tag (`vX.Y.Z` or the project's monorepo format), publish via
    CI with provenance where supported, create the release page, then propose status/doc
-   syncs (roadmap, INDEX) per governance section 4.
+   syncs (roadmaps, master plan) per governance section 4.
 
 ## Special cases
 
