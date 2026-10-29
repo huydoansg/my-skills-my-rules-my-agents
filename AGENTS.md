@@ -19,7 +19,8 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Repo Layout & Document Naming**: [`core/08-repo-layout-and-naming.md`](core/08-repo-layout-and-naming.md)
 - **Language & Communication**: [`core/09-language-and-communication.md`](core/09-language-and-communication.md)
 - **Visual Communication (diagram encoding, palette, legend, emphasis)**: [`core/10-visual-communication.md`](core/10-visual-communication.md)
-- **Workflow (research → ADR → plan → implement → verify)**: [`workflow/workflow.md`](workflow/workflow.md)
+- **Clarity First (no ambiguity at any stage)**: [`core/11-clarity-first.md`](core/11-clarity-first.md)
+- **Workflow (chat → ADR → plans → implement → verify)**: [`workflow/workflow.md`](workflow/workflow.md)
 
 ### Specialized Tech Stack Conventions
 - **AWS Cloud Architecture**: [`conventions/aws/conventions.md`](conventions/aws/conventions.md)
@@ -37,7 +38,6 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **SDK & Library (versioning, compatibility, release docs)**: [`conventions/sdk-library/conventions.md`](conventions/sdk-library/conventions.md)
 
 ### On-Demand Progressive Skills
-- **Requirement Discovery (optional)**: [`skills/requirement-discovery/SKILL.md`](skills/requirement-discovery/SKILL.md)
 - **Architecture Design → ADR**: [`skills/architecture-design/SKILL.md`](skills/architecture-design/SKILL.md)
 - **Implementation Planning**: [`skills/implementation-planning/SKILL.md`](skills/implementation-planning/SKILL.md)
 - **Investigate & Bugfix**: [`skills/investigate-bugfix/SKILL.md`](skills/investigate-bugfix/SKILL.md)
@@ -59,8 +59,9 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Architecture Decision Record (ADR)**: [`templates/adr.md`](templates/adr.md)
 - **Pull Request Template**: [`templates/pr-description.md`](templates/pr-description.md)
 - **Blameless Postmortem**: [`templates/incident-postmortem.md`](templates/incident-postmortem.md)
-- **Plan / Investigation / Requirement / Verification**: [`templates/plan.md`](templates/plan.md), [`templates/investigation.md`](templates/investigation.md), [`templates/requirement.md`](templates/requirement.md), [`templates/verification.md`](templates/verification.md)
-- **Developer Guidelines skeleton**: [`templates/developer-guidelines.md`](templates/developer-guidelines.md)
+- **Master plan / Plan / Verification**: [`templates/master-plan.md`](templates/master-plan.md), [`templates/plan.md`](templates/plan.md), [`templates/verification.md`](templates/verification.md)
+- **Component card**: [`templates/component.md`](templates/component.md)
+- **Product Brain** (technical source of truth of a product): [`guides/product-brain.md`](guides/product-brain.md), skeleton in [`brain-template/`](brain-template/README.md)
 - **SDK release docs**: [`templates/changelog.md`](templates/changelog.md), [`templates/release-notes.md`](templates/release-notes.md), [`templates/migration-guide.md`](templates/migration-guide.md), [`templates/sdk-versioning-policy.md`](templates/sdk-versioning-policy.md)
 
 ---
@@ -71,9 +72,10 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 3. **Run the Verification Loop**: Always run linter, typecheck, and test suites before reporting a task complete.
 4. **Mermaid Diagrams for Architecture**: Static (C4), Dynamic (Sequence), Integration (Async), and Deployment views must be drawn in Mermaid.
 5. **Chat First, Document Later**: Work the design out with the engineer in chat; write ADR/plan files only when they are satisfied and ask for it.
-6. **Gated Execution**: No implementation until the ADR is `Accepted` and the PLAN is `ready`; no bug fix without reproduction and root-cause evidence (see `core/07-workflow-governance.md`).
+6. **Gated Execution**: No implementation until the ADR is `Accepted` and its plan is `ready`; no bug fix without reproduction and root-cause evidence (see `core/07-workflow-governance.md`). Plans follow the Accepted ADR: one plan per component and outcome, tracked by the master plan.
 7. **Language**: Chat in the engineer's language; all written documents in English (see `core/09-language-and-communication.md`).
 8. **SDKs & Libraries**: Establish the SDK profile (internal/public, kind) first. Never break consumers silently. Classify every public-surface change with SemVer, prefer expand → migrate → contract, record it in `CHANGELOG.md`, and never tag or publish without explicit authorization (see `conventions/sdk-library/conventions.md`).
 9. **Visual Communication**: Draw only when a picture is clearer; one visual channel = one meaning, standard palette, legend, at most 3 highlights; emphasis via bold, italic, ~~old~~ → <ins>new</ins> and lists (see `core/10-visual-communication.md`).
+10. **Clarity First**: Clear → act. Ambiguous → brainstorm, research or investigate until it is clear; if it cannot be resolved in scope, stop and ask. Never guess, never document or implement an unresolved point (see `core/11-clarity-first.md`).
 
 Full policy block installed into target projects: [`snippets/agents-policy.md`](snippets/agents-policy.md).
