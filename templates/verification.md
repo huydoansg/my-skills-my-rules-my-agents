@@ -1,10 +1,12 @@
-# VER-YYYYMMDD-slug
+# Verify NN — <plan title>
+
+<!-- File: verify-NN-<slug>.md in the ADR docs folder (Docs layout; NN = plan number). -->
 
 | Property | Value |
 | --- | --- |
 | Revision | rev 0 |
 | Status | draft |
-| PLAN / INV / ADR | links |
+| Plan / ADR | links |
 | Commit + dirty snapshot | hash / diff reference |
 | Run by / time | actual |
 | OS / arch / tool versions / profile | actual |
@@ -40,8 +42,8 @@
 
 ## Result
 
-Passed / failed / blocked; scope actually proven; checks not run; residual risks; INV
-follow-ups. Not run is not pass; do not bump the revision to finish the checklist.
+Passed / failed / blocked; scope actually proven; checks not run; residual risks; bugs
+found (reported to the engineer). Not run is not pass; do not bump the revision to finish the checklist.
 
 ## Revision history
 

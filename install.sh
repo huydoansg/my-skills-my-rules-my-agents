@@ -11,7 +11,7 @@ TARGET_DIR=""
 MODE="symlink" # or "copy"
 STACKS=""
 GLOBAL=false
-WITH_DOCS=false
+BRAIN=false
 
 print_banner() {
   cat << 'EOF'
@@ -38,14 +38,15 @@ Options:
                                       postgresql,docker,kubernetes,gitops,electron,tauri,
                                       sdk-library,all
   -g, --global             Install rules/skills globally into ~/.gemini/config/
-  -d, --with-docs          Also create the .docs/ skeleton (adr, plans, research, ...
-                           each with an index file) in the target project
+  -b, --brain              Target is a Product Brain repo: also scaffold the brain
+                           structure from brain-template/ (never overwrites existing
+                           files). See guides/product-brain.md
   -h, --help               Show this help message
 
 Examples:
   ./install.sh --target /path/to/my-app --stacks typescript-javascript,react,docker
   ./install.sh --target /path/to/my-desktop-app --stacks rust,tauri,postgresql --mode copy
-  ./install.sh --target /path/to/my-app --with-docs
+  ./install.sh --target /path/to/my-product-brain --brain --mode copy
   ./install.sh --global
 EOF
   exit 0
@@ -70,9 +71,14 @@ while [[ $# -gt 0 ]]; do
       GLOBAL=true
       shift
       ;;
-    -d|--with-docs)
-      WITH_DOCS=true
+    -b|--brain)
+      BRAIN=true
       shift
+      ;;
+    -d|--with-docs)
+      echo "❌ --with-docs was removed. Declare a Docs layout in AGENTS.md, or scaffold a"
+      echo "   Product Brain repo with --brain (see guides/product-brain.md)."
+      exit 1
       ;;
     -h|--help)
       usage
@@ -130,7 +136,10 @@ echo "⚙️ Mode: $MODE"
 # Create .agents structure in target
 AGENTS_TARGET="$TARGET_DIR/.agents"
 mkdir -p "$AGENTS_TARGET/rules" "$AGENTS_TARGET/skills" "$AGENTS_TARGET/templates"
-mkdir -p "$TARGET_DIR/.docs"
+
+# Remove symlinks left dangling by rules/skills/templates that no longer exist in this repo
+find "$AGENTS_TARGET/rules" "$AGENTS_TARGET/skills" "$AGENTS_TARGET/templates" \
+  -maxdepth 2 -type l ! -exec test -e {} \; -exec rm -f {} \; 2>/dev/null || true
 
 # 1. Install Core Rules
 echo "📦 Installing Core Rules & Pillars..."
@@ -144,7 +153,7 @@ for core_file in "$SCRIPT_DIR"/core/*.md; do
     cp "$core_file" "$target_file"
   fi
 done
-echo "  ✓ Core rules installed (00 to 10)"
+echo "  ✓ Core rules installed (00 to 11)"
 
 # 2. Install Conventions
 if [ -z "$STACKS" ] || [ "$STACKS" = "all" ]; then
@@ -200,30 +209,32 @@ for tpl_file in "$SCRIPT_DIR"/templates/*.md; do
     cp "$tpl_file" "$target_tpl"
   fi
 done
-echo "  ✓ Templates installed (architecture-spec, adr, plan, investigation, requirement, verification, developer-guidelines, pr, postmortem, changelog, release-notes, migration-guide, sdk-versioning-policy)"
+echo "  ✓ Templates installed (architecture-spec, adr, master-plan, plan, component, verification, pr, postmortem, changelog, release-notes, migration-guide, sdk-versioning-policy)"
 
-# 4b. Install workflow description (skills and rules refer to .docs/workflow.md)
-workflow_target="$TARGET_DIR/.docs/workflow.md"
+# 4b. Install workflow description (skills and rules refer to .agents/workflow.md)
+workflow_target="$AGENTS_TARGET/workflow.md"
 rm -f "$workflow_target"
 if [ "$MODE" = "symlink" ]; then
   ln -s "$SCRIPT_DIR/workflow/workflow.md" "$workflow_target"
 else
   cp "$SCRIPT_DIR/workflow/workflow.md" "$workflow_target"
 fi
-echo "  ✓ Workflow installed (.docs/workflow.md)"
+echo "  ✓ Workflow installed (.agents/workflow.md)"
 
-# 4c. Optional .docs skeleton (never overwrites existing files)
-if [ "$WITH_DOCS" = true ]; then
-  for sub in adr plans research requirements investigations verifications; do
-    mkdir -p "$TARGET_DIR/.docs/$sub"
-    index_name="INDEX.md"
-    [ "$sub" = "adr" ] && index_name="README.md"
-    index_file="$TARGET_DIR/.docs/$sub/$index_name"
-    if [ ! -e "$index_file" ]; then
-      printf '# %s index\n\n| ID | Title | Status | Link |\n| --- | --- | --- | --- |\n' "$sub" > "$index_file"
+# 4c. Product Brain scaffold (copy only; never overwrites existing files)
+if [ "$BRAIN" = true ]; then
+  echo "📦 Scaffolding Product Brain structure..."
+  (cd "$SCRIPT_DIR/brain-template" && find . -type f) | while IFS= read -r rel; do
+    rel="${rel#./}"
+    dest="$TARGET_DIR/$rel"
+    if [ -e "$dest" ] || [ -L "$dest" ]; then
+      echo "  • kept existing $rel"
+    else
+      mkdir -p "$(dirname "$dest")"
+      cp "$SCRIPT_DIR/brain-template/$rel" "$dest"
+      echo "  ✓ created $rel"
     fi
   done
-  echo "  ✓ .docs skeleton created (adr, plans, research, requirements, investigations, verifications)"
 fi
 
 # 5. Link Master Directives across AI Agents
@@ -246,6 +257,7 @@ This repository is augmented with foundational enterprise rules and on-demand sk
   - [`05-logging-and-observability`](.agents/rules/05-logging-and-observability.md) — Structured JSON logging, PII masking & 5 checkpoints
   - [`06-technical-writing-and-evidence-grounding`](.agents/rules/06-technical-writing-and-evidence-grounding.md) — Anti-wall-of-text, tables & anti-hallucination
   - [`10-visual-communication`](.agents/rules/10-visual-communication.md) — Diagram encoding, palette, legend & text emphasis
+  - [`11-clarity-first`](.agents/rules/11-clarity-first.md) — Clear → act; ambiguous → resolve until clear; never guess
 - **On-Demand Skills**:
   - [`arch-designer`](.agents/skills/arch-designer/SKILL.md) — System design workflow with 9 pillars & C4 diagrams
   - [`tech-writer`](.agents/skills/tech-writer/SKILL.md) — High-signal technical documentation & diagram crafting

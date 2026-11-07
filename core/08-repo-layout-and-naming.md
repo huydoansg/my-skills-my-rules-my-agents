@@ -1,84 +1,97 @@
-# REPO LAYOUT & DOCUMENT NAMING
+# REPO LAYOUT & NAMING
 
-Read this **before creating or moving any document**. A project may override the
-defaults below in its own `AGENTS.md`; if it does, the project wins and the override
-must be listed there.
+Read this **before creating or moving any document**. It defines *which* documents exist
+and how they are named. *Where* they live is declared per project in the **Docs layout**
+table of its `AGENTS.md`, so the same rules and skills work in every project.
 
-## 1. Two roots, two purposes
+## 1. Two kinds of content
 
-| Root | Holds | Examples |
-| --- | --- | --- |
-| `.agents/` | Agent-tooling only: how agents work in this repo | `rules/`, `skills/`, `templates/`, `requests/` |
-| `.docs/` | Everything about the product and its architecture | ADR, SAD, plans, research, requirements, guides, verifications |
-
-Both are committed. Do not create `docs/` or `.agents/docs/`.
-
-## 2. Where each artifact goes
-
-| Artifact | Location |
+| Content | Location |
 | --- | --- |
-| ADR (= the SAD for one topic; created only after the engineer is satisfied with the chat draft) | `.docs/adr/ADR-NNN-slug.md` + `.docs/adr/README.md` (index) |
-| System-level design overview (SAD) | `.docs/sad/` (updated when an ADR is Accepted) |
-| Requirement (optional) | `.docs/requirements/REQ-YYYYMMDD-slug/{raw*.md,analysis.md}` + `INDEX.md` |
-| Plan, roadmap | `.docs/plans/PLAN-NNN-slug.md`, `.docs/plans/roadmap-*.md` + `INDEX.md` |
-| Investigation | `.docs/investigations/INV-YYYYMMDD-slug/{raw.md,report.md}` + `INDEX.md` |
-| Verification | `.docs/verifications/VER-YYYYMMDD-slug.md` + `INDEX.md` |
-| Research, spikes | `.docs/research/subject-YYYYMMDD.md`, `.docs/research/spikes/` |
-| Guides, standards | `.docs/guides/`, `.docs/standards/` |
-| SDK versioning policy, release notes, migration guides | `.docs/sdk/versioning-policy.md`, `.docs/sdk/releases/vX.Y.Z.md`, `.docs/sdk/migrations/vN-to-vM.md` |
-| `README.md`, `CHANGELOG.md`, `LICENSE`, `SECURITY.md` of a published package | Package/repo root (registry convention; the only root docs allowed) |
-| Workflow description | `.docs/workflow.md` |
-| Templates | `.agents/templates/` |
-| Rules, skills | `.agents/rules/`, `.agents/skills/` |
-| Engineer requests about agent behavior | `.agents/requests/` |
+| Agent tooling: rules, skills, templates, workflow | `.agents/` in every repo (installed by `install.sh`) |
+| Product knowledge: ADRs, plans, research, architecture, roadmaps, component cards, references | Where the project's **Docs layout** says: usually a separate **Product Brain** repo (see `guides/product-brain.md` in the kit), or a folder inside the repo |
+| Published-package docs (`README.md`, `CHANGELOG.md`, `LICENSE`, `SECURITY.md`) and SDK release docs | Package root and the paths in `conventions/sdk-library` |
 
-Pick the next free `NNN` by checking **both** the index and the file list. `YYYYMMDD` is
-the working-session date.
+Requirements (PRD) and bug investigations are not stored as artifacts: requirements live
+outside the technical docs; bugs are settled in chat and recorded in the fix commit/PR
+(`07-workflow-governance` §2).
 
-## 3. Naming free-form documents
+## 2. Docs layout (required in each project's `AGENTS.md`)
 
-Applies to research, reports and requests that have no artifact ID. Does not apply to
-REQ / PLAN-NNN / INV / VER / ADR.
+Skills and rules refer to the artifact names in the left column. The project fills the
+right column. The values shown are the Product Brain defaults.
 
-- Format: `subject-YYYYMMDD.md`; the subject is descriptive, lowercase kebab-case, ASCII.
-  Example: `review-agent-workflows-20260912.md`.
-- Never name a file after an ID (`REQ-...md`). IDs belong in metadata and the INDEX.
-- Raw capture is separate: `subject-raw-YYYYMMDD.md`; follow-ups `subject-raw-02-YYYYMMDD.md`.
-  Never overwrite or reformat raw content.
-- Same subject and date for the same request: update the existing file. A different
-  request: make the subject distinguishable; never overwrite another file.
-- Editing content does not change the date in the filename. A rename must update the
-  INDEX and all links in scope.
+```markdown
+## Docs layout
+
+| Artifact | Path |
+| --- | --- |
+| Product Brain root | `../<product>-brain/` (or `.` when this repo is the brain) |
+| ADR index | `decisions/README.md` |
+| ADR folder | `decisions/ADR-NNN-slug/` (ADR file: `ADR-NNN-slug.md`) |
+| Research folder | `<ADR folder>/.researchs/` |
+| ADR docs folder | `<ADR folder>/.docs/` (contracts, verification reports) |
+| Plans folder | `<ADR folder>/.plans/` |
+| Architecture overview | `architecture.md` |
+| Technical roadmap | `technical-roadmap.md` |
+| Product roadmap | `product-roadmap.md` |
+| Component cards | `components/<name>/README.md` |
+| References | `references/` |
+```
+
+- Paths are relative to the Product Brain root.
+- A project with an older layout (for example `.docs/adr/`, `.docs/plans/`) declares those
+  paths instead; nothing has to move.
+- **No Docs layout table → ask the engineer before creating any document** (`11-clarity-first`).
+
+## 3. Naming (kit defaults; a Docs layout may override a row)
+
+| Artifact | Pattern | Example |
+| --- | --- | --- |
+| ADR | `ADR-NNN-slug` (NNN unique in the ADR index; check the index **and** the folder list) | `ADR-012-auth` |
+| Master plan | `01-<slug>-master-plan.md` (always 01, one per ADR) | `01-auth-master-plan.md` |
+| Delivery plan | `NN-<component>-<slug>.md` (NN counted per ADR, from 02) | `02-backend-token-refresh.md` |
+| Discovery plan | `NN-spike-<slug>.md` or `NN-research-<slug>.md` | `04-spike-token-store.md` |
+| Contract | `contract-<name>.md` in the ADR docs folder | `contract-auth-api.md` |
+| Verification report | `verify-NN-<slug>.md` in the ADR docs folder (NN = plan number) | `verify-02-token-refresh.md` |
+| Research, reference | `<subject>.md` | `token-storage-options.md` |
+
+- `<component>` is a component card name; a single-component product omits it.
+- Plan numbers are never reused, even for abandoned plans.
+- Slugs: lowercase kebab-case, ASCII, descriptive. No dates in file names.
 - `README.md` and `INDEX.md` are fixed names.
-- Do not mass-rename legacy documents unless asked.
 
-## 4. Mistakes to avoid
+## 4. When files are created
 
-- Mixing product docs with agent tooling (everything product-related goes to `.docs/`).
-- Reusing a number across documents: always check the index and the file list.
-- A DESIGN file plus an ADR for one topic: only the ADR exists. No `designs/` folder.
-- Creating an ADR/design while the engineer is not yet satisfied: the draft stays in chat.
-- Treating early numbered research notes as the source of truth: the source of truth is
-  the SAD plus Accepted ADRs.
-- Index disagreeing with the file (index says Proposed, file says Accepted): change both
-  in the same change.
+- Research, brainstorm and design stay **in the chat** until the engineer settles them.
+- On settlement: create the ADR folder and the ADR, move worth-keeping research into the
+  research folder, add the ADR to the ADR index and the technical roadmap.
+- Plans are created only after the ADR is Accepted and the work is clear (`11-clarity-first`).
 
-## 5. Moving files
+## 5. Mistakes to avoid
 
-- Use `git mv` to keep history.
-- Fix relative links and in-text paths; grep to confirm no old path remains and every
-  link resolves.
-- Do not edit raw files (`raw*.md`); old links inside them may stay.
-- Update the INDEX and this rule if the convention changes.
+- Creating an ADR, plan or research file while the point is still ambiguous.
+- Hard-coding a path in a rule or skill instead of using the Docs layout artifact name.
+- A second copy of a contract: plans and component cards link to the ADR or the contract file.
+- An index or roadmap disagreeing with the file's status: change both in one change.
+- Reusing a number: check the index **and** the folder list.
 
-## 6. Pre-completion checklist
+## 6. Moving files
 
-- [ ] File name has a descriptive subject and a valid date, not an ID.
-- [ ] No other file overwritten; raw content untouched.
-- [ ] INDEX and links point to the right files.
+- Use `git mv` to keep history; update the Docs layout table if a path changes.
+- Fix relative links and in-text paths; grep to confirm no old path remains.
+
+## 7. Pre-completion checklist
+
+- [ ] File is where the Docs layout says; name follows §3.
+- [ ] No other file overwritten.
+- [ ] Index, roadmap and links point to the right files.
 - [ ] Revision unchanged unless the engineer confirmed a bump.
 
-## 7. Revision history
+## 8. Revision history
 
 - rev 0: (draft) generic layout and naming rules extracted from a production project.
 - rev 0 (draft): added SDK release documentation locations and the root-docs exception for published packages.
+- rev 0 (draft): layout-agnostic: artifacts are named here, paths come from the project's
+  Docs layout table (Product Brain defaults); plan naming `01-<slug>-master-plan.md`,
+  `NN-<component>-<slug>.md`; no requirement or investigation artifacts.

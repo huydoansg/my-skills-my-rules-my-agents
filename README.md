@@ -19,6 +19,10 @@ my-skills-my-rules-my-agents/
 ├── .github/
 │   └── copilot-instructions.md            # Entrypoint for GitHub Copilot & OpenAI Codex
 ├── install.sh                             # Automated installer / sync tool for any project
+├── CHANGELOG.md                           # Kit versions; breaking changes for installed projects
+├── guides/
+│   └── product-brain.md                   # Set up and maintain a Product Brain repo
+├── brain-template/                        # Skeleton scaffolded by install.sh --brain
 │
 ├── core/                                  # Universal foundational rules
 │   ├── 00-agent-manifesto.md              # Principal Engineer persona & operating rules
@@ -29,12 +33,13 @@ my-skills-my-rules-my-agents/
 │   ├── 05-logging-and-observability.md    # Structured JSON logging, PII masking & 5 checkpoints
 │   ├── 06-technical-writing-and-evidence-grounding.md # Anti-wall-of-text, tables, alerts & anti-hallucination
 │   ├── 07-workflow-governance.md          # Gates, approval, revision, status updates, evidence
-│   ├── 08-repo-layout-and-naming.md       # .agents/ vs .docs/, artifact locations, naming
+│   ├── 08-repo-layout-and-naming.md       # Docs layout table (paths per project), artifact naming
 │   ├── 09-language-and-communication.md   # Chat in engineer's language, documents in English
-│   └── 10-visual-communication.md         # Diagram encoding, palette, legend, highlighting & text emphasis
+│   ├── 10-visual-communication.md         # Diagram encoding, palette, legend, highlighting & text emphasis
+│   └── 11-clarity-first.md                # Clear → act; ambiguous → resolve until clear; never guess
 │
 ├── workflow/
-│   └── workflow.md                        # research -> ADR -> plan -> implement -> verify (chat-first)
+│   └── workflow.md                        # chat -> ADR -> master plan + plans -> implement -> verify
 │
 ├── snippets/
 │   └── agents-policy.md                   # Policy block appended to a project's existing AGENTS.md
@@ -55,10 +60,9 @@ my-skills-my-rules-my-agents/
 │   └── sdk-library/conventions.md         # SemVer, backward compatibility, deprecation, changelog & release docs
 │
 ├── skills/                                # On-demand workflows (Progressive Disclosure)
-│   ├── requirement-discovery/SKILL.md     # (optional) clarify large requirements in chat, then REQ files
 │   ├── architecture-design/SKILL.md       # Research + chat draft -> ADR (gated)
-│   ├── implementation-planning/SKILL.md   # Accepted ADR -> executor-ready PLAN
-│   ├── investigate-bugfix/SKILL.md        # Reproduce -> root cause -> TDD fix (no blind fixes)
+│   ├── implementation-planning/SKILL.md   # Accepted ADR -> master plan + per-component plans
+│   ├── investigate-bugfix/SKILL.md        # Reproduce -> root cause in chat -> TDD fix, evidence in PR
 │   ├── implementation-verification/SKILL.md # Evidence-based VER report, status proposals
 │   ├── sdk-api-evolution/SKILL.md         # Change a public API without breaking consumers
 │   ├── sdk-release/SKILL.md               # SemVer bump, changelog, release notes, migration guide
@@ -74,12 +78,11 @@ my-skills-my-rules-my-agents/
 │
 └── templates/                             # Production-ready technical templates
     ├── architecture-spec.md               # arc42 + C4 System Design Specification
-    ├── adr.md                             # ADR = SAD for one topic (invariants, principles/rules)
-    ├── plan.md                            # Executor-ready plan (EARS AC, TDD phases, verification plan)
-    ├── investigation.md                   # Bug report: reproduction, hypotheses, root cause, fix plan
-    ├── requirement.md                     # Requirement analysis (optional)
+    ├── adr.md                             # ADR = design for one topic (invariants, principles/rules)
+    ├── master-plan.md                     # Controls all plans of one ADR (order, contracts, clarity)
+    ├── plan.md                            # One component, one outcome; executor-ready task cards
+    ├── component.md                       # Component card (components/<name>/README.md)
     ├── verification.md                    # Verification report with evidence table
-    ├── developer-guidelines.md            # Skeleton for a project runbook
     ├── pr-description.md                  # Pull Request template with verification checklist
     ├── changelog.md                       # Keep a Changelog 2.0.0 skeleton with Breaking markers
     ├── release-notes.md                   # Per-version release notes with diagrams
@@ -140,10 +143,14 @@ Use the built-in `install.sh` script to configure rules and skills for any targe
   --mode copy
 ```
 
-### 3. Workflow and `.docs/` skeleton
-`install.sh` always installs `.docs/workflow.md` (the skills refer to it). Add `--with-docs`
-to create `.docs/{adr,plans,research,requirements,investigations,verifications}` with index
-files; existing files are never overwritten. If the target already has an `AGENTS.md`, the
+### 3. Workflow, Docs layout and Product Brain
+`install.sh` always installs `.agents/workflow.md` (the skills refer to it) and removes
+symlinks left dangling by rules, skills or templates that were deleted here. Rules and
+skills never hard-code document paths: each project declares a **Docs layout** table in
+its `AGENTS.md` (`core/08`). To create a **Product Brain** repo (the technical source of
+truth of a product), run `./install.sh --target ../<product>-brain --brain --mode copy`;
+see [`guides/product-brain.md`](guides/product-brain.md). Existing files are never
+overwritten. If the target already has an `AGENTS.md`, the
 installer appends the *Enterprise* block and the workflow policy block
 (`snippets/agents-policy.md`) once, between `<!-- BEGIN/END my-skills-policy -->` markers.
 Symlink mode uses absolute paths and breaks on another machine; use `--mode copy` for
@@ -161,25 +168,26 @@ portable repositories.
 
 ```mermaid
 flowchart LR
-  R[Research] --> B[Brainstorm + draft in chat]
-  B -->|not satisfied| B
-  B -->|engineer satisfied| A[ADR Proposed]
+  C[Chat: research, brainstorm, clarity loop] -->|not clear| C
+  C -->|engineer settles| A[ADR Proposed]
   A -->|engineer approves| AC[ADR Accepted]
-  AC --> P[PLAN ready]
+  AC --> M[Master plan]
+  M --> P[Plan per component: ready]
   P --> T[TDD implementation]
-  I[INV: reproduction + root cause] --> T
+  B[Bug: reproduction + root cause in chat] --> T
   T --> V[Verification with evidence]
 ```
 
 | Principle | Rule | Defined in |
 |---|---|---|
+| **Clarity first** | Clear → act; ambiguous → brainstorm, research or investigate until clear; never guess | `core/11` |
 | **Chat first, document later** | No ADR/plan files while the design is still moving; saves tokens | `core/07` |
-| **Hard gates** | Feature = ADR `Accepted` + PLAN `ready`; bug fix = reproduction + root-cause evidence | `core/07` |
+| **Hard gates** | Feature = ADR `Accepted` + plan `ready`; bug fix = reproduction + root cause in chat, recorded in the PR, regression test | `core/07` |
 | **Evidence & status discipline** | Claims cite file/line or command output; status changes are proposed, then confirmed by the engineer | `core/07` |
 | **Language** | Chat in the engineer's language; every written document, comment and commit in English; slang is clarified, not translated | `core/09` |
-| **Layout** | `.agents/` = agent tooling, `.docs/` = product & architecture; naming and INDEX rules | `core/08` |
+| **Layout** | Paths come from each project's Docs layout table; the Product Brain layout is the default | `core/08`, `guides/product-brain.md` |
 
-Skills: `requirement-discovery` (optional) → `architecture-design` → `implementation-planning`; `investigate-bugfix` for bugs; `implementation-verification` before claiming done. Details: [`workflow/workflow.md`](workflow/workflow.md).
+Skills: `architecture-design` → `implementation-planning`; `investigate-bugfix` for bugs; `implementation-verification` before claiming done. Details: [`workflow/workflow.md`](workflow/workflow.md).
 
 ---
 
@@ -222,15 +230,14 @@ flowchart LR
 ├── CLAUDE.md, .cursorrules   # -> AGENTS.md
 ├── .github/copilot-instructions.md
 ├── .agents/
-│   ├── rules/                # core/00-09 + conventions/<stack>.md
+│   ├── rules/                # core/00-11 + conventions/<stack>.md
 │   ├── skills/               # all skills
-│   └── templates/            # adr, plan, investigation, requirement, verification, ...
-└── .docs/
-    ├── workflow.md           # always installed
-    └── adr/ plans/ research/ requirements/ investigations/ verifications/   # only with --with-docs
+│   ├── templates/            # adr, master-plan, plan, component, verification, ...
+│   └── workflow.md           # always installed
+└── (with --brain) README.md, architecture.md, roadmaps, decisions/, components/, references/
 ```
 
-Project-specific content (commands, architecture boundaries, ADR invariants, local conventions) stays in the project's own `AGENTS.md` and `.docs/`; this repository stays generic.
+Project-specific content (commands, architecture boundaries, ADR invariants, local conventions) stays in the project's own `AGENTS.md` and its Product Brain; this repository stays generic.
 
 ---
 
@@ -251,4 +258,6 @@ Project-specific content (commands, architecture boundaries, ADR invariants, loc
 - Keep every file **generic**: no project names, ADR numbers, product commands or paths that only exist in one project. Use placeholders such as `<check command>`.
 - Write in English. New rules/skills carry a `Revision history` entry; revisions are bumped only on the maintainer's confirmation.
 - When a project proves a practice worth sharing, generalize it here, then reinstall (symlink mode picks changes up immediately; copy mode needs a re-run of `install.sh`).
+- **Rules and skills never hard-code document paths**: they use the artifact names of the Docs layout (`core/08`). Product Brain specifics belong in `brain-template/` and `guides/product-brain.md`.
+- **Lifecycle of a rule or skill**: try it as an override in one project's `AGENTS.md` → generalize here once it has been used for real → check it on at least three scenarios with a small and a large model → record it in `CHANGELOG.md` (removing or renaming a rule, skill, template, flag or path is a breaking change and lists the migration).
 - Test installer changes against a throw-away directory (`--target $(mktemp -d)`), twice, to confirm idempotency.

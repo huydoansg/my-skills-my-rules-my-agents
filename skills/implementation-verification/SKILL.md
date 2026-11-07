@@ -1,22 +1,25 @@
 ---
 name: implementation-verification
-description: Verify an implementation or bugfix against its plan/ADR, acceptance criteria and TDD evidence, and write a pass/fail/blocked report in .docs/verifications/. Use before claiming done or fixed. Audit only — does not design or silently fix.
+description: Verify an implementation or bugfix against its plan/ADR, acceptance criteria and TDD evidence, and write a pass/fail/blocked report in the ADR docs folder (bugfix: in the PR body). Use before claiming done or fixed. Audit only — does not design or silently fix.
 metadata:
   revision: "rev 0"
 ---
 
 # Implementation verification
 
-Read `core/07-workflow-governance.md`. Inputs: the PLAN or INV, the applicable ADR, the
-AC, the current diff and the run environment. If AC are missing, draft a checklist from
-the requirement and record blockers for unclear points; never invent results or accept a
+Read `core/07-workflow-governance.md`. Inputs: the plan (or, for a bugfix, the reproduction
+and root cause from chat), the applicable ADR, the AC, the current diff and the run
+environment. If AC are missing or ambiguous, mark them `blocked` and raise the question
+(`core/11`); never invent results or accept a
 design yourself.
 
 ## Procedure
 
 1. Read the rules that match the changed files. Compare code to design/NFRs/UI journey;
    decide regression scope and platform matrix by risk.
-2. Create `.docs/verifications/VER-YYYYMMDD-slug.md` from `.agents/templates/verification.md`.
+2. Create `verify-NN-<slug>.md` (NN = plan number) in the ADR docs folder from
+   `.agents/templates/verification.md`; for a bugfix without a plan, put the same evidence
+   table in the PR body.
    Pin the commit and dirty diff, versions, profile and data fixture. Use isolated fake
    or temporary data.
 3. List AC → test/command → expected result **before** running. Confirm each command
@@ -26,12 +29,12 @@ design yourself.
    claimed retroactively as TDD.
 5. Store cwd, timestamp, exit code and redacted logs. E2E needs a running UI/packaged
    build; cross-compiling does not prove native runtime. Missing runner → `blocked`.
-6. A required check that is fail/blocked/not-run is reported as such; open an INV if
-   needed. Do not fix in audit-only mode. `N/A` needs a real reason, never used to hide a
+6. A required check that is fail/blocked/not-run is reported as such; report a newly found bug
+   to the engineer. Do not fix in audit-only mode. `N/A` needs a real reason, never used to hide a
    missing test.
 7. `passed` only when AC and required checks pass. State residual risks; do not extend
    the result to "the whole product is ready".
-8. Always end by proposing status updates (VER, PLAN/phase, INV, INDEX, roadmap) as a
+8. Always end by proposing status updates (report, plan/task, master plan register, roadmaps) as a
    table `artifact | old → new | evidence | missing`; write only after the engineer
    confirms (governance section 4).
 
@@ -47,3 +50,4 @@ design yourself.
 ## Revision history
 
 - rev 0: (draft) generic version extracted from a production project.
+- rev 0 (draft): report location from the Docs layout; no INV.

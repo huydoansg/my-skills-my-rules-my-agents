@@ -37,8 +37,8 @@ Fill the Pillar Scorecard (rule `02-architectural-pillars`):
 4. **Deployment View**: VPC, Subnets, Kubernetes Pods / Serverless, Multi-AZ data tier.
 
 ### Step 4: Output Architecture Specification
-Follow the `architecture-design` skill and `.docs/workflow.md` when they are installed: keep
+Follow the `architecture-design` skill and `.agents/workflow.md` when they are installed: keep
 the draft in the chat until the engineer is satisfied, then write the ADR (the architecture
 spec for one topic) from `templates/adr.md` with status `Proposed`. Use
-`templates/architecture-spec.md` only for a system-level overview, and place files per
+`templates/architecture-spec.md` only for the system-level architecture overview, and place files per
 `08-repo-layout-and-naming`; never invent a `docs/architecture/` tree.

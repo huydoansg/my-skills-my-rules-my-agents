@@ -1,210 +1,157 @@
-# PLAN-NNN-slug
+# NN — <imperative title>
+
+<!--
+File: NN-<component>-<slug>.md in the ADR's plans folder (Docs layout; discovery: NN-spike-<slug>.md).
+Links below assume the Product Brain layout; adjust them to the project's Docs layout.
+One component, one outcome. Follows the Accepted ADR; makes no new decision.
+Written for an executor that has never seen the repo. Short and plain (core/06 §7);
+Mermaid for flows and order (core/10). Delete every comment and unused row before use.
+-->
 
 | Property | Value |
 | --- | --- |
-| ID | PLAN-NNN-slug |
-| Created | YYYY-MM-DD |
+| ADR | [ADR-NNN-slug](../ADR-NNN-slug.md) · rev N · `<hash>` · sections §… |
+| Master plan | [01-<slug>-master-plan](01-<slug>-master-plan.md) |
+| Component | [<name>](<component card link>) |
+| Type | delivery · discovery |
+| Status | draft · ready · in-progress · blocked · done · abandoned |
 | Revision | rev 0 |
-| Status | draft |
-| ADR | ADR-NNN-slug (Accepted) |
-| Requirement | REQ-YYYYMMDD-slug (optional) |
+| Executor | <model tier / person> · Autonomy: attended · unattended |
 
-## Goal
+> **Executor rules**
+> 1. Read §1–§6, then one task at a time, in the order of §8.
+> 2. Edit only the files listed in the task. Never change §1–§6.
+> 3. After each step, run `Run` and compare with `Expect`. Paste the decisive output line into §10.
+> 4. **Stop** when the output is not `Expect`, a file outside the list must change, the code
+>    contradicts the plan or the ADR, or anything is unclear. Add a question to §6 and report.
+>    Never guess. Outside these cases, continue without asking.
+> 5. Never delete or weaken a test or an AC. End each session clean and update Handoff.
 
-One paragraph. Link the ADR.
+## 1. Goal
 
-## Applicable invariants (must not be violated)
+<One sentence: the observable result.>
 
-List the invariant IDs (`NNN-In`) from the related ADRs that this plan touches, plus
-project-wide rules from `AGENTS.md` if needed. If finishing a task would violate one,
-**STOP and ask the engineer**.
+Demo: `cwd: <dir>` `$ <command>` → `<expected>`
 
-| ID | How it applies in this plan | Checked by (command / test) |
-| --- | --- | --- |
-| NNN-In | … | … |
+## 2. Scope
 
-## Executor brief (for a smaller model that has never seen the repo)
+- **In:** …
+- **Out:** … (name the tempting adjacent work)
+- **Do not touch:** `<paths>`
+- **Keep working** (existing behavior → guard): … → `<test>`
 
-Reading only this plan plus the files it points to must be enough to do the work.
+## 3. Context
 
-- **Context:** the relevant current system (full file paths, key functions/types), with
-  terms explained in plain words.
-- **Fixed interfaces:** names of types, functions and fields; the executor must not change them.
-- **Per task:** files that may be edited; command + working directory; what correct output
-  looks like; common wrong outputs and how to recognize them.
-- **Stop and ask when:** a test fails differently than expected; a file outside the list
-  must change; a schema/boundary/dependency change is needed; the plan contradicts the
-  code; an invariant would be violated.
-- **Do not invent:** where the plan lacks information write `[NEEDS CLARIFICATION: …]` in
-  the log and stop that task.
-- **Safe re-run:** which steps are idempotent; how to undo if something breaks.
-
-## Execution log (update after each task)
-
-- **Progress:** `- [x] T1 (YYYY-MM-DD HH:MM) — short result + command run`
-- **Surprises & discoveries:** anything unlike the plan, with evidence (output).
-- **Decision log:** decisions made during execution, reason, who decided.
-
-## TDD first
-
-Write the test before the code for every behavior change (including schema/contract):
-
-1. Write a test describing the expected behavior → it FAILS (red).
-2. Implement the minimum → it PASSES (green).
-3. Refactor while keeping it green.
-
-A reproducing test is a living acceptance criterion; do not delete it once the code works.
-
-## Acceptance criteria
-
-Measurable, all must PASS. Use EARS: `WHEN <condition> THEN <component> SHALL <measurable
-behavior>` (or `<component> SHALL ALWAYS …`). Each AC points to ≥ 1 test or command.
-
-- [ ] AC1: …
-- [ ] AC2: project checks pass with zero warnings (`<check command>`)
-- [ ] AC3: architecture/boundary checks have no violations (`<arch command>`)
-- [ ] AC4: end-to-end journey passes on every required platform
-- [ ] AC5: performance within budget
-- [ ] AC6: ADR is `Accepted`, docs updated
-
-## Task breakdown
-
-Drop phases that do not apply. Every task from Phase 1 on states an **Expected outcome**:
-the concrete state when done (which file/function exists, what a command prints).
-
-### Phase 0 — Test first (TDD red)
-
-When executing a task: write the behavior test, run it, and record the RED with the
-correct cause. During planning only describe the test; do not create or run it, and do
-not claim it failed.
-
-| ID | Title | Depends | Touches | Test | Exit criteria |
-| --- | --- | --- | --- | --- | --- |
-| T0.1 | Write test for feature/bug | none | `tests/...` | test name | test FAILS (red) |
-
-### Phase 1 — Schema / contract
-
-| ID | Title | Depends | Touches | Boundary | Verification | Exit criteria | Risk |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| T1 | … | T0.1 | `<schema path>` | no | `<schema check>` | schema valid | low |
-
-### Phase 2 — Core logic (TDD green)
-
-| ID | Title | Depends | Touches | Boundary | Verification | Exit criteria | Risk |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| T2 | … | T1 | `<module path>` | no | `<unit test command>` | T0.1 test PASSES | medium |
-
-### Phase 3 — Integration
-
-| ID | Title | Depends | Touches | Boundary | Verification | Exit criteria | Risk |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| T3 | … | T2 | `<adapter path>` | no | `<arch check>` | 0 violations | medium |
-
-### Phase 4 — UI (if any)
-
-| ID | Title | Depends | Touches | Boundary | Verification | Exit criteria | Risk |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| T4 | … | T3 | `<ui path>` | no | `<e2e command>` | journey passes | low |
-
-### Phase 5 — Regression and coverage
-
-| ID | Title | Depends | Touches | Boundary | Verification | Exit criteria | Risk |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| T5 | … | T4 | `tests/...` | no | `<test command>` | coverage as required | low |
-
-### Phase 6 — Docs
-
-| ID | Title | Depends | Touches | Boundary | Verification | Exit criteria | Risk |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| T6 | … | T5 | `.docs/...` | no | review | updated | low |
-
-## Dependency graph
+<2–3 sentences: where this component sits and what changes.>
 
 ```mermaid
+---
+title: <flow touched by this plan> (purpose - …)
+---
 flowchart LR
-  T0.1 --> T1 --> T2 --> T3 --> T4
-  T4 --> T5
-  T5 --> T6
+  A[…] --> B[…]
 ```
 
-## Ready gate and traceability
+| Read first (path : symbol) | Why |
+| --- | --- |
+| Component card of `<name>` | Role, interfaces, commands |
+| `…` | … |
 
-- [ ] The topic's ADR is Accepted (or N/A with a reason).
-- [ ] Approval matches the snapshot; REQ/AC/NFR/journey have not drifted.
-- [ ] Tasks have depends, RED/GREEN tests, exit criteria, risk and rollback.
-- [ ] No blockers; verification commands, platforms and prerequisites are clear.
+Example to follow: `path : symbol`. Glossary: *term*: meaning.
 
-| AC (ADR / REQ) | NFR / Journey (ADR) | Task | Test / command | Evidence on execution |
-| --- | --- | --- | --- | --- |
-| fill | fill | fill | fill | not-run |
+## 4. From the ADR (fixed)
 
-Status `ready` only when this checklist holds; `done` needs the execution results below.
+| ADR item | What it means for this plan |
+| --- | --- |
+| D-01 | … |
+| I-03 | … — checked by `<command>` |
 
-## Verification plan
+Interfaces (exact):
 
-| Layer | What it checks | Command (from repo root) | Correct output | Evidence goes to |
-| --- | --- | --- | --- | --- |
-| Unit | Logic of each function per AC | `<unit command>` | all pass, 0 failed | Execution log |
-| Property _(when the AC is an invariant)_ | Law holds for any input | property-test command | pass | Execution log |
-| Integration | Flow across modules/processes | `<integration command>` | pass, stable across n runs | Execution log |
-| Architecture | Boundaries + invariants | `<arch check>` | OK | Execution log |
-| Contract | Schema + fixtures | `<schema check>` | valid | Execution log |
-| Invariants | Each ID in the invariants table | command/test from that table | as in table | Execution log |
-| Review | Compare against ADR + invariants | skill `implementation-verification` | VER `passed` | `.docs/verifications/VER-*` |
+    Consumes: <signature / schema> (from plan NN, existing code or the contract file)
+    Produces: <signature / schema> (used by plan NN)
 
-## Verification checklist
+## 5. Acceptance
 
-Run before claiming "plan done". Each applicable item needs pass + evidence; N/A needs a
-reason; blocked/not-run items are never ticked.
+| ID | WHEN … THEN … SHALL … | Check |
+| --- | --- | --- |
+| AC-1 | … | `<command> <test>` |
+| AC-G | Project checks pass, 0 warnings; boundary check 0 violations | `<check>` · `<arch>` |
 
-### Code quality
-- [ ] format check, lint, typecheck/compile all pass with zero warnings (use the project's commands)
+Review focus (the most likely missed failures, most likely first):
 
-### Test
-- [ ] full test suite passes (all T0.1 tests PASS)
-- [ ] end-to-end tests pass (if UI touched)
-- [ ] TDD: test written first, FAILED before implementation, PASSED after
+1. <input/failure class> → expected behavior → covered by T…
 
-### Architecture & schema
-- [ ] boundary check has 0 violations
-- [ ] schema/contract check valid; generated code regenerated (if a schema changed)
+## 6. Clarity register
 
-### Non-functional (per NFRs in the ADR)
-- [ ] Security (secrets, permissions, egress)
-- [ ] Performance (benchmark within budget)
-- [ ] Scalability (load test if an NFR requires it)
-- [ ] Consistency (idempotency, conflict resolution if applicable)
-- [ ] HA / reliability (crash recovery, no data loss if applicable)
+| ID | Question | Type | Blocks | Resolution · evidence | Status |
+| --- | --- | --- | --- | --- | --- |
 
-### Cross-platform
-- [ ] Every required platform/architecture passes (or CI runner evidence)
+`ready` requires no `open` row (core/11).
 
-### Docs
-- [ ] ADR status `Accepted`
-- [ ] Developer guide updated (if needed); changelog entry
-- [ ] Revision unchanged; bump only when the engineer confirms
+## 7. Tasks
 
-## Risk register
+### T1 — <imperative title>
 
-| Risk | Level | Mitigation | Owner |
-| --- | --- | --- | --- |
-| … | high/medium/low | … | … |
+- **ADR:** D-01, I-03 · **AC:** AC-1 · **Depends:** — · **Freedom:** low · medium · high
+- **Files:** edit `path` (`symbol`) · create `path` · test `path`
+- **Consumes / Produces:** see §4 (or the exact signature)
+- **Steps:**
+  - [ ] Write test `<name>` asserting `<exact values>`.
+        Run `<cmd>` → fails with `<message>` because the behavior is missing.
+  - [ ] Implement `<signature>` in `path`. Approach: <one line>.
+  - [ ] Run `<cmd>` → `<expected pass line>`.
+- **Wrong if:** `<output>` → means … → stop.
+- **Undo:** `<command>`
+- **Done when:** <state on disk> and the check above passes.
 
-## Exit criteria (plan done)
+<!-- Task boundary: a reviewer could accept this task and reject the next one.
+     Freedom low = exact commands, no variation; high = goal + constraints only. -->
 
-- Every task T0..T6 is `done`; every AC is checked.
-- Every required check passes with evidence; N/A has a reason.
-- Project check + test commands pass; boundary and schema checks pass.
-- ADR is `Accepted`; docs updated.
-- Revision bumps only on the engineer's confirmation and is not a done condition.
+## 8. Order
 
-## Approval and evidence snapshot
+```mermaid
+---
+title: Task order (purpose - dependencies and parallel tasks)
+---
+flowchart LR
+  T1 --> T2
+  T1 --> T3
+```
 
-- Approval: none yet; fill only when the engineer confirms this exact content.
-- Who / when / message reference: none yet.
-- Applies to: artifact + revision + commit or snapshot hash.
-- Unapproved changes: `(draft): …`; downstream needs re-review if scope/AC/NFR changes.
+Tasks that share no file and have no dependency on each other may run in parallel.
+
+## 9. Risks
+
+| Risk | Signal | Mitigation / rollback |
+| --- | --- | --- |
+
+## 10. Execution log
+
+- **Baseline** (before T1): `$ <check>` → `<result>`
+- **Progress:** `- [x] T1 (YYYY-MM-DD HH:MM) — <result> · <cmd> → <line>`
+- **Surprises:** … with evidence
+- **Decisions / proposals:** … (proposals that touch §1–§6 wait for the planner)
+- **Handoff:** last done · next step · blockers · workspace clean?
+
+## 11. Outcome
+
+Demo result · AC result (link the verification report) · what the plan missed →
+feedback for this template.
+
+## 12. Ready gate (planner self-review)
+
+- [ ] Every ADR item in §4 maps to a task; every task cites an ADR item and an AC.
+- [ ] Each step allows exactly one reasonable action; no banned vague word (core/06 §7).
+- [ ] Names and signatures match across tasks, §4 and the ADR.
+- [ ] Every Review focus item has a test in some task.
+- [ ] Every path exists (or is marked create); every command has a cwd and an expected output.
+- [ ] §6 has no open question; the plan covers one component and one outcome.
+- [ ] Builder check: a fresh subagent reading only this file restates T1 correctly, and
+      its questions (if any) are answered in one round.
+
+Approved by · when · reference · revision + hash.
 
 ## Revision history
 
-- rev 0: created (YYYY-MM-DD)
+- rev 0: created.
