@@ -12,7 +12,7 @@ Activate this skill when reviewing code, conducting PR assessments, or auditing 
 ## PROTOCOL
 
 1. **SOLID & Clean Architecture Review**:
-   - Check Single Responsibility: Are there functions over 30 lines or classes over 300 lines doing multiple jobs?
+   - Check Single Responsibility: Are there functions over 30 lines, or files holding several modules/classes/components? Run `.agents/tools/check-modularity.sh --all` and list offenders. For hotspots rank by size × recent churn: `git log --since=6.months --name-only --format= | sort | uniq -c | sort -rn | head -20`. Remediate with skill `split-module`.
    - Check Clean Boundaries: Does the Domain layer import external libraries, HTTP frameworks, or ORMs? (If yes, flag as boundary violation).
    - Check Dependency Inversion: Are database clients or network services instantiated directly inside business entities instead of being injected?
 

@@ -23,6 +23,8 @@ flowchart TD
    - Run the project's linter and code formatter (e.g., `eslint`, `biome`, `cargo clippy`, `ruff`, `golangci-lint`).
    - Fix all warnings and errors. Zero warnings tolerated.
 
+   - Run `.agents/tools/check-modularity.sh` (`12-modularity`). A block is a failure: split, never raise a limit.
+
 2. **Step 2: Type Checking & Compilation**:
    - Run the compiler or strict typechecker (e.g., `tsc --noEmit`, `cargo check`, `pyright`, `go vet`).
    - Ensure all type contracts match.
