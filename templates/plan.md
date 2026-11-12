@@ -95,6 +95,7 @@ Review focus (the most likely missed failures, most likely first):
 
 - **ADR:** D-01, I-03 · **AC:** AC-1 · **Depends:** — · **Freedom:** low · medium · high
 - **Files:** edit `path` (`symbol`) · create `path` · test `path`
+- **File responsibility:** one line per created or edited file; a new concept gets a new file (`core/12-modularity`).
 - **Consumes / Produces:** see §4 (or the exact signature)
 - **Steps:**
   - [ ] Write test `<name>` asserting `<exact values>`.
@@ -145,6 +146,7 @@ feedback for this template.
 - [ ] Each step allows exactly one reasonable action; no banned vague word (core/06 §7).
 - [ ] Names and signatures match across tasks, §4 and the ADR.
 - [ ] Every Review focus item has a test in some task.
+- [ ] Each new concept has its own file; no task adds a second responsibility to an existing file or grows a file over its limit.
 - [ ] Every path exists (or is marked create); every command has a cwd and an expected output.
 - [ ] §6 has no open question; the plan covers one component and one outcome.
 - [ ] Builder check: a fresh subagent reading only this file restates T1 correctly, and

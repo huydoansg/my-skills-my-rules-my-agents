@@ -7,6 +7,15 @@ Keep a Changelog; **Breaking** entries list the migration.
 
 ### Added
 
+- `core/12-modularity`: one responsibility per file, no several modules in one file, thin
+  `main`, ratchet for over-limit files, limits by file kind.
+- `tools/check-modularity.sh`: agent-independent (POSIX sh) check of lines, top-level types
+  and functions; baseline ratchet (`--init`, `--shrink`); silent when clean. `limits.default`,
+  `pre-commit-hook.sh`, `ci-example.yml`. `install.sh` installs them to `.agents/tools/`,
+  creates `.agents/limits` and a git pre-commit hook.
+- Skill `split-module`: split God files by responsibility without behavior change.
+- `plan.md` task field **File responsibility** and ready-gate item; code-auditor hotspot check.
+
 - `core/11-clarity-first`: clear → act; ambiguous → resolve until clear; never guess.
 - `core/06` §7 Precision: banned vague words, one term per concept.
 - Templates `master-plan.md` and `component.md`; `plan.md` rewritten as one component,
@@ -18,6 +27,7 @@ Keep a Changelog; **Breaking** entries list the migration.
 
 ### Changed
 
+- `core/01` file-size rule now points to `core/12`; `core/03` verification loop runs the check.
 - `core/08`: rules and skills use artifact names; paths come from a **Docs layout** table
   in each project's `AGENTS.md`.
 - `core/07`: bugfix evidence lives in chat, the fix commit/PR body and a regression test.

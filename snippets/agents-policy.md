@@ -38,6 +38,11 @@
   in `CHANGELOG.md`; tags and publishes need explicit authorization
   ([`sdk-library`](.agents/rules/conventions/sdk-library.md), skills `sdk-api-evolution`,
   `sdk-release`).
+- **One responsibility per file.** Never put several modules, classes or components in one
+  file; a new concept gets a new file; `main` stays thin; a file over its limit may not grow.
+  Run `.agents/tools/check-modularity.sh` before reporting done; on a block, split with skill
+  `split-module`, never raise a limit or edit the baseline
+  ([`12-modularity`](.agents/rules/12-modularity.md)).
 - **Governance first.** Read [`07-workflow-governance`](.agents/rules/07-workflow-governance.md)
   before any workflow skill.
 
@@ -47,6 +52,7 @@
 | Master plan + plans | `implementation-planning` | Plans folder (Docs layout) |
 | Bug / crash / regression | `investigate-bugfix` | Regression test + fix commit/PR body |
 | Verify implementation / fix | `implementation-verification` | ADR docs folder, or PR evidence |
+| File too big / mixed responsibilities | `split-module` | Single-responsibility files, same behavior |
 
 Flow: [`.agents/workflow.md`](.agents/workflow.md). Project-specific sections (commands,
 architecture boundaries, conventions, **Docs layout**) belong in this file above this block.

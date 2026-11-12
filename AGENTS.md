@@ -20,6 +20,7 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Language & Communication**: [`core/09-language-and-communication.md`](core/09-language-and-communication.md)
 - **Visual Communication (diagram encoding, palette, legend, emphasis)**: [`core/10-visual-communication.md`](core/10-visual-communication.md)
 - **Clarity First (no ambiguity at any stage)**: [`core/11-clarity-first.md`](core/11-clarity-first.md)
+- **Modularity (one responsibility per file, enforced by script)**: [`core/12-modularity.md`](core/12-modularity.md)
 - **Workflow (chat → ADR → plans → implement → verify)**: [`workflow/workflow.md`](workflow/workflow.md)
 
 ### Specialized Tech Stack Conventions
@@ -53,6 +54,7 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **PostgreSQL Tuner**: [`skills/postgres-tuner/SKILL.md`](skills/postgres-tuner/SKILL.md)
 - **Desktop App Hardening**: [`skills/desktop-app-hardening/SKILL.md`](skills/desktop-app-hardening/SKILL.md)
 - **Code Auditor**: [`skills/code-auditor/SKILL.md`](skills/code-auditor/SKILL.md)
+- **Split Module (God file → single-responsibility files)**: [`skills/split-module/SKILL.md`](skills/split-module/SKILL.md)
 
 ### Production Templates
 - **Architecture Spec (arc42 + C4)**: [`templates/architecture-spec.md`](templates/architecture-spec.md)
@@ -76,6 +78,7 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 7. **Language**: Chat in the engineer's language; all written documents in English (see `core/09-language-and-communication.md`).
 8. **SDKs & Libraries**: Establish the SDK profile (internal/public, kind) first. Never break consumers silently. Classify every public-surface change with SemVer, prefer expand → migrate → contract, record it in `CHANGELOG.md`, and never tag or publish without explicit authorization (see `conventions/sdk-library/conventions.md`).
 9. **Visual Communication**: Draw only when a picture is clearer; one visual channel = one meaning, standard palette, legend, at most 3 highlights; emphasis via bold, italic, ~~old~~ → <ins>new</ins> and lists (see `core/10-visual-communication.md`).
+11. **Modularity**: one responsibility per file; never several modules in one file; new module → new file; thin `main`; over-limit files may not grow. Enforced by `tools/check-modularity.sh` (git pre-commit + CI), not by memory (see `core/12-modularity.md`).
 10. **Clarity First**: Clear → act. Ambiguous → brainstorm, research or investigate until it is clear; if it cannot be resolved in scope, stop and ask. Never guess, never document or implement an unresolved point (see `core/11-clarity-first.md`).
 
 Full policy block installed into target projects: [`snippets/agents-policy.md`](snippets/agents-policy.md).
