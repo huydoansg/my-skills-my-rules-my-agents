@@ -8,14 +8,14 @@
 # `symbols` bounds top-level type declarations and top-level functions per file: this is
 # the guard against several modules sharing one file (Single Responsibility).
 
-exempt  */node_modules/*,*/vendor/*,*/dist/*,*/build/*,*/target/*,*/.git/*   third-party or build output
+exempt  node_modules/*,vendor/*,dist/*,build/*,target/*,*/node_modules/*,*/vendor/*,*/dist/*,*/build/*,*/target/*   third-party or build output
 exempt  *.lock,*lock.json,*.min.*,*.map,*.snap                                  generated artifact
 exempt  *.generated.*,*.gen.*,*.pb.go,*_pb2.py,*_pb2_grpc.py,*.g.dart           generated code
-exempt  */migrations/*,*/fixtures/*,*/testdata/*                                data, not logic
+exempt  migrations/*,fixtures/*,testdata/*,*/migrations/*,*/fixtures/*,*/testdata/*   data, not logic
 exempt  *.md,*.json,*.yaml,*.yml,*.toml,*.csv,*.tsv,*.txt,*.svg,*.xml,*.ini     documents and data
 
 limit   main.*,*/main.*,__main__.py,*/__main__.py,Main.*,*/Main.*  100 200
-limit   *test*,*spec*,*/tests/*,*/__tests__/*                       500 800
+limit   *test*,*spec*,tests/*,*/tests/*,__tests__/*,*/__tests__/*     500 800
 limit   *                                                           300 500
 
 symbols 3 5 15 25

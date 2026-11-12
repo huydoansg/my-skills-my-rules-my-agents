@@ -14,6 +14,7 @@ Keep a Changelog; **Breaking** entries list the migration.
   `pre-commit-hook.sh`, `ci-example.yml`. `install.sh` installs them to `.agents/tools/`,
   creates `.agents/limits` and a git pre-commit hook.
 - Skill `split-module`: split God files by responsibility without behavior change.
+- `tests/check-modularity.test.sh`: regression tests for the check (kit only, not installed).
 - `plan.md` task field **File responsibility** and ready-gate item; code-auditor hotspot check.
 
 - `core/11-clarity-first`: clear → act; ambiguous → resolve until clear; never guess.

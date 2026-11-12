@@ -214,15 +214,11 @@ echo "  ✓ Templates installed (architecture-spec, adr, master-plan, plan, comp
 # 4a. Install modularity tooling (agent-independent) and the git pre-commit hook
 echo "📦 Installing modularity tools..."
 mkdir -p "$AGENTS_TARGET/tools"
+# Always copied, even in symlink mode: CI and other clones run them from the project.
 for tool_file in "$SCRIPT_DIR"/tools/*; do
-  file_name=$(basename "$tool_file")
-  target_tool="$AGENTS_TARGET/tools/$file_name"
+  target_tool="$AGENTS_TARGET/tools/$(basename "$tool_file")"
   rm -f "$target_tool"
-  if [ "$MODE" = "symlink" ]; then
-    ln -s "$tool_file" "$target_tool"
-  else
-    cp "$tool_file" "$target_tool"
-  fi
+  cp "$tool_file" "$target_tool"
 done
 if [ ! -f "$AGENTS_TARGET/limits" ]; then
   cp "$SCRIPT_DIR/tools/limits.default" "$AGENTS_TARGET/limits"
@@ -230,15 +226,25 @@ if [ ! -f "$AGENTS_TARGET/limits" ]; then
 else
   echo "  • kept existing .agents/limits"
 fi
-if [ -d "$TARGET_DIR/.git" ]; then
-  HOOK="$TARGET_DIR/.git/hooks/pre-commit"
-  if [ ! -e "$HOOK" ]; then
-    mkdir -p "$TARGET_DIR/.git/hooks"
-    cp "$SCRIPT_DIR/tools/pre-commit-hook.sh" "$HOOK" && chmod +x "$HOOK"
-    echo "  ✓ Installed git pre-commit hook (check-modularity --staged)"
+HOOK_LINE=".agents/tools/check-modularity.sh --staged"
+if git -C "$TARGET_DIR" rev-parse --git-dir >/dev/null 2>&1; then
+  if [ -n "$(git -C "$TARGET_DIR" config --get core.hooksPath || true)" ]; then
+    echo "  ℹ️ core.hooksPath is set (husky, lefthook, ...): add to its pre-commit: $HOOK_LINE"
   else
-    echo "  ℹ️ pre-commit hook exists; add this line to it: .agents/tools/check-modularity.sh --staged"
+    HOOK_DIR=$(cd "$TARGET_DIR" && git rev-parse --path-format=absolute --git-path hooks 2>/dev/null \
+      || (cd "$TARGET_DIR" && cd "$(git rev-parse --git-path hooks)" 2>/dev/null && pwd) || true)
+    if [ -z "$HOOK_DIR" ]; then
+      echo "  ⚠️ Could not locate the git hooks folder; add to your pre-commit: $HOOK_LINE"
+    elif [ ! -e "$HOOK_DIR/pre-commit" ]; then
+      mkdir -p "$HOOK_DIR"
+      cp "$SCRIPT_DIR/tools/pre-commit-hook.sh" "$HOOK_DIR/pre-commit" && chmod +x "$HOOK_DIR/pre-commit"
+      echo "  ✓ Installed git pre-commit hook (check-modularity --staged)"
+    else
+      echo "  ℹ️ pre-commit hook exists; add this line to it: $HOOK_LINE"
+    fi
   fi
+else
+  echo "  ℹ️ Not a git repo: no hook installed. Later add to pre-commit: $HOOK_LINE"
 fi
 echo "  ℹ️ Existing project? Run once: .agents/tools/check-modularity.sh --init  (baseline of current offenders), then commit .agents/size-baseline"
 echo "  ℹ️ CI: see .agents/tools/ci-example.yml"
