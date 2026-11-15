@@ -138,7 +138,7 @@ AGENTS_TARGET="$TARGET_DIR/.agents"
 mkdir -p "$AGENTS_TARGET/rules" "$AGENTS_TARGET/skills" "$AGENTS_TARGET/templates"
 
 # Remove symlinks left dangling by rules/skills/templates that no longer exist in this repo
-find "$AGENTS_TARGET/rules" "$AGENTS_TARGET/skills" "$AGENTS_TARGET/templates" \
+find "$AGENTS_TARGET/rules" "$AGENTS_TARGET/skills" "$AGENTS_TARGET/templates" "$AGENTS_TARGET/tools" \
   -maxdepth 2 -type l ! -exec test -e {} \; -exec rm -f {} \; 2>/dev/null || true
 
 # 1. Install Core Rules
@@ -153,7 +153,7 @@ for core_file in "$SCRIPT_DIR"/core/*.md; do
     cp "$core_file" "$target_file"
   fi
 done
-echo "  ✓ Core rules installed (00 to 11)"
+echo "  ✓ Core rules installed (00 to 12)"
 
 # 2. Install Conventions
 if [ -z "$STACKS" ] || [ "$STACKS" = "all" ]; then
@@ -211,6 +211,44 @@ for tpl_file in "$SCRIPT_DIR"/templates/*.md; do
 done
 echo "  ✓ Templates installed (architecture-spec, adr, master-plan, plan, component, verification, pr, postmortem, changelog, release-notes, migration-guide, sdk-versioning-policy)"
 
+# 4a. Install modularity tooling (agent-independent) and the git pre-commit hook
+echo "📦 Installing modularity tools..."
+mkdir -p "$AGENTS_TARGET/tools"
+# Always copied, even in symlink mode: CI and other clones run them from the project.
+for tool_file in "$SCRIPT_DIR"/tools/*; do
+  target_tool="$AGENTS_TARGET/tools/$(basename "$tool_file")"
+  rm -f "$target_tool"
+  cp "$tool_file" "$target_tool"
+done
+if [ ! -f "$AGENTS_TARGET/limits" ]; then
+  cp "$SCRIPT_DIR/tools/limits.default" "$AGENTS_TARGET/limits"
+  echo "  ✓ Created .agents/limits (tune per project; exemptions need a reason)"
+else
+  echo "  • kept existing .agents/limits"
+fi
+HOOK_LINE=".agents/tools/check-modularity.sh --staged"
+if git -C "$TARGET_DIR" rev-parse --git-dir >/dev/null 2>&1; then
+  if [ -n "$(git -C "$TARGET_DIR" config --get core.hooksPath || true)" ]; then
+    echo "  ℹ️ core.hooksPath is set (husky, lefthook, ...): add to its pre-commit: $HOOK_LINE"
+  else
+    HOOK_DIR=$(cd "$TARGET_DIR" && git rev-parse --path-format=absolute --git-path hooks 2>/dev/null \
+      || (cd "$TARGET_DIR" && cd "$(git rev-parse --git-path hooks)" 2>/dev/null && pwd) || true)
+    if [ -z "$HOOK_DIR" ]; then
+      echo "  ⚠️ Could not locate the git hooks folder; add to your pre-commit: $HOOK_LINE"
+    elif [ ! -e "$HOOK_DIR/pre-commit" ]; then
+      mkdir -p "$HOOK_DIR"
+      cp "$SCRIPT_DIR/tools/pre-commit-hook.sh" "$HOOK_DIR/pre-commit" && chmod +x "$HOOK_DIR/pre-commit"
+      echo "  ✓ Installed git pre-commit hook (check-modularity --staged)"
+    else
+      echo "  ℹ️ pre-commit hook exists; add this line to it: $HOOK_LINE"
+    fi
+  fi
+else
+  echo "  ℹ️ Not a git repo: no hook installed. Later add to pre-commit: $HOOK_LINE"
+fi
+echo "  ℹ️ Existing project? Run once: .agents/tools/check-modularity.sh --init  (baseline of current offenders), then commit .agents/size-baseline"
+echo "  ℹ️ CI: see .agents/tools/ci-example.yml"
+
 # 4b. Install workflow description (skills and rules refer to .agents/workflow.md)
 workflow_target="$AGENTS_TARGET/workflow.md"
 rm -f "$workflow_target"
@@ -258,6 +296,7 @@ This repository is augmented with foundational enterprise rules and on-demand sk
   - [`06-technical-writing-and-evidence-grounding`](.agents/rules/06-technical-writing-and-evidence-grounding.md) — Anti-wall-of-text, tables & anti-hallucination
   - [`10-visual-communication`](.agents/rules/10-visual-communication.md) — Diagram encoding, palette, legend & text emphasis
   - [`11-clarity-first`](.agents/rules/11-clarity-first.md) — Clear → act; ambiguous → resolve until clear; never guess
+  - [`12-modularity`](.agents/rules/12-modularity.md) — One responsibility per file; enforced by `.agents/tools/check-modularity.sh`
 - **On-Demand Skills**:
   - [`arch-designer`](.agents/skills/arch-designer/SKILL.md) — System design workflow with 9 pillars & C4 diagrams
   - [`tech-writer`](.agents/skills/tech-writer/SKILL.md) — High-signal technical documentation & diagram crafting
@@ -265,6 +304,7 @@ This repository is augmented with foundational enterprise rules and on-demand sk
   - [`desktop-app-hardening`](.agents/skills/desktop-app-hardening/SKILL.md) — Desktop app security auditing (Electron & Tauri)
   - [`rust-optimizer`](.agents/skills/rust-optimizer/SKILL.md) — Rust performance profiling & safety auditing
   - [`code-auditor`](.agents/skills/code-auditor/SKILL.md) — Full codebase audit against SOLID, DRY & OWASP
+  - [`split-module`](.agents/skills/split-module/SKILL.md) — Split God files into single-responsibility files safely
 EOF
     echo "  ✓ Appended Enterprise Directives to AGENTS.md"
   else

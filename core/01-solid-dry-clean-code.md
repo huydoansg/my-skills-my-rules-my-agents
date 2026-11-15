@@ -6,7 +6,7 @@
 - A function, class, or module must have one, and only one, reason to change.
 - **Rule of Thumb**:
   - Functions: Maximum 25-30 lines. Must do one thing well at a single level of abstraction.
-  - Source Files: Maximum 250-300 lines. If larger, decompose into cohesive submodules.
+  - Source Files: one responsibility per file; never several modules in one file; 300 lines warn / 500 block. Full rule and enforcement: `12-modularity`.
   - Never mix HTTP orchestration, business validation, and direct database queries in the same function.
 
 ### O — Open / Closed Principle (OCP)

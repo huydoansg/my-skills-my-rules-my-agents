@@ -181,6 +181,7 @@ flowchart LR
 | Principle | Rule | Defined in |
 |---|---|---|
 | **Clarity first** | Clear → act; ambiguous → brainstorm, research or investigate until clear; never guess | `core/11` |
+| **One responsibility per file** | Never several modules in one file; thin `main`; over-limit files may not grow; enforced by script (pre-commit + CI), not by memory | `core/12`, `tools/`, skill `split-module` |
 | **Chat first, document later** | No ADR/plan files while the design is still moving; saves tokens | `core/07` |
 | **Hard gates** | Feature = ADR `Accepted` + plan `ready`; bug fix = reproduction + root cause in chat, recorded in the PR, regression test | `core/07` |
 | **Evidence & status discipline** | Claims cite file/line or command output; status changes are proposed, then confirmed by the engineer | `core/07` |
@@ -230,9 +231,11 @@ flowchart LR
 ├── CLAUDE.md, .cursorrules   # -> AGENTS.md
 ├── .github/copilot-instructions.md
 ├── .agents/
-│   ├── rules/                # core/00-11 + conventions/<stack>.md
+│   ├── rules/                # core/00-12 + conventions/<stack>.md
 │   ├── skills/               # all skills
 │   ├── templates/            # adr, master-plan, plan, component, verification, ...
+│   ├── tools/                # check-modularity.sh (agent-independent), pre-commit hook, CI example
+│   ├── limits                # per-project modularity limits and exemptions (with reasons)
 │   └── workflow.md           # always installed
 └── (with --brain) README.md, architecture.md, roadmaps, decisions/, components/, references/
 ```
