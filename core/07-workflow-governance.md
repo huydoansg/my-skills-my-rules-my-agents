@@ -56,6 +56,17 @@ re-ask when scope and content are unchanged.
   specific content.
 - Every approval records who, when, a message/commit reference if any, and the artifact
   + revision + snapshot (commit or content hash). Never invent a message ID.
+- **Approval record format** (one format, so a script can check it):
+
+  | Where | Format |
+  | --- | --- |
+  | Property table (ADR, master plan, plan) | `Approved by · <who> · YYYY-MM-DD · "<the engineer's words, verbatim>" or <link> · rev N · <commit or content hash>` |
+  | YAML frontmatter (projects that use it) | `approval: {date: YYYY-MM-DD, ref: "<verbatim quote or link>"}` |
+
+  Engineer-confirmed statuses that need the record: ADR `Accepted`, `Rejected`,
+  `Superseded`; master plan approval, `done`; plan `ready`, `done`; initiative
+  `in-progress`, `done`, `parked`, `dropped`. A confirmed status without its record is
+  invalid; the `ref` quotes the engineer as written, never a paraphrase.
 - An old approval does not cover changed scope, AC, NFR, boundary or risk: return the
   artifact to draft and flag downstream artifacts for re-review. An ADR revision change
   returns its plans to `draft`.
@@ -95,6 +106,7 @@ change (propose, get confirmation, then write):
 | ADR `Accepted` | ADR index; architecture overview (affected section); technical roadmap (and product roadmap when a feature depends on it); other affected ADRs (mark `Superseded` if replaced); component cards if an interface changed; `AGENTS.md`/rules if a boundary or convention changed |
 | ADR `Rejected` / `Superseded` | ADR index; roadmaps; every document linking to it (including initiative cards) |
 | Master plan of an initiative's ADR `active` / `done` | Initiative card: propose `in-progress`, and `done` when every linked ADR is delivered; initiatives index and roadmap |
+| Initiative work that needs no technical decision (no ADR) starts / ends | Initiative card: propose `exploring → in-progress`, and `done` from the engineer's report with the card's *Outcome* filled; initiatives index and roadmap |
 | Plan `ready` | Master plan register; technical roadmap |
 | Plan `done` | Master plan register; technical roadmap; product roadmap when a milestone completes; architecture overview if the implementation differs from the ADR; ADR follow-ups |
 
@@ -187,6 +199,8 @@ brief asks is a defect of the same weight as doing less.
 
 ## 8. Revision history
 
+- rev 0 (draft): §3 approval record format and the statuses that need it; §5 initiatives
+  without ADRs.
 - rev 0 (draft): initiatives: §1 stage row, §4 scope, §5 sync events (→ `planning` adds the
   ADR to the technical roadmap, and the product roadmap for type `product`).
 - rev 0 (draft): §5.1 content-change propagation and consistency check; §7 fit to the need

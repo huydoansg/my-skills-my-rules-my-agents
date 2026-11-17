@@ -23,6 +23,19 @@ Keep a Changelog; **Breaking** entries list the migration.
   - `core/06` §8: documents are one complete version (no patches, no Q&A), one topic per
     document, split instead of compress, self-contained (no links to agent-only files).
   - `core/09` rule 9: explain the fundamentals before asking the engineer to decide.
+- **Product Brain operations:**
+  - Skills `brain-sync` (event sync from governance §5, component Current/Target state,
+    checks, staleness scan, one proposal table) and `research` (level by what it serves,
+    search first, chat first, explainer before options).
+  - `component.md`: *Current state* (implemented, cited from code) and *Target state*
+    (one bullet per Accepted ADR, moved on delivery).
+  - `core/07` §3: one approval record format (property table and YAML frontmatter) and the
+    statuses that need it; ADR, master plan and plan templates use it.
+  - `snippets/claude-settings.json`: optional Claude Code permissions (read-only allowed;
+    asks before commit, push, reset, delete; denies `.env` secrets, keeps `.env.example`
+    readable); setup step 7 in `guides/product-brain.md`.
+  - Initiatives without ADRs: work that needs no technical decision moves `exploring →
+    in-progress → done` on the engineer's report; the card gets an *Outcome* section.
 
 - **Initiatives**: an idea the engineer wants to keep (product or technology) gets a folder
   `NNN-DDMMYYYY-slug/` (card `README.md`, `context.md`, `.researchs/`), an index and one
@@ -76,6 +89,9 @@ Keep a Changelog; **Breaking** entries list the migration.
 
 ### Changed
 
+- Initiative ↔ ADR: an initiative has 0..n ADRs, an ADR serves 0 or 1 initiative (was: one
+  ADR may serve several initiatives), matching the single `Initiative` property of the ADR.
+- `install.sh` Enterprise block lists `13-architecture-docs`.
 - `templates/adr.md`: §1 Problem (challenge · impact · technical cause), §2 goals/non-goals,
   §5 rebuilt as 5.1 solution strategy · 5.2 building block view · 5.3 principles per module
   · 5.4 context and team integration · 5.5 runtime · 5.6 data · 5.7 crosscutting ·

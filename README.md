@@ -44,7 +44,8 @@ my-skills-my-rules-my-agents/
 │   └── workflow.md                        # chat -> ADR -> master plan + plans -> implement -> verify
 │
 ├── snippets/
-│   └── agents-policy.md                   # Policy block appended to a project's existing AGENTS.md
+│   ├── agents-policy.md                   # Policy block appended to a project's existing AGENTS.md
+│   └── claude-settings.json               # Optional Claude Code permissions (read-only allowed, asks before push/delete)
 │
 ├── conventions/                           # Deep, stack-specific conventions
 │   ├── aws/conventions.md                 # Well-Architected, IAM least privilege, CDK/Terraform
@@ -67,6 +68,8 @@ my-skills-my-rules-my-agents/
 │   ├── implementation-planning/SKILL.md   # Accepted ADR -> master plan + per-component plans
 │   ├── investigate-bugfix/SKILL.md        # Reproduce -> root cause in chat -> TDD fix, evidence in PR
 │   ├── implementation-verification/SKILL.md # Evidence-based VER report, status proposals
+│   ├── research/SKILL.md                  # Grounded research, chat first, saved at the right level
+│   ├── brain-sync/SKILL.md                # Sync indexes, roadmaps, component Current/Target state after status changes
 │   ├── sdk-api-evolution/SKILL.md         # Change a public API without breaking consumers
 │   ├── sdk-release/SKILL.md               # SemVer bump, changelog, release notes, migration guide
 │   ├── arch-designer/SKILL.md             # System design workflow with 9 pillars & C4 diagrams

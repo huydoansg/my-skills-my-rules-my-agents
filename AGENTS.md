@@ -45,6 +45,8 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Implementation Planning**: [`skills/implementation-planning/SKILL.md`](skills/implementation-planning/SKILL.md)
 - **Investigate & Bugfix**: [`skills/investigate-bugfix/SKILL.md`](skills/investigate-bugfix/SKILL.md)
 - **Implementation Verification**: [`skills/implementation-verification/SKILL.md`](skills/implementation-verification/SKILL.md)
+- **Research (grounded, chat first, saved at the right level)**: [`skills/research/SKILL.md`](skills/research/SKILL.md)
+- **Brain Sync (indexes, roadmaps, component Current/Target state)**: [`skills/brain-sync/SKILL.md`](skills/brain-sync/SKILL.md)
 - **SDK API Evolution (backward-compatible changes)**: [`skills/sdk-api-evolution/SKILL.md`](skills/sdk-api-evolution/SKILL.md)
 - **SDK Release (SemVer bump, changelog, release notes, migration guide)**: [`skills/sdk-release/SKILL.md`](skills/sdk-release/SKILL.md)
 - **Architecture Designer**: [`skills/arch-designer/SKILL.md`](skills/arch-designer/SKILL.md)

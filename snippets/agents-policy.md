@@ -71,11 +71,13 @@
 | Stage | Skill | Output |
 | --- | --- | --- |
 | Capture / grow an idea | `initiative-shaping` | Initiative folder, initiatives roadmap (Docs layout) |
+| Evidence for an idea or a decision | `research` | Chat; saved to the initiative or ADR research folder when asked |
 | Research + design → ADR | `architecture-design` | ADR folder (Docs layout) |
 | Master plan + plans | `implementation-planning` | Plans folder (Docs layout) |
 | Bug / crash / regression | `investigate-bugfix` | Regression test + fix commit/PR body |
 | Verify implementation / fix | `implementation-verification` | ADR docs folder, or PR evidence |
 | File too big / mixed responsibilities | `split-module` | Single-responsibility files, same behavior |
+| After status changes / end of session | `brain-sync` | Indexes, roadmaps, component Current/Target state, one proposal table |
 
 Flow: [`.agents/workflow.md`](.agents/workflow.md). Project-specific sections (commands,
 architecture boundaries, conventions, **Docs layout**) belong in this file above this block.

@@ -138,7 +138,7 @@ Defined in the ADR or in `contract-<name>.md` in the ADR docs folder. This table
       plan or scope row that can be removed while §1 is still met.
 - [ ] Over-engineering review (governance §7) done by <reviewer>; every row decided by the engineer.
 
-Approved by · when · reference · revision + hash.
+Approved by · <who> · YYYY-MM-DD · "<the engineer's words, verbatim>" · rev N · <commit or content hash> (core/07 §3).
 
 ## Revision history
 

@@ -194,7 +194,7 @@ feedback for this template.
 - [ ] Removal check: a fresh agent reading the whole plan finds nothing that can be removed
       while the outcome and the behavior contract still hold.
 
-Approved by · when · reference · revision + hash.
+Approved by · <who> · YYYY-MM-DD · "<the engineer's words, verbatim>" · rev N · <commit or content hash> (core/07 §3).
 
 ## Revision history
 

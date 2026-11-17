@@ -14,7 +14,7 @@ Leave out a view that does not apply (say why in chat). Write in English (core/0
 | --- | --- |
 | Status | Proposed → Accepted / Rejected / Deprecated / Superseded by ADR-XXX |
 | Revision | rev 0 |
-| Approval snapshot | None yet: who / when / confirmed content |
+| Approval snapshot | None yet. Format (core/07 §3): `Approved by · <who> · YYYY-MM-DD · "<verbatim>" · rev N · <hash>` |
 | Date | YYYY-MM-DD |
 | Deciders | Engineer(s) |
 | Initiative | Initiative folder `NNN-DDMMYYYY-slug` this ADR serves (link), or `none` |

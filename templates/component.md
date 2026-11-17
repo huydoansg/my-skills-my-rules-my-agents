@@ -25,6 +25,17 @@ flowchart LR
 | --- | --- | --- |
 | … | provides · consumes | ADR-NNN §x or its `contract-<name>.md` |
 
+## Current state
+
+What runs today, cited from the code (`path:line`). Only facts that are implemented and
+verified; rewritten when an ADR is delivered so it stays true as a whole.
+
+## Target state
+
+What Accepted ADRs will change, one bullet per ADR: `ADR-NNN: <change>`. A bullet moves to
+*Current state* when its ADR is delivered, and is removed when its ADR is rejected or
+superseded (skill `brain-sync`).
+
 Commands (cwd: `<dir>`): build `…` · test `…` · run `…`
 
 Local conventions: … (only what differs from `.agents/rules/`)

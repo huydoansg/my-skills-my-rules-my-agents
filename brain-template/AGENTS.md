@@ -41,4 +41,9 @@ It holds documents only. Source code lives in the code repositories listed below
 - **Component names** in plan file names are folder names under `components/`.
 - **No PRD, business documents or source code** in this repository.
 - **Sync on every status change:** plan → master plan register → `technical-roadmap.md`
-  (→ `product-roadmap.md` when a milestone changes), in one change.
+  (→ `product-roadmap.md` when a milestone changes), in one change. An Accepted ADR adds to
+  the *Target state* of its component cards; a delivered ADR moves it to *Current state*.
+  Skill `brain-sync` does the sync and the staleness scan.
+- **Approval records:** every engineer-confirmed status carries
+  `Approved by · <who> · YYYY-MM-DD · "<verbatim>" · rev N · <hash>`
+  (`.agents/rules/07-workflow-governance.md` §3).
