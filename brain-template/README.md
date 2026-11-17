@@ -7,6 +7,7 @@ repositories link to it. It does **not** hold the PRD, business documents or sou
 | Path | Holds |
 | --- | --- |
 | [`architecture.md`](architecture.md) | System-level architecture overview |
+| [`initiatives/`](initiatives/README.md) | One folder per initiative (product or technology idea; may be ambiguous) and one shared [roadmap](initiatives/roadmap.md) |
 | [`product-roadmap.md`](product-roadmap.md) | Product milestones and features → the ADRs that deliver them |
 | [`technical-roadmap.md`](technical-roadmap.md) | ADRs in order, status, master plan links |
 | [`decisions/`](decisions/README.md) | One folder per ADR: the ADR, its research, contracts, plans, verification |
@@ -16,9 +17,10 @@ repositories link to it. It does **not** hold the PRD, business documents or sou
 
 ```mermaid
 ---
-title: How work flows through the brain (purpose - nothing is written before it is clear and settled)
+title: How work flows through the brain (purpose - only initiatives may be ambiguous; decisions are written when settled)
 ---
 flowchart LR
+  I[initiatives/NNN-DDMMYYYY-slug/] -.direction picked.-> C
   C[Chat: research, brainstorm] -->|settled| A[decisions/ADR-NNN-slug/]
   A -->|Accepted| M[.plans/01-slug-master-plan.md]
   M --> P[.plans/NN-component-slug.md]

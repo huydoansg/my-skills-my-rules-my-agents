@@ -11,7 +11,7 @@ Mermaid for flows and order (core/10). Delete every comment and unused row befor
 | Property | Value |
 | --- | --- |
 | ADR | [ADR-NNN-slug](../ADR-NNN-slug.md) · rev N · `<hash>` · sections §… |
-| Master plan | [01-<slug>-master-plan](01-<slug>-master-plan.md) |
+| Master plan | [01-<slug>-master-plan](01-<slug>-master-plan.md) · rev N |
 | Component | [<name>](<component card link>) |
 | Type | delivery · discovery |
 | Status | draft · ready · in-progress · blocked · done · abandoned |
@@ -22,8 +22,9 @@ Mermaid for flows and order (core/10). Delete every comment and unused row befor
 > 1. Read §1–§6, then one task at a time, in the order of §8.
 > 2. Edit only the files listed in the task. Never change §1–§6.
 > 3. After each step, run `Run` and compare with `Expect`. Paste the decisive output line into §10.
-> 4. **Stop** when the output is not `Expect`, a file outside the list must change, the code
->    contradicts the plan or the ADR, or anything is unclear. Add a question to §6 and report.
+> 4. **Stop** when the output is not `Expect`, a file outside the list must change, a tool,
+>    harness, script or dependency that no task lists is needed, the code contradicts the
+>    plan or the ADR, or anything is unclear. Add a question to §6 and report.
 >    Never guess. Outside these cases, continue without asking.
 > 5. Never delete or weaken a test or an AC. End each session clean and update Handoff.
 
@@ -59,12 +60,19 @@ flowchart LR
 
 Example to follow: `path : symbol`. Glossary: *term*: meaning.
 
-## 4. From the ADR (fixed)
+## 4. From the ADR and master plan (fixed)
 
-| ADR item | What it means for this plan |
+Copied from the owner so this file can be executed alone. The owner wins on a conflict
+(governance §5.1).
+
+| Item | What it means for this plan |
 | --- | --- |
+| Intent | <goal and agreed approach, copied from master plan §1> |
+| Rejected | <approach> — do not use it, because <reason> |
+| S-01 | … |
 | D-01 | … |
 | I-03 | … — checked by `<command>` |
+| INV-001…INV-012 | <units this plan carries over; parity check per row in the master plan> |
 
 Interfaces (exact):
 
@@ -93,7 +101,9 @@ Review focus (the most likely missed failures, most likely first):
 
 ### T1 — <imperative title>
 
-- **ADR:** D-01, I-03 · **AC:** AC-1 · **Depends:** — · **Freedom:** low · medium · high
+- **Serves:** D-01, I-03, S-01 · **AC:** AC-1 · **Depends:** — · **Freedom:** low · medium · high
+- **Why:** <the need this task serves, one line>
+- **Do not:** <the tempting wrong approach or extra work for this task>
 - **Files:** edit `path` (`symbol`) · create `path` · test `path`
 - **File responsibility:** one line per created or edited file; a new concept gets a new file (`core/12-modularity`).
 - **Consumes / Produces:** see §4 (or the exact signature)
@@ -107,7 +117,14 @@ Review focus (the most likely missed failures, most likely first):
 - **Done when:** <state on disk> and the check above passes.
 
 <!-- Task boundary: a reviewer could accept this task and reject the next one.
-     Freedom low = exact commands, no variation; high = goal + constraints only. -->
+     Freedom low = exact commands, no variation; high = goal + constraints only.
+     An executor of a lower tier than the planner gets Freedom low on every task.
+     A task that builds a tool, harness, generator, script or adds a dependency also states:
+     the failure it detects, why the project's existing checks cannot detect it, a
+     size estimate, and where it lives: local → `.agents/tools/` or `.agents/scripts/`,
+     never committed; shared → a project folder (governance §7).
+     Repeated units (the same change on many endpoints or files): write the recipe once
+     on one unit, then a table `unit | file | test | expected`; no prose per unit. -->
 
 ## 8. Order
 
@@ -142,15 +159,20 @@ feedback for this template.
 
 ## 12. Ready gate (planner self-review)
 
-- [ ] Every ADR item in §4 maps to a task; every task cites an ADR item and an AC.
-- [ ] Each step allows exactly one reasonable action; no banned vague word (core/06 §7).
+- [ ] Every item in §4 maps to a task; every task cites a §4 item and an AC, and has Why and Do not.
+- [ ] Each step allows exactly one reasonable action; no banned vague word, no check verb
+      without a command, no scope word without a count or list (core/06 §7).
+- [ ] Consistency check (governance §5.1) reports no finding; the header pins the current
+      ADR and master plan revisions.
+- [ ] No task builds tooling beyond master plan §1 "Tooling needed"; no task uses a rejected approach.
 - [ ] Names and signatures match across tasks, §4 and the ADR.
 - [ ] Every Review focus item has a test in some task.
 - [ ] Each new concept has its own file; no task adds a second responsibility to an existing file or grows a file over its limit.
 - [ ] Every path exists (or is marked create); every command has a cwd and an expected output.
 - [ ] §6 has no open question; the plan covers one component and one outcome.
-- [ ] Builder check: a fresh subagent reading only this file restates T1 correctly, and
-      its questions (if any) are answered in one round.
+- [ ] Builder check: a fresh subagent on the executor's model tier, reading only this file,
+      restates the goal, T1 (files, command, expected output) and one Do not correctly;
+      its questions (if any) are answered in one round. Checked with: <model>.
 
 Approved by · when · reference · revision + hash.
 

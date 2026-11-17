@@ -60,6 +60,7 @@ my-skills-my-rules-my-agents/
 │   └── sdk-library/conventions.md         # SemVer, backward compatibility, deprecation, changelog & release docs
 │
 ├── skills/                                # On-demand workflows (Progressive Disclosure)
+│   ├── initiative-shaping/SKILL.md        # Idea -> initiative folder (may be ambiguous) -> ADR
 │   ├── architecture-design/SKILL.md       # Research + chat draft -> ADR (gated)
 │   ├── implementation-planning/SKILL.md   # Accepted ADR -> master plan + per-component plans
 │   ├── investigate-bugfix/SKILL.md        # Reproduce -> root cause in chat -> TDD fix, evidence in PR
@@ -82,6 +83,9 @@ my-skills-my-rules-my-agents/
     ├── master-plan.md                     # Controls all plans of one ADR (order, contracts, clarity)
     ├── plan.md                            # One component, one outcome; executor-ready task cards
     ├── component.md                       # Component card (components/<name>/README.md)
+    ├── initiative.md                      # Initiative card (initiatives/NNN-DDMMYYYY-slug/README.md)
+    ├── initiative-context.md              # Initiative context.md
+    ├── initiatives-roadmap.md             # One roadmap for all initiatives
     ├── verification.md                    # Verification report with evidence table
     ├── pr-description.md                  # Pull Request template with verification checklist
     ├── changelog.md                       # Keep a Changelog 2.0.0 skeleton with Breaking markers
@@ -183,12 +187,13 @@ flowchart LR
 | **Clarity first** | Clear → act; ambiguous → brainstorm, research or investigate until clear; never guess | `core/11` |
 | **One responsibility per file** | Never several modules in one file; thin `main`; over-limit files may not grow; enforced by script (pre-commit + CI), not by memory | `core/12`, `tools/`, skill `split-module` |
 | **Chat first, document later** | No ADR/plan files while the design is still moving; saves tokens | `core/07` |
+| **Initiatives** | An idea to keep (product or technology) lives in `NNN-DDMMYYYY-slug/`; may be ambiguous; one shared roadmap; links to ADRs, never a gate | `core/11` §6, skill `initiative-shaping` |
 | **Hard gates** | Feature = ADR `Accepted` + plan `ready`; bug fix = reproduction + root cause in chat, recorded in the PR, regression test | `core/07` |
 | **Evidence & status discipline** | Claims cite file/line or command output; status changes are proposed, then confirmed by the engineer | `core/07` |
 | **Language** | Chat in the engineer's language; every written document, comment and commit in English; slang is clarified, not translated | `core/09` |
 | **Layout** | Paths come from each project's Docs layout table; the Product Brain layout is the default | `core/08`, `guides/product-brain.md` |
 
-Skills: `architecture-design` → `implementation-planning`; `investigate-bugfix` for bugs; `implementation-verification` before claiming done. Details: [`workflow/workflow.md`](workflow/workflow.md).
+Skills: (`initiative-shaping` →) `architecture-design` → `implementation-planning`; `investigate-bugfix` for bugs; `implementation-verification` before claiming done. Details: [`workflow/workflow.md`](workflow/workflow.md).
 
 ---
 
@@ -237,7 +242,7 @@ flowchart LR
 │   ├── tools/                # check-modularity.sh (agent-independent), pre-commit hook, CI example
 │   ├── limits                # per-project modularity limits and exemptions (with reasons)
 │   └── workflow.md           # always installed
-└── (with --brain) README.md, architecture.md, roadmaps, decisions/, components/, references/
+└── (with --brain) README.md, architecture.md, roadmaps, initiatives/, decisions/, components/, references/
 ```
 
 Project-specific content (commands, architecture boundaries, ADR invariants, local conventions) stays in the project's own `AGENTS.md` and its Product Brain; this repository stays generic.

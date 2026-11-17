@@ -5,6 +5,7 @@ Applies to every stage: requirement, design/ADR, plan, implementation, verificat
 > [!IMPORTANT]
 > **Clear → act. Ambiguous → resolve until clear. Unresolvable in scope → stop and ask.**
 > Never guess. Never write down or implement a point that is still ambiguous.
+> Only exception: an initiative may record open, ambiguous ideas (§6); it never authorizes work.
 
 ## 1. Definition of clear
 
@@ -47,11 +48,34 @@ flowchart LR
 
 | Stage | Typical ambiguity | Leave the stage only when |
 | --- | --- | --- |
-| Requirement | Unbounded scope, adjectives without numbers | Intent restated and confirmed; non-goals listed |
+| Requirement | Unbounded scope, adjectives without numbers | Intent brief (§3.1) restated and confirmed; non-goals listed |
 | Design / ADR | Open options, NFR without thresholds | Every decision has a reason and an owner; NFRs have numbers |
 | Plan | Vague steps, missing path/command/expected output | Plan ready gate passes; no open question |
 | Implementation | Code differs from the plan or the ADR; unplanned case | Stop the task, log a question, return to the stage that owns it |
 | Verification | AC readable two ways; no check | Mark `blocked: ambiguous AC`; never `pass` |
+
+### 3.1 Intent brief
+
+Most wrong work comes from a wrong picture of the need, not from wrong code. Before any
+ADR, plan or fix, restate the need to the engineer with these fields:
+
+| Field | Content |
+| --- | --- |
+| Goal and users | The result, who uses it, why it is needed now |
+| Agreed approach | The direction and solution settled with the engineer in chat |
+| Rejected approaches | Each option that was discussed and dropped, with the reason |
+| Scope and non-goals | What is in; what is out, naming the tempting adjacent work |
+| Done measure | The commands, tests or observations that prove the goal is met |
+| Tooling needed | Each tool to build, its purpose and the done measure it serves; or `none` |
+
+- Length follows scope: there is no line limit, and no field is left out or padded.
+- Ask one question per message until the brief can be restated and the engineer confirms
+  it without a correction. A corrected brief is restated again.
+- Owner: the ADR (§2–§5) and the master plan §1 for planned work; the chat and the PR body
+  for a bugfix. Plans copy the lines they need with their IDs (`07` §5).
+- Read the brief again at the start of each session and after a context compaction.
+- Work that the brief does not ask for is out of scope, including checks and tooling
+  (`07` §7).
 
 ## 4. Clarity register
 
@@ -75,7 +99,27 @@ Large work hides ambiguity. Split before planning:
 - write a detailed plan only for work that is already clear; later plans stay one line in
   the master plan until they are clear.
 
-## 6. Revision history
+## 6. Exception: initiatives
+
+An **initiative** (`08-repo-layout-and-naming`) records an idea that is not yet clear: a
+product or technology idea the engineer wants to keep and grow. It is the one artifact
+where ambiguity may be written down.
+
+| Allowed in an initiative | Still forbidden |
+| --- | --- |
+| Vague directions, rough hypotheses, inconclusive research | Presenting a guess as a fact: unchecked statements are marked *Unverified* |
+| Open questions without a deadline | An unresolved point that is not listed under Open questions |
+| Creating the folder before the idea is settled, when the engineer asks to capture it | Implementing, planning or deciding from an initiative |
+
+- An initiative never authorizes work: the gate stays ADR `Accepted` + plan `ready` (`07` §2).
+- Crossing into an ADR: every open question that blocks that ADR is resolved in the
+  clarity loop (§2) first; the ADR restates what it needs and never cites the initiative
+  as a decision.
+- The exception covers the initiative folder only; every other stage keeps §1–§5.
+
+## 7. Revision history
 
 - rev 0: (draft) created: definition of clear, resolution by type, per-stage gates,
   clarity register, size rule.
+- rev 0 (draft): §3.1 intent brief (fields, confirmation, owner, re-read points).
+- rev 0 (draft): §6 initiative exception: ambiguity allowed in initiatives, never a gate.

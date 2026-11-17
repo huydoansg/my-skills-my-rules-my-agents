@@ -4,7 +4,7 @@ How to set up, structure and maintain a **Product Brain** with this kit.
 
 ## 1. What and why
 
-**Product Brain:** the technical source of truth for one product: decisions (ADRs),
+**Product Brain:** the technical source of truth for one product: initiatives, decisions (ADRs),
 architecture, roadmaps, components and references. It **excludes** the PRD, business
 documents and source code.
 
@@ -52,6 +52,10 @@ flowchart LR
 ├── architecture.md         # system-level overview
 ├── product-roadmap.md      # milestones/features → ADRs
 ├── technical-roadmap.md    # ADRs in order, status, master plans
+├── initiatives/
+│   ├── README.md           # initiatives index
+│   ├── roadmap.md          # one roadmap for all initiatives
+│   └── NNN-DDMMYYYY-slug/  # README.md (card), context.md, .researchs/
 ├── components/<name>/README.md
 ├── references/<subject>.md
 ├── decisions/
@@ -66,6 +70,7 @@ flowchart LR
 
 | Question | Answer |
 | --- | --- |
+| Where does an idea I want to keep go (not yet a decision)? | A new `initiatives/NNN-DDMMYYYY-slug/` folder; it may stay ambiguous and never authorizes work |
 | Where does a new technical decision go? | A new `decisions/ADR-NNN-slug/` folder, created only after the design is settled in chat |
 | Where does research go? | The `.researchs/` folder of the ADR it supports |
 | Where does an external document go? | `references/`, with source URL and access date |
@@ -79,13 +84,15 @@ flowchart LR
 
 | Item | Pattern |
 | --- | --- |
+| Initiative | `NNN-DDMMYYYY-slug` (NNN global, 3 digits, never reused; DDMMYYYY = creation date) |
 | ADR | `ADR-NNN-slug` (unique; check the index and the folder list) |
 | Master plan | `01-<slug>-master-plan.md` (one per ADR) |
 | Delivery plan | `NN-<component>-<slug>.md` (NN per ADR, from 02; `<component>` = folder under `components/`) |
 | Discovery plan | `NN-spike-<slug>.md`, `NN-research-<slug>.md` |
 | Contract, verification | `contract-<name>.md`, `verify-NN-<slug>.md` |
 
-Lowercase kebab-case, ASCII, no dates in file names, numbers never reused.
+Lowercase kebab-case, ASCII, no dates in file names (except the initiative creation date),
+numbers never reused.
 
 ### Lifecycle
 
@@ -109,12 +116,15 @@ flowchart LR
 
 | Event | Update |
 | --- | --- |
+| Initiative created / status or horizon changed | Card, `initiatives/README.md`, `initiatives/roadmap.md` |
+| First ADR for an initiative (→ `planning`) | Card ADR table, ADR `Initiative` property, `technical-roadmap.md`, `product-roadmap.md` for type `product`, initiatives index and roadmap |
 | ADR Accepted | `decisions/README.md`, `technical-roadmap.md`, `architecture.md`, affected component cards |
 | Plan ready / done | Master plan register, `technical-roadmap.md` (and `product-roadmap.md` when a milestone completes) |
 | Contract changed | The contract file, then every component card that links it |
 
 Rules behind these conventions: `core/07` (gates), `core/08` (Docs layout, naming),
-`core/11` (clarity first), skills `architecture-design` and `implementation-planning`.
+`core/11` (clarity first, §6 initiative exception), skills `initiative-shaping`,
+`architecture-design` and `implementation-planning`.
 
 ## 5. Linking a code repo
 
@@ -126,6 +136,9 @@ Add this section to the code repo's `AGENTS.md` (paths relative to the code repo
 | Artifact | Path |
 | --- | --- |
 | Product Brain root | `../acme-brain/` |
+| Initiatives index | `../acme-brain/initiatives/README.md` |
+| Initiatives roadmap | `../acme-brain/initiatives/roadmap.md` |
+| Initiative folder | `../acme-brain/initiatives/NNN-DDMMYYYY-slug/` |
 | ADR index | `../acme-brain/decisions/README.md` |
 | ADR folder | `../acme-brain/decisions/ADR-NNN-slug/` |
 | Research folder | `<ADR folder>/.researchs/` |
@@ -151,3 +164,4 @@ the same table instead; nothing has to move.
 ## Revision history
 
 - rev 0: (draft) created.
+- rev 0 (draft): initiatives folder, shared initiatives roadmap, sync rows.

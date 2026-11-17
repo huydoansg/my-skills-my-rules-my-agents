@@ -39,6 +39,7 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **SDK & Library (versioning, compatibility, release docs)**: [`conventions/sdk-library/conventions.md`](conventions/sdk-library/conventions.md)
 
 ### On-Demand Progressive Skills
+- **Initiative Shaping (idea → initiative → ADR)**: [`skills/initiative-shaping/SKILL.md`](skills/initiative-shaping/SKILL.md)
 - **Architecture Design → ADR**: [`skills/architecture-design/SKILL.md`](skills/architecture-design/SKILL.md)
 - **Implementation Planning**: [`skills/implementation-planning/SKILL.md`](skills/implementation-planning/SKILL.md)
 - **Investigate & Bugfix**: [`skills/investigate-bugfix/SKILL.md`](skills/investigate-bugfix/SKILL.md)
@@ -63,6 +64,7 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Blameless Postmortem**: [`templates/incident-postmortem.md`](templates/incident-postmortem.md)
 - **Master plan / Plan / Verification**: [`templates/master-plan.md`](templates/master-plan.md), [`templates/plan.md`](templates/plan.md), [`templates/verification.md`](templates/verification.md)
 - **Component card**: [`templates/component.md`](templates/component.md)
+- **Initiative card / context / shared roadmap**: [`templates/initiative.md`](templates/initiative.md), [`templates/initiative-context.md`](templates/initiative-context.md), [`templates/initiatives-roadmap.md`](templates/initiatives-roadmap.md)
 - **Product Brain** (technical source of truth of a product): [`guides/product-brain.md`](guides/product-brain.md), skeleton in [`brain-template/`](brain-template/README.md)
 - **SDK release docs**: [`templates/changelog.md`](templates/changelog.md), [`templates/release-notes.md`](templates/release-notes.md), [`templates/migration-guide.md`](templates/migration-guide.md), [`templates/sdk-versioning-policy.md`](templates/sdk-versioning-policy.md)
 

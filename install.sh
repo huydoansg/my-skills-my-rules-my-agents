@@ -209,7 +209,7 @@ for tpl_file in "$SCRIPT_DIR"/templates/*.md; do
     cp "$tpl_file" "$target_tpl"
   fi
 done
-echo "  ✓ Templates installed (architecture-spec, adr, master-plan, plan, component, verification, pr, postmortem, changelog, release-notes, migration-guide, sdk-versioning-policy)"
+echo "  ✓ Templates installed (architecture-spec, adr, master-plan, plan, component, initiative, initiative-context, initiatives-roadmap, verification, pr, postmortem, changelog, release-notes, migration-guide, sdk-versioning-policy)"
 
 # 4a. Install modularity tooling (agent-independent) and the git pre-commit hook
 echo "📦 Installing modularity tools..."
@@ -248,6 +248,22 @@ else
 fi
 echo "  ℹ️ Existing project? Run once: .agents/tools/check-modularity.sh --init  (baseline of current offenders), then commit .agents/size-baseline"
 echo "  ℹ️ CI: see .agents/tools/ci-example.yml"
+
+# 4a (cont.). Keep agent-made local tooling out of git (core/08 §1, core/07 §7)
+GITIGNORE="$TARGET_DIR/.gitignore"
+IGNORE_MARK="# my-skills-my-rules-my-agents: agent local tooling, never commit"
+if ! grep -qxF "$IGNORE_MARK" "$GITIGNORE" 2>/dev/null; then
+  {
+    [ -s "$GITIGNORE" ] && [ -n "$(tail -c 1 "$GITIGNORE")" ] && echo
+    echo "$IGNORE_MARK"
+    echo ".agents/tools/*"
+    echo "!.agents/tools/check-modularity.sh"
+    echo ".agents/scripts/"
+  } >> "$GITIGNORE"
+  echo "  ✓ .gitignore: .agents/tools/ and .agents/scripts/ are local (check-modularity.sh stays shared for CI)"
+else
+  echo "  • .gitignore already ignores agent local tooling"
+fi
 
 # 4b. Install workflow description (skills and rules refer to .agents/workflow.md)
 workflow_target="$AGENTS_TARGET/workflow.md"

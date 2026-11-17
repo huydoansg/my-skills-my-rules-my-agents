@@ -15,6 +15,7 @@ Write in English (core/09-language-and-communication).
 | Approval snapshot | None yet: who / when / confirmed content |
 | Date | YYYY-MM-DD |
 | Deciders | Engineer(s) |
+| Initiative | Initiative folder `NNN-DDMMYYYY-slug` this ADR serves (link), or `none` |
 | Related ADRs | ADR-NNN (status) |
 | Architecture affected | Architecture overview section to update on Accepted |
 | Roadmap | Technical roadmap entry; product roadmap feature (if any) |
