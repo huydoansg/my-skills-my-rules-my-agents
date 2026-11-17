@@ -9,7 +9,7 @@ table of its `AGENTS.md`, so the same rules and skills work in every project.
 | Content | Location |
 | --- | --- |
 | Agent tooling: rules, skills, templates, workflow | `.agents/` in every repo (installed by `install.sh`) |
-| Product knowledge: ADRs, plans, research, architecture, roadmaps, component cards, references | Where the project's **Docs layout** says: usually a separate **Product Brain** repo (see `guides/product-brain.md` in the kit), or a folder inside the repo |
+| Product knowledge: initiatives, ADRs, plans, research, architecture, roadmaps, component cards, references | Where the project's **Docs layout** says: usually a separate **Product Brain** repo (see `guides/product-brain.md` in the kit), or a folder inside the repo |
 | Published-package docs (`README.md`, `CHANGELOG.md`, `LICENSE`, `SECURITY.md`) and SDK release docs | Package root and the paths in `conventions/sdk-library` |
 
 Requirements (PRD) and bug investigations are not stored as artifacts: requirements live
@@ -27,6 +27,9 @@ right column. The values shown are the Product Brain defaults.
 | Artifact | Path |
 | --- | --- |
 | Product Brain root | `../<product>-brain/` (or `.` when this repo is the brain) |
+| Initiatives index | `initiatives/README.md` |
+| Initiatives roadmap | `initiatives/roadmap.md` (one roadmap for all initiatives) |
+| Initiative folder | `initiatives/NNN-DDMMYYYY-slug/` (card: `README.md`, `context.md`, `.researchs/`) |
 | ADR index | `decisions/README.md` |
 | ADR folder | `decisions/ADR-NNN-slug/` (ADR file: `ADR-NNN-slug.md`) |
 | Research folder | `<ADR folder>/.researchs/` |
@@ -48,6 +51,7 @@ right column. The values shown are the Product Brain defaults.
 
 | Artifact | Pattern | Example |
 | --- | --- | --- |
+| Initiative folder | `NNN-DDMMYYYY-slug` (NNN global, 3 digits, unique in the initiatives index **and** the folder list; DDMMYYYY = creation date) | `001-17112026-realtime-sync` |
 | ADR | `ADR-NNN-slug` (NNN unique in the ADR index; check the index **and** the folder list) | `ADR-012-auth` |
 | Master plan | `01-<slug>-master-plan.md` (always 01, one per ADR) | `01-auth-master-plan.md` |
 | Delivery plan | `NN-<component>-<slug>.md` (NN counted per ADR, from 02) | `02-backend-token-refresh.md` |
@@ -58,12 +62,17 @@ right column. The values shown are the Product Brain defaults.
 
 - `<component>` is a component card name; a single-component product omits it.
 - Plan numbers are never reused, even for abandoned plans.
-- Slugs: lowercase kebab-case, ASCII, descriptive. No dates in file names.
+- Slugs: lowercase kebab-case, ASCII, descriptive. No dates in file names, except the
+  creation date in an initiative folder name.
+- An initiative is not an ADR and not a plan: ADRs stay in the ADR folder; the initiative
+  card links to them, and each ADR names its initiative (`Initiative` property).
 - `README.md` and `INDEX.md` are fixed names.
 
 ## 4. When files are created
 
 - Research, brainstorm and design stay **in the chat** until the engineer settles them.
+- Exception: when the engineer asks to keep an idea, create its initiative folder and add
+  it to the initiatives index and roadmap; it may stay ambiguous (`11-clarity-first` §6).
 - On settlement: create the ADR folder and the ADR, move worth-keeping research into the
   research folder, add the ADR to the ADR index and the technical roadmap.
 - Plans are created only after the ADR is Accepted and the work is clear (`11-clarity-first`).
@@ -95,3 +104,4 @@ right column. The values shown are the Product Brain defaults.
 - rev 0 (draft): layout-agnostic: artifacts are named here, paths come from the project's
   Docs layout table (Product Brain defaults); plan naming `01-<slug>-master-plan.md`,
   `NN-<component>-<slug>.md`; no requirement or investigation artifacts.
+- rev 0 (draft): initiatives: index, shared roadmap, folder `NNN-DDMMYYYY-slug`, link to ADRs.

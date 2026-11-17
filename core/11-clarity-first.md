@@ -5,6 +5,7 @@ Applies to every stage: requirement, design/ADR, plan, implementation, verificat
 > [!IMPORTANT]
 > **Clear → act. Ambiguous → resolve until clear. Unresolvable in scope → stop and ask.**
 > Never guess. Never write down or implement a point that is still ambiguous.
+> Only exception: an initiative may record open, ambiguous ideas (§6); it never authorizes work.
 
 ## 1. Definition of clear
 
@@ -75,7 +76,26 @@ Large work hides ambiguity. Split before planning:
 - write a detailed plan only for work that is already clear; later plans stay one line in
   the master plan until they are clear.
 
-## 6. Revision history
+## 6. Exception: initiatives
+
+An **initiative** (`08-repo-layout-and-naming`) records an idea that is not yet clear: a
+product or technology idea the engineer wants to keep and grow. It is the one artifact
+where ambiguity may be written down.
+
+| Allowed in an initiative | Still forbidden |
+| --- | --- |
+| Vague directions, rough hypotheses, inconclusive research | Presenting a guess as a fact: unchecked statements are marked *Unverified* |
+| Open questions without a deadline | An unresolved point that is not listed under Open questions |
+| Creating the folder before the idea is settled, when the engineer asks to capture it | Implementing, planning or deciding from an initiative |
+
+- An initiative never authorizes work: the gate stays ADR `Accepted` + plan `ready` (`07` §2).
+- Crossing into an ADR: every open question that blocks that ADR is resolved in the
+  clarity loop (§2) first; the ADR restates what it needs and never cites the initiative
+  as a decision.
+- The exception covers the initiative folder only; every other stage keeps §1–§5.
+
+## 7. Revision history
 
 - rev 0: (draft) created: definition of clear, resolution by type, per-stage gates,
   clarity register, size rule.
+- rev 0 (draft): §6 initiative exception: ambiguity allowed in initiatives, never a gate.

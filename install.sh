@@ -209,7 +209,7 @@ for tpl_file in "$SCRIPT_DIR"/templates/*.md; do
     cp "$tpl_file" "$target_tpl"
   fi
 done
-echo "  ✓ Templates installed (architecture-spec, adr, master-plan, plan, component, verification, pr, postmortem, changelog, release-notes, migration-guide, sdk-versioning-policy)"
+echo "  ✓ Templates installed (architecture-spec, adr, master-plan, plan, component, initiative, initiative-context, initiatives-roadmap, verification, pr, postmortem, changelog, release-notes, migration-guide, sdk-versioning-policy)"
 
 # 4a. Install modularity tooling (agent-independent) and the git pre-commit hook
 echo "📦 Installing modularity tools..."

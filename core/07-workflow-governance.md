@@ -20,13 +20,15 @@ design files for ideas that are still moving.
 
 | Stage | Where it lives | Gate to leave the stage |
 | --- | --- | --- |
+| Initiative (an idea to keep: product or technology) | Initiative folder; may stay ambiguous (`11` §6) | Engineer picks a direction and asks for an ADR; the blocking open questions are resolved in chat |
 | Research, brainstorm, draft design | Chat only | Engineer says they are satisfied and asks for the document |
 | ADR `Proposed` | ADR folder (+ research moved to its research folder) | Engineer reviews and approves |
 | ADR `Accepted` | same | Engineer's explicit approval of the specific content |
 | Master plan, plan `ready` | Plans folder of the ADR | Engineer confirms |
 
 Never create an ADR/plan/design file "to think". Never create a separate design file in
-addition to the ADR.
+addition to the ADR. The initiative folder is the only place for an unsettled idea, and
+only when the engineer asks to keep it; it never authorizes implementation (§2).
 
 ## 2. Classification and execution gates
 
@@ -64,7 +66,7 @@ re-ask when scope and content are unchanged.
 ## 4. Update status after completing work
 
 Applies to plans (each task), the master plan register, verification reports, the ADR
-index and the roadmaps.
+index, initiative cards, the initiatives index and the roadmaps.
 
 - **When:** a task/plan finishes, verification has a result, a fix is verified, or a
   document's status disagrees with the codebase. Do not end a task without proposing the
@@ -86,8 +88,11 @@ change (propose, get confirmation, then write):
 
 | Event | Update |
 | --- | --- |
+| Initiative created; status or horizon changed | Initiative card (status log); initiatives index; initiatives roadmap |
+| ADR created for an initiative (initiative → `planning`) | ADR `Initiative` property; initiative card (ADR table, status); initiatives index and roadmap; technical roadmap row with the Initiative column; product roadmap row too when the initiative type is `product` |
 | ADR `Accepted` | ADR index; architecture overview (affected section); technical roadmap (and product roadmap when a feature depends on it); other affected ADRs (mark `Superseded` if replaced); component cards if an interface changed; `AGENTS.md`/rules if a boundary or convention changed |
-| ADR `Rejected` / `Superseded` | ADR index; roadmaps; every document linking to it |
+| ADR `Rejected` / `Superseded` | ADR index; roadmaps; every document linking to it (including initiative cards) |
+| Master plan of an initiative's ADR `active` / `done` | Initiative card: propose `in-progress`, and `done` when every linked ADR is delivered; initiatives index and roadmap |
 | Plan `ready` | Master plan register; technical roadmap |
 | Plan `done` | Master plan register; technical roadmap; product roadmap when a milestone completes; architecture overview if the implementation differs from the ADR; ADR follow-ups |
 
@@ -119,3 +124,5 @@ Afterwards grep the artifact name to confirm no broken link or stale status rema
 - rev 0: (draft) generic workflow governance extracted from a production project; chat-first principle added.
 - rev 0 (draft): artifact names from the Docs layout (`08`); clarity gate (`11`); bugfix evidence in
   chat + commit/PR body + regression test instead of an INV file; requirement files removed.
+- rev 0 (draft): initiatives: §1 stage row, §4 scope, §5 sync events (→ `planning` adds the
+  ADR to the technical roadmap, and the product roadmap for type `product`).

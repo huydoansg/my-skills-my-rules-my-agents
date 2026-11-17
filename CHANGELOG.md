@@ -7,6 +7,19 @@ Keep a Changelog; **Breaking** entries list the migration.
 
 ### Added
 
+- **Initiatives**: an idea the engineer wants to keep (product or technology) gets a folder
+  `NNN-DDMMYYYY-slug/` (card `README.md`, `context.md`, `.researchs/`), an index and one
+  shared roadmap for all initiatives. Status `idea → exploring → planning → in-progress →
+  done`, `parked`, `dropped`. Ambiguity is allowed (`core/11` §6) but an initiative never
+  authorizes work. ADRs stay in the ADR folder and link both ways (ADR `Initiative`
+  property); the first ADR moves the initiative to `planning` and adds the ADR to the
+  technical roadmap, and to the product roadmap for type `product` (`core/07` §5).
+  Templates `initiative.md`, `initiative-context.md`, `initiatives-roadmap.md`; skill
+  `initiative-shaping`; `brain-template/initiatives/`; Docs layout rows and naming in
+  `core/08` (creation date allowed in initiative folder names only); Initiative column in
+  both roadmaps. Existing projects: add the three Initiatives rows to the Docs layout
+  table to use them; nothing has to move.
+
 - `core/12-modularity`: one responsibility per file, no several modules in one file, thin
   `main`, ratchet for over-limit files, limits by file kind.
 - `tools/check-modularity.sh`: agent-independent (POSIX sh) check of lines, top-level types

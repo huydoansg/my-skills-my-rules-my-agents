@@ -14,6 +14,9 @@ It holds documents only. Source code lives in the code repositories listed below
 | Artifact | Path |
 | --- | --- |
 | Product Brain root | `.` |
+| Initiatives index | `initiatives/README.md` |
+| Initiatives roadmap | `initiatives/roadmap.md` |
+| Initiative folder | `initiatives/NNN-DDMMYYYY-slug/` |
 | ADR index | `decisions/README.md` |
 | ADR folder | `decisions/ADR-NNN-slug/` (ADR file: `ADR-NNN-slug.md`) |
 | Research folder | `<ADR folder>/.researchs/` |
@@ -29,6 +32,10 @@ It holds documents only. Source code lives in the code repositories listed below
 
 - **Nothing before it is clear.** Research and design stay in chat until settled
   (`.agents/rules/11-clarity-first.md`); then create the ADR folder.
+- **Initiatives are the exception.** An idea the engineer wants to keep gets an
+  initiative folder; it may stay ambiguous (`.agents/rules/11-clarity-first.md` §6), never
+  authorizes work, and links to its ADRs in `decisions/`. One shared roadmap:
+  `initiatives/roadmap.md`. Skill `initiative-shaping`.
 - **One ADR folder per decision.** Its research, contracts, plans and verification
   reports live inside it; nothing about a decision lives elsewhere.
 - **Component names** in plan file names are folder names under `components/`.

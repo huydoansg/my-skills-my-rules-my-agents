@@ -1,4 +1,4 @@
-# Workflow: chat → ADR → plans → implement → verify
+# Workflow: (initiative →) chat → ADR → plans → implement → verify
 
 Gates, approval and evidence: [`core/07-workflow-governance.md`](../core/07-workflow-governance.md).
 Clarity: [`core/11-clarity-first.md`](../core/11-clarity-first.md).
@@ -19,6 +19,7 @@ settled**; documents are written only after that.
 title: Gated flow (purpose - show where each artifact appears and which gate releases the next step)
 ---
 flowchart LR
+  I[Initiative folder: idea, exploring; may stay ambiguous] -->|engineer picks a direction| C
   C[Chat: research, brainstorm, clarity loop] -->|not clear| C
   C -->|engineer settles| A[ADR folder: ADR Proposed]
   A -->|engineer approves| AC[ADR Accepted]
@@ -35,6 +36,12 @@ flowchart LR
   G -- no --> X[failed / blocked, keep evidence]
 ```
 
+0. **Initiative (optional).** An idea the engineer wants to keep (product or technology)
+   gets an initiative folder `NNN-DDMMYYYY-slug/`, listed in the initiatives index and the
+   shared initiatives roadmap. It may stay ambiguous (`core/11` §6) and never authorizes
+   work. When the engineer picks a direction, continue at step 1; the first ADR moves the
+   initiative to `planning` and adds that ADR to the technical roadmap (and the product
+   roadmap for type `product`).
 1. **Chat first.** Research, brainstorm and design stay in chat until the engineer is
    satisfied and no point is ambiguous (`core/11`).
 2. **ADR.** Create the ADR folder with the ADR (status `Proposed`); move research worth
@@ -55,6 +62,7 @@ flowchart LR
 
 | Stage | Skill | Output |
 | --- | --- | --- |
+| Capture and grow an idea; hand a direction to an ADR | `initiative-shaping` | Initiative folder, initiatives index and roadmap |
 | Research + design → ADR | `architecture-design` | ADR folder |
 | Master plan + plans | `implementation-planning` | Plans folder |
 | Bug / crash / regression | `investigate-bugfix` | Chat evidence, regression test, fix commit/PR body |
@@ -69,6 +77,7 @@ can be used inside `architecture-design`; it does not replace the gated flow.
 
 | Type | Docs layout artifact (Product Brain default) | Status |
 | --- | --- | --- |
+| Initiative | Initiative folder + initiatives index + initiatives roadmap (`initiatives/NNN-DDMMYYYY-slug/`, `initiatives/README.md`, `initiatives/roadmap.md`) | idea → exploring → planning → in-progress → done; parked; dropped |
 | ADR | ADR folder + ADR index (`decisions/ADR-NNN-slug/`, `decisions/README.md`) | Proposed → Accepted; Rejected; Superseded |
 | Research | Research folder (`<ADR folder>/.researchs/<subject>.md`) | no gate (written when the ADR is created) |
 | Contract | ADR docs folder (`<ADR folder>/.docs/contract-<name>.md`) | follows the ADR |
@@ -89,5 +98,6 @@ snapshot.
 ## Revision history
 
 - rev 0: (draft) generic workflow extracted from a production project; chat-first emphasis.
+- rev 0 (draft): step 0 initiative, `initiative-shaping` skill, initiative artifacts.
 - rev 0 (draft): Docs layout artifact names (Product Brain defaults), master plan + per-component plans, clarity loop,
   bugfix without INV files.
