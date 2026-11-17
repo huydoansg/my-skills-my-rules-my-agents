@@ -21,6 +21,7 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Visual Communication (diagram encoding, palette, legend, emphasis)**: [`core/10-visual-communication.md`](core/10-visual-communication.md)
 - **Clarity First (no ambiguity at any stage)**: [`core/11-clarity-first.md`](core/11-clarity-first.md)
 - **Modularity (one responsibility per file, enforced by script)**: [`core/12-modularity.md`](core/12-modularity.md)
+- **Architecture documents (ADR a reader can follow: views, anti-patterns, reader test)**: [`core/13-architecture-docs.md`](core/13-architecture-docs.md)
 - **Workflow (chat → ADR → plans → implement → verify)**: [`workflow/workflow.md`](workflow/workflow.md)
 
 ### Specialized Tech Stack Conventions

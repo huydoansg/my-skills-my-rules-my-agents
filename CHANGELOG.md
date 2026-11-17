@@ -7,6 +7,23 @@ Keep a Changelog; **Breaking** entries list the migration.
 
 ### Added
 
+- **Learnings from a Product Brain in use** (ported idea by idea):
+  - `core/13-architecture-docs`: an ADR is a design a reader can follow. Anti-patterns
+    learned from reviews, the views (problem in product language, goals/non-goals, solution
+    strategy, building block view level 1/2, team integration, runtime with failure paths,
+    data, crosscutting, migration, trade-offs), method (reader map, product → tech blocks,
+    diagram first, reader test, `[Proposed]` labels).
+  - Skill `implementation-planning`: **behavior contract** (outcome, decided, stays the
+    same, intended differences; trace by reading; consumer-first inventory), **removal
+    check**, **failure patterns** table. `plan.md` §2 holds the contract tables; both ready
+    gates run the removal check.
+  - `plan.md` executor rules: one plan per session; the executor never writes its own
+    acceptance check; evidence must be re-runnable by someone else.
+  - `master-plan.md`: a plan too large for one session may split its tasks into phase files.
+  - `core/06` §8: documents are one complete version (no patches, no Q&A), one topic per
+    document, split instead of compress, self-contained (no links to agent-only files).
+  - `core/09` rule 9: explain the fundamentals before asking the engineer to decide.
+
 - **Initiatives**: an idea the engineer wants to keep (product or technology) gets a folder
   `NNN-DDMMYYYY-slug/` (card `README.md`, `context.md`, `.researchs/`), an index and one
   shared roadmap for all initiatives. Status `idea → exploring → planning → in-progress →
@@ -58,6 +75,17 @@ Keep a Changelog; **Breaking** entries list the migration.
 - `install.sh` removes symlinks left dangling by deleted rules, skills or templates.
 
 ### Changed
+
+- `templates/adr.md`: §1 Problem (challenge · impact · technical cause), §2 goals/non-goals,
+  §5 rebuilt as 5.1 solution strategy · 5.2 building block view · 5.3 principles per module
+  · 5.4 context and team integration · 5.5 runtime · 5.6 data · 5.7 crosscutting ·
+  5.8 invariants (was 5.4); §7 trade-offs table. Existing ADRs keep their numbering; only
+  new ADRs use the new template.
+- Skill `architecture-design`: reader map in step 3, reader test before saving, required
+  content follows `core/13`.
+- Policy snippet: two new bullets (readable documents, plans keep behavior). **Migration:**
+  projects with the policy block already in `AGENTS.md` delete the block between
+  `<!-- BEGIN/END my-skills-policy -->` and re-run `install.sh`.
 
 - `core/01` file-size rule now points to `core/12`; `core/03` verification loop runs the check.
 - `core/08`: rules and skills use artifact names; paths come from a **Docs layout** table

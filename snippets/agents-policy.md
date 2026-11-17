@@ -34,6 +34,14 @@
   `.agents/scripts/` (git-ignored) and is never committed or pushed. An edit to a plan or
   the master plan updates the other in the same change ([`11-clarity-first`](.agents/rules/11-clarity-first.md) §3.1,
   [`07-workflow-governance`](.agents/rules/07-workflow-governance.md) §5.1, §7).
+- **Documents people can read.** An ADR is a design a reader can follow: problem in product
+  language, building blocks, flows with failure paths, trade-offs; reader test before saving
+  ([`13-architecture-docs`](.agents/rules/13-architecture-docs.md)). Every document is one
+  complete version (no patches, no Q&A), self-contained (no links to agent-only files), split
+  instead of compressed ([`06`](.agents/rules/06-technical-writing-and-evidence-grounding.md) §8).
+  Explain the fundamentals before asking the engineer to choose.
+- **Plans keep behavior.** A plan states what consumers observe today, traced by reading the
+  code; any difference not listed with an ADR reason is a defect (skill `implementation-planning`).
 - **Evidence-based.** Claims about the codebase cite file/line; external claims cite a
   source (URL, access date, version). Never conclude without proof.
 - **Latest information.** For models, runtimes, libraries and best practices, check current

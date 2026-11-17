@@ -104,6 +104,7 @@ Before finalizing any technical document, the Agent must execute this self-audit
 - [ ] **Structured Tables**: Are multiple options or configurations organized into comparison tables?
 - [ ] **Visual Language**: Does the `10-visual-communication` self-check pass (legend, ≤ 3 highlights, one meaning per channel)?
 - [ ] **Precision**: No banned vague word (§7); terms consistent with the glossary and the ADR.
+- [ ] **Complete and self-contained**: no patch wording, no Q&A headings, no link to an agent-only file (§8).
 
 ---
 
@@ -124,3 +125,25 @@ Ambiguous wording is a defect in any document (`11-clarity-first`).
 - **One default, not a menu.** Offer options only in design discussions; documents state the choice.
 - **Example over description.** Point to a canonical example (`path:symbol`) instead of describing a pattern.
 - **Only what the reader lacks.** Do not explain general knowledge.
+
+---
+
+## 8. COMPLETE AND SELF-CONTAINED DOCUMENTS
+
+Product documents (ADRs, plans, research, architecture, component cards) are read by people
+who were not in the chat, and they get shared.
+
+- **One complete version.** A document always reads as the whole current design: never a
+  patch or an addendum ("changed to…", "update:", "now also"), never question → answer
+  structure (no Q&A, no reader-question headings). On every edit, rewrite the affected
+  sections so the whole stays coherent. History lives in git and in the revision history,
+  not in the text.
+- **One topic, one document.** Search before creating; edit the existing document. Add a
+  file only for a part that stands on its own; never duplicate content across files.
+- **Split, never compress.** Content over a length limit moves to its own document (research,
+  contract, child ADR); it is never squeezed to fit.
+- **Self-contained for people.** Never link product documents to agent-only files
+  (`.agents/`, `.claude/`, `AGENTS.md`, agent scripts) and never name them as the source of
+  a rule: state what the reader needs in the document itself. Links go to other product
+  documents, to code (`path:line`) or to public URLs.
+- Rules, skills and templates are agent files: their revision history stays a log.

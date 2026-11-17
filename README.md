@@ -36,7 +36,9 @@ my-skills-my-rules-my-agents/
 │   ├── 08-repo-layout-and-naming.md       # Docs layout table (paths per project), artifact naming
 │   ├── 09-language-and-communication.md   # Chat in engineer's language, documents in English
 │   ├── 10-visual-communication.md         # Diagram encoding, palette, legend, highlighting & text emphasis
-│   └── 11-clarity-first.md                # Clear → act; ambiguous → resolve until clear; never guess
+│   ├── 11-clarity-first.md                # Clear → act; ambiguous → resolve until clear; never guess
+│   ├── 12-modularity.md                   # One responsibility per file, enforced by script
+│   └── 13-architecture-docs.md            # ADR a reader can follow: views, anti-patterns, reader test
 │
 ├── workflow/
 │   └── workflow.md                        # chat -> ADR -> master plan + plans -> implement -> verify
@@ -187,6 +189,9 @@ flowchart LR
 | **Clarity first** | Clear → act; ambiguous → brainstorm, research or investigate until clear; never guess | `core/11` |
 | **One responsibility per file** | Never several modules in one file; thin `main`; over-limit files may not grow; enforced by script (pre-commit + CI), not by memory | `core/12`, `tools/`, skill `split-module` |
 | **Chat first, document later** | No ADR/plan files while the design is still moving; saves tokens | `core/07` |
+| **ADR a reader can follow** | Problem in product language → building blocks (level 1/2) → flows with failure paths → trade-offs; reader test before saving | `core/13` |
+| **Complete documents** | One complete version (no patches, no Q&A), self-contained (no links to agent files), split instead of compress | `core/06` §8 |
+| **Behavior contract** | Plans state what consumers observe today, traced by reading the code; any unlisted difference is a defect; removal check | skill `implementation-planning` |
 | **Initiatives** | An idea to keep (product or technology) lives in `NNN-DDMMYYYY-slug/`; may be ambiguous; one shared roadmap; links to ADRs, never a gate | `core/11` §6, skill `initiative-shaping` |
 | **Hard gates** | Feature = ADR `Accepted` + plan `ready`; bug fix = reproduction + root cause in chat, recorded in the PR, regression test | `core/07` |
 | **Evidence & status discipline** | Claims cite file/line or command output; status changes are proposed, then confirmed by the engineer | `core/07` |
@@ -236,7 +241,7 @@ flowchart LR
 ├── CLAUDE.md, .cursorrules   # -> AGENTS.md
 ├── .github/copilot-instructions.md
 ├── .agents/
-│   ├── rules/                # core/00-12 + conventions/<stack>.md
+│   ├── rules/                # core/00-13 + conventions/<stack>.md
 │   ├── skills/               # all skills
 │   ├── templates/            # adr, master-plan, plan, component, verification, ...
 │   ├── tools/                # check-modularity.sh (agent-independent), pre-commit hook, CI example

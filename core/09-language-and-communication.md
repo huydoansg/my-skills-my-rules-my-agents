@@ -26,6 +26,10 @@ English before it is written down.
    technical detail. Prefer a Mermaid diagram (title + one-sentence purpose) over prose.
 8. **When offering options,** state the practical consequence of each, a recommendation,
    and why. Numbers/thresholds you propose are references until the engineer confirms.
+9. **Explain before asking for a decision.** Never assume the engineer already understands
+   the topic. Research it first, explain the fundamentals in plain terms (what it is, how it
+   works, why it matters here), compare with evidence, then present the options. A research
+   document starts with an explainer section before any option table.
 
 ## 2. Raw capture (optional)
 
@@ -50,3 +54,4 @@ Use this short loop in chat before writing:
 
 - rev 0: (draft) generic language/communication rule added (chat in engineer's language, documents in English).
 - rev 0 (draft): artifact list and raw-capture location follow the decision-centric layout.
+- rev 0 (draft): rule 9, explain the fundamentals before asking for a decision.
