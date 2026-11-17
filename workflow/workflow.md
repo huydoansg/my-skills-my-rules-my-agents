@@ -49,10 +49,14 @@ flowchart LR
    `contract-<name>.md` in the ADR docs folder.
 3. Engineer **approves** → ADR `Accepted` → sync the ADR index, the architecture
    overview and the roadmaps (governance §5).
-4. **Master plan** `01-<slug>-master-plan.md` in the plans folder: splits the ADR into plans, one per
-   component and outcome; ambiguous parts become discovery plans first.
+4. **Master plan** `01-<slug>-master-plan.md` in the plans folder: holds the confirmed
+   intent brief (`core/11` §3.1) and splits the ADR into plans, one per component and
+   outcome; ambiguous parts become discovery plans first. Before approval it passes the
+   consistency check (governance §5.1) and the over-engineering review (governance §7).
 5. **Plans** `NN-<component>-<slug>.md`, written only when clear; each follows the
-   Accepted ADR and is executable by an agent that has never seen the repo.
+   Accepted ADR and is executable by an agent that has never seen the repo. The first
+   delivery plan is a pilot; the engineer holds a checkpoint after it and after each plan.
+   An edit to a plan or to the master plan updates the other in the same change.
 6. **Bugfix:** reproduction and root cause settled in chat; the fix commit/PR records them;
    a regression test is the persisted evidence.
 7. **Verify** against the AC before claiming done; propose status updates; sync the
@@ -101,3 +105,4 @@ snapshot.
 - rev 0 (draft): step 0 initiative, `initiative-shaping` skill, initiative artifacts.
 - rev 0 (draft): Docs layout artifact names (Product Brain defaults), master plan + per-component plans, clarity loop,
   bugfix without INV files.
+- rev 0 (draft): intent brief, consistency check, over-engineering review, pilot and checkpoint.

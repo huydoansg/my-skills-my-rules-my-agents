@@ -114,6 +114,12 @@ Ambiguous wording is a defect in any document (`11-clarity-first`).
 - **Banned vague words** (replace with the concrete action, value or condition):
   handle, support, improve, properly, appropriately, as needed, etc., similar to,
   TBD, should probably, robust, seamless.
+- **Check verbs need a check.** ensure, verify, validate, check, confirm, make sure: write
+  them only with the command or observation and its expected result
+  (`Run <cmd>` → `<expected line>`).
+- **Scope words need a count or a list.** all, every, complete, full, comprehensive,
+  end-to-end: name the items or give the number ("the 14 endpoints in §2", not "all endpoints").
+- **Step form** in plans: action → file (`path:symbol`) → command → expected result.
 - **One term per concept** across a document and its ADR; define it once in a glossary.
 - **One default, not a menu.** Offer options only in design discussions; documents state the choice.
 - **Example over description.** Point to a canonical example (`path:symbol`) instead of describing a pattern.

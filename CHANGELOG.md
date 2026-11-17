@@ -20,6 +20,24 @@ Keep a Changelog; **Breaking** entries list the migration.
   both roadmaps. Existing projects: add the three Initiatives rows to the Docs layout
   table to use them; nothing has to move.
 
+- `core/11` §3.1 intent brief: goal, agreed approach, rejected approaches, non-goals, done
+  measure, tooling needed; confirmed by the engineer before planning.
+- `core/07` §5.1 content-change propagation between ADR, master plan and plans, with a
+  read-only consistency check; §7 fit to the need: tooling only as a planned task,
+  over-engineering review (skill `code-auditor` §2); local tooling lives in
+  `.agents/tools/` or `.agents/scripts/` and is never committed.
+- `install.sh` appends to the project `.gitignore`: `.agents/tools/*`,
+  `!.agents/tools/check-modularity.sh` (CI still runs it), `.agents/scripts/`.
+  **Migration:** files already tracked stay tracked; untrack them once with
+  `git rm --cached .agents/tools/ci-example.yml .agents/tools/limits.default .agents/tools/pre-commit-hook.sh`
+  (and any agent-made file under `.agents/tools/` or `.agents/scripts/`).
+- `core/06` §7: check verbs need a command and expected result; scope words need a count or list.
+- `master-plan.md`: intent brief, scope IDs (`S-`), inventory (`INV-`), pilot and
+  checkpoint. `plan.md`: master plan revision, §4 copies intent and scope, task fields
+  **Why** and **Do not**, builder check on the executor's model tier.
+- Skill `implementation-planning`: approach by work type (port, refactor, feature, bulk
+  change, bugfix); freedom by executor.
+
 - `core/12-modularity`: one responsibility per file, no several modules in one file, thin
   `main`, ratchet for over-limit files, limits by file kind.
 - `tools/check-modularity.sh`: agent-independent (POSIX sh) check of lines, top-level types

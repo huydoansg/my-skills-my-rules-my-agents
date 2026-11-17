@@ -9,6 +9,7 @@ table of its `AGENTS.md`, so the same rules and skills work in every project.
 | Content | Location |
 | --- | --- |
 | Agent tooling: rules, skills, templates, workflow | `.agents/` in every repo (installed by `install.sh`) |
+| Local tooling: scripts and tools an agent builds to check work on the engineer's machine | `.agents/tools/`, `.agents/scripts/`; git-ignored by `install.sh`; never committed or pushed (`07-workflow-governance` §7) |
 | Product knowledge: initiatives, ADRs, plans, research, architecture, roadmaps, component cards, references | Where the project's **Docs layout** says: usually a separate **Product Brain** repo (see `guides/product-brain.md` in the kit), or a folder inside the repo |
 | Published-package docs (`README.md`, `CHANGELOG.md`, `LICENSE`, `SECURITY.md`) and SDK release docs | Package root and the paths in `conventions/sdk-library` |
 

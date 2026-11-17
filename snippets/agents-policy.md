@@ -27,6 +27,13 @@
   `initiative-shaping`).
 - **Plans follow the ADR.** One plan per component and outcome, tracked by the master plan;
   every task cites an ADR decision or invariant; a plan never makes a new decision.
+- **Fit the need.** Restate the intent brief (goal, agreed approach, rejected approaches,
+  non-goals, done measure, tooling needed) and get the engineer's confirmation before
+  planning; read it again each session. Build tooling only as a planned task; a missing
+  runner is proposed, not built. Local check tooling lives in `.agents/tools/` or
+  `.agents/scripts/` (git-ignored) and is never committed or pushed. An edit to a plan or
+  the master plan updates the other in the same change ([`11-clarity-first`](.agents/rules/11-clarity-first.md) §3.1,
+  [`07-workflow-governance`](.agents/rules/07-workflow-governance.md) §5.1, §7).
 - **Evidence-based.** Claims about the codebase cite file/line; external claims cite a
   source (URL, access date, version). Never conclude without proof.
 - **Latest information.** For models, runtimes, libraries and best practices, check current
