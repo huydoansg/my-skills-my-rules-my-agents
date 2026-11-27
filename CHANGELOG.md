@@ -7,6 +7,19 @@ Keep a Changelog; **Breaking** entries list the migration.
 
 ### Added
 
+- **Execution economy** (from a Product Brain in use):
+  - `core/14-execution-economy`: checkpoint output and stop, research that serves a
+    decision, failed-setup handling, one runner per repeated batch with logs to files,
+    report on signal, drift signs, bounded subagents. Manifesto principle 7.
+  - Skill `implementation-planning`: checkpoint output per task; port snapshots recorded
+    twice through one shared runner, never edited by the port, old defects kept as
+    findings; failure pattern *Over-running execution*. `templates/plan.md` executor rule 6.
+  - `core/03`: a new test fails for the right reason first; never manufacture a failure;
+    assertions on observable state and side effects.
+  - `core/06` §7: name the component, never a role word.
+  - Skill `code-auditor`: verify each finding (scenario + evidence, traced vs reproduced,
+    review never changes the branch), priority separate from verification level.
+
 - **Learnings from a Product Brain in use** (ported idea by idea):
   - `core/13-architecture-docs`: an ADR is a design a reader can follow. Anti-patterns
     learned from reviews, the views (problem in product language, goals/non-goals, solution

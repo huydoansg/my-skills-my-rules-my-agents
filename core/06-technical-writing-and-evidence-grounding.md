@@ -122,6 +122,10 @@ Ambiguous wording is a defect in any document (`11-clarity-first`).
   end-to-end: name the items or give the number ("the 14 endpoints in §2", not "all endpoints").
 - **Step form** in plans: action → file (`path:symbol`) → command → expected result.
 - **One term per concept** across a document and its ADR; define it once in a glossary.
+- **Name the component, never a role word.** client, server, backend, frontend, host,
+  device, service, SDK, "the system" are banned bare: write the component and where it runs,
+  as the project glossary names it ("the billing worker writes the orders table"). When
+  another team's document uses a role word, map it to the component before using it.
 - **One default, not a menu.** Offer options only in design discussions; documents state the choice.
 - **Example over description.** Point to a canonical example (`path:symbol`) instead of describing a pattern.
 - **Only what the reader lacks.** Do not explain general knowledge.

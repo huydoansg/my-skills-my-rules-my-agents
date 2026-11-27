@@ -30,7 +30,11 @@ Mermaid for flows and order (core/10). Delete every comment and unused row befor
 > 5. Never delete or weaken a test or an AC, and never write your own acceptance check: the
 >    checks are the planner's. Evidence is what someone else can re-run (command, exit code,
 >    decisive output line, commit); your own test counts or self-assessment are not evidence.
-> 6. End each session clean and update Handoff.
+> 6. Each task ends at its checkpoint output: record it in §10, report, stop. Before a
+>    retry, read the contract or fixture; fix a repeated failure at its cause instead of
+>    creating more resources. Full logs go to files; report only a checkpoint pass, a
+>    difference that changes the work, or a blocker (`core/14`).
+> 7. End each session clean and update Handoff.
 
 ## 1. Goal
 

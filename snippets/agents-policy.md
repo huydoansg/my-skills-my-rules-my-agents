@@ -34,6 +34,10 @@
   `.agents/scripts/` (git-ignored) and is never committed or pushed. An edit to a plan or
   the master plan updates the other in the same change ([`11-clarity-first`](.agents/rules/11-clarity-first.md) §3.1,
   [`07-workflow-governance`](.agents/rules/07-workflow-governance.md) §5.1, §7).
+- **Execution economy.** Name the output of each batch of work before running tools and
+  stop when it is met. Fix a repeated setup failure at its cause; repeated cases go through
+  one runner with logs to files; report only a checkpoint pass, a difference that changes
+  the work, or a blocker ([`14-execution-economy`](.agents/rules/14-execution-economy.md)).
 - **Documents people can read.** An ADR is a design a reader can follow: problem in product
   language, building blocks, flows with failure paths, trade-offs; reader test before saving
   ([`13-architecture-docs`](.agents/rules/13-architecture-docs.md)). Every document is one

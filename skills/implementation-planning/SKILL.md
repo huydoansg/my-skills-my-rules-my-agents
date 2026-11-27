@@ -87,7 +87,7 @@ plan §1 with the engineer's reason.
 
 | Work type | Default approach | Done measure |
 | --- | --- | --- |
-| Port or migration 1:1 | Inventory each unit (endpoint, service, worker, topic, table) as an `INV-` row and mark dropped scope. Record the old behavior with characterization tests: same request → same response, DB rows and messages. Port unit by unit against those tests. | Every `INV-` row passes the same test on the new code; lint and typecheck pass |
+| Port or migration 1:1 | Inventory each unit (endpoint, service, worker, topic, table) as an `INV-` row and mark dropped scope. Record the old behavior with characterization tests: same request → same response, DB rows and messages. Record each case twice from the real old entry point and require byte-equal normalized snapshots; one case runner serves both the old recording and the new tests. Port unit by unit against those tests; the port never edits a snapshot, and an old defect is kept and listed as a finding for a later fix. | Every `INV-` row passes the same test on the new code; lint and typecheck pass |
 | Refactor (no behavior change) | Run the existing tests first. Add characterization tests only where the touched code has none. Change in small steps. | The same tests pass before and after; no public interface diff |
 | New feature | AC from the ADR; TDD per AC | AC tests and the project checks pass |
 | Bulk mechanical change | One recipe proven on one unit, then a table of units | The recipe's check passes on each row |
@@ -123,7 +123,10 @@ beyond them is listed in the brief under "Tooling needed" (governance §7).
    are answered in one round with the engineer before `ready`. If that tier cannot be
    started here, use the lowest tier available, or the engineer runs the check in the
    executor's tool. Record the model used in the ready gate.
-10. **Repeated units:** write the recipe once on one unit, then a table
+10. **Checkpoint output per task or batch:** each names the output that ends it and says
+    stop there (`core/14` §1). Repeated cases name their runner, where full logs go and what
+    the runner prints.
+11. **Repeated units:** write the recipe once on one unit, then a table
     `unit | file | test | expected`. No prose per unit.
 
 ## Removal check
@@ -146,6 +149,7 @@ Each answer is a row for the engineer: `item | removable because | keep reason`.
 | Self-certification | The executor writes the check and reports the pass | The planner defines the checks; evidence is re-runnable |
 | Re-deciding the ADR | The plan guards or redesigns what the ADR fixed | Decided (question 2) |
 | Presented as verified | The plan cites line numbers nobody read; behavior comes from comments or names | Trace by reading |
+| Over-running execution | Repeated setup, polling and full log reads; batches run past their checkpoint | Checkpoint output per task (`core/14`); one runner per repeated batch |
 
 When a review finds a new pattern, add one row; keep the table short.
 
@@ -164,3 +168,5 @@ When a review finds a new pattern, add one row; keep the table short.
   review; consistency on edits; freedom by executor; builder check on the executor's tier.
 - rev 0 (draft): behavior contract (four questions, trace by reading, consumer-first
   inventory), removal check, failure patterns.
+- rev 0 (draft): checkpoint output per task, port snapshots recorded twice through one
+  runner, over-running execution pattern (`core/14`).
