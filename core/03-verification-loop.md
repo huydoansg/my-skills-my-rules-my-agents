@@ -31,6 +31,12 @@ flowchart TD
 
 3. **Step 3: Automated Testing & Edge Cases**:
    - Execute existing tests to verify no regressions were introduced.
+   - A new test first fails for the reason the change addresses. A setup or compile error is
+     not that failure: fix it until the check runs. If the code already passes, record that;
+     never manufacture a failure.
+   - Assertions check what a consumer observes, including data state and side effects where
+     they matter. Unit tests for pure logic; integration or contract tests for databases,
+     transactions and system boundaries. Coverage finds gaps; it does not prove behavior.
    - Write new unit and integration tests covering:
      - The Happy Path.
      - Edge Cases (empty inputs, null/nil handling, boundary values).

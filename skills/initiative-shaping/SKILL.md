@@ -61,9 +61,11 @@ flowchart LR
    card ADR table and status; initiatives index and roadmap; technical roadmap row with
    the Initiative column; product roadmap row too when the type is `product`
    (`core/07` §5).
-7. **Follow the ADRs:** when a linked ADR or master plan changes status, update the card
+7. **Follow the work:** when a linked ADR or master plan changes status, update the card
    ADR table; propose `in-progress` when a master plan is `active` and `done` when every
-   linked ADR is delivered.
+   linked ADR is delivered. Work that needs no technical decision (no ADR) goes from
+   `exploring` to `in-progress` and `done` on the engineer's report. Before proposing
+   `done`, fill the card's *Outcome* (result against the hypothesis, with evidence).
 8. **Close:** `parked` or `dropped` records the reason in the status log and the
    roadmap *Closed* table. The number is never reused.
 
@@ -71,8 +73,8 @@ flowchart LR
 
 - **Not a gate.** An initiative in any status never authorizes implementation; the gate
   stays ADR `Accepted` + plan `ready` (`core/07` §2).
-- **Link, do not nest.** ADRs stay in the ADR folder; one ADR may serve several
-  initiatives, one initiative may have several ADRs.
+- **Link, do not nest.** ADRs stay in the ADR folder; an initiative has 0..n ADRs and an
+  ADR serves 0 or 1 initiative (its `Initiative` property).
 - **One roadmap.** All initiatives share the initiatives roadmap; no per-initiative roadmap.
 - **One owner per fact.** A decision lives in its ADR; the initiative links to it and does
   not copy it.
@@ -85,3 +87,4 @@ flowchart LR
 - [ ] Every unresolved point is under Open questions or *Unverified*.
 - [ ] Every linked ADR names this initiative; every ADR naming it is in the card.
 - [ ] For `planning`+: technical roadmap (and product roadmap for `product`) rows exist.
+- [ ] For `done`: the card's *Outcome* is filled with evidence or `not measured`.

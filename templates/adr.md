@@ -1,18 +1,20 @@
 # ADR-NNN — Topic title
 
 <!--
-An ADR is the design for one specific topic. File: ADR-NNN-slug.md in its ADR folder (Docs layout).
+An ADR is the design for one specific topic that a reader can follow: problem → solution →
+how each part works → trade-offs (core/13-architecture-docs). File: ADR-NNN-slug.md in its
+ADR folder (Docs layout).
 Create it only after the engineer has discussed the draft in chat, every point is clear
 (core/11) and the engineer is satisfied (see .agents/workflow.md). Research worth keeping
 goes to the ADR's research folder; plans go to its plans folder.
-Write in English (core/09-language-and-communication).
+Leave out a view that does not apply (say why in chat). Write in English (core/09).
 -->
 
 | Property | Value |
 | --- | --- |
 | Status | Proposed → Accepted / Rejected / Deprecated / Superseded by ADR-XXX |
 | Revision | rev 0 |
-| Approval snapshot | None yet: who / when / confirmed content |
+| Approval snapshot | None yet. Format (core/07 §3): `Approved by · <who> · YYYY-MM-DD · "<verbatim>" · rev N · <hash>` |
 | Date | YYYY-MM-DD |
 | Deciders | Engineer(s) |
 | Initiative | Initiative folder `NNN-DDMMYYYY-slug` this ADR serves (link), or `none` |
@@ -27,18 +29,29 @@ Write in English (core/09-language-and-communication).
 
 3–7 bullets: what is decided, scope, what is still pending.
 
-## 1. Context and problem
+## 1. Problem
 
-What problem, why now, current state of the code (file/line), research done (link
-research folder, references).
+What hurts, in product language first (users, customers, the business), then the technical
+cause. Current state of the code (file/line); research done (link the research folder,
+references).
 
-## 2. Requirements and constraints
+| Challenge | User / customer impact | Technical cause |
+| --- | --- | --- |
+| … | … | … (`path:line`) |
 
-- Goals, use cases, expected load, type of system.
+## 2. Goals, requirements and constraints
+
+- **Goals:** what must be true after. **Non-goals:** what is deliberately out (name the
+  tempting adjacent work).
+- Use cases, expected load, type of system.
 - Measurable NFRs (security, performance, reliability, extensibility, consistency…); for
   each non-applicable one write the reason. Score against the 9 pillars
   (`02-architectural-pillars`) and list the drivers (e.g., latency < 50 ms → Scalability).
 - Constraints: boundaries (AGENTS.md, existing ADRs), platforms, budgets.
+
+| Quality goal | Measure | Driver |
+| --- | --- | --- |
+| … | … | … |
 
 ## 3. Options considered
 
@@ -60,29 +73,58 @@ The concrete decision, reasons grounded in evidence, accepted trade-offs.
 
 ## 5. Design
 
-**Diagrams first, text second.** Each main idea has one Mermaid diagram (title + one-line
-purpose); text is short supporting bullets.
+**Diagrams first, text second.** Each part has one Mermaid diagram (title + one-line
+purpose), then a callout of the 3–5 points a reader must not miss, then short bullets.
 
-### 5.1 The component's own architecture
+### 5.1 Solution strategy
 
-Internal component diagram + outward dependencies (which module, through which contract).
+| Key idea | Solves (§1 challenge) |
+| --- | --- |
+| … | … |
 
-### 5.2 Principles / Expectations / Rules per module
+### 5.2 Building block view
+
+**Level 1 — black boxes**, named by product responsibility:
+
+| Block | Responsibility | Never | Depends on |
+| --- | --- | --- | --- |
+| … | … | … | … |
+
+**Level 2 — white boxes**, one diagram per block that changes:
+
+| Block → component | Technology / runs where | Data owned | Detail doc |
+| --- | --- | --- | --- |
+| … | … | … | contract file · child ADR · none |
+
+### 5.3 Principles / Expectations / Rules per module
 
 | Module | Principles (design) | Expectations (measurable) | Rules (must not be broken) |
 | --- | --- | --- | --- |
 | … | … | … | … |
 
-### 5.3 Flows, state, data
+### 5.4 Context, containers and team integration
 
-- Context / container (processes, data ownership).
-- Components and main flows (sequence).
-- Contract / data model / state, if any.
-- Boundary check against AGENTS.md.
-- Cross-platform considerations.
-- Not doing (YAGNI).
+- C4 context or container diagram, grouped by owning team; trust boundaries.
+- Per team boundary: sequence diagram + contract table + key guarantees.
 
-### 5.4 Invariants (implementation must obey)
+| Call | Owner | Inputs | Outputs | Failure |
+| --- | --- | --- | --- | --- |
+| … | … | … | … | … |
+
+### 5.5 Runtime flows
+
+One sequence diagram per key flow, each with `alt` failure paths.
+
+### 5.6 Data and storage
+
+Schema (kept / added / removed), storage layout, correspondence between stores.
+
+### 5.7 Crosscutting
+
+Security · consistency · observability · privacy: one short subsection each. Boundary check
+against AGENTS.md; cross-platform considerations; not doing (YAGNI).
+
+### 5.8 Invariants (implementation must obey)
 
 Laws this ADR **establishes**. Each has an ID `NNN-In` (NNN = ADR number) and a way to
 check it (test, boundary check, grep). Project-wide laws live in the overview ADR; only
@@ -93,14 +135,18 @@ engineer's approval.
 | --- | --- | --- |
 | NNN-I1 | … | … |
 
-## 6. Rollout, rollback and verification
+## 6. Migration, rollout, rollback and verification
 
-Migration, rollback, how to verify (tests, measurement), measurable AC.
+Phase diagram from today to the target; approach per phase; rollback; how to verify
+(tests, measurement); measurable AC.
 
-## 7. Consequences and follow-up
+## 7. Trade-offs, consequences and follow-up
+
+| Trade-off | Impact | Mitigation |
+| --- | --- | --- |
+| … | … | … |
 
 - **Positive:** …
-- **Negative and mitigations:** …
 - Next work, architecture overview/other ADRs to update, remaining risks.
 
 ## 8. Open questions

@@ -74,6 +74,9 @@ Dashed border = discovery plan (removes an ambiguity, ships no product code).
 
 - A delivery plan file is created only when `Clarity = clear` and every dependency is `done`.
 - An `outline` row holds one line only.
+- A plan too large for one executor session may split its tasks into phase files next to it
+  (`NN-<component>-<slug>/phase-M-<slug>.md`), each holding only intent, tasks, checks and
+  its log; shared executor rules and procedures stay once in the plan.
 - Split rule: one plan per component and per outcome; ambiguous parts become discovery plans.
 - Pilot: the first delivery plan carries one unit from start to passing check (code and
   its done measure). Later plans are written in detail after the pilot checkpoint.
@@ -131,9 +134,11 @@ Defined in the ADR or in `contract-<name>.md` in the ADR docs folder. This table
 - [ ] Every open question in §7 maps to a discovery plan or an engineer question.
 - [ ] The first plans to run are `clear`; the first delivery plan is the pilot.
 - [ ] Consistency check (governance §5.1) reports no finding.
+- [ ] Removal check (`implementation-planning`): a fresh agent reading this master plan finds no
+      plan or scope row that can be removed while §1 is still met.
 - [ ] Over-engineering review (governance §7) done by <reviewer>; every row decided by the engineer.
 
-Approved by · when · reference · revision + hash.
+Approved by · <who> · YYYY-MM-DD · "<the engineer's words, verbatim>" · rev N · <commit or content hash> (core/07 §3).
 
 ## Revision history
 

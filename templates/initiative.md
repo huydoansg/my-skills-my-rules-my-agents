@@ -61,6 +61,12 @@ only. Each linked ADR names this initiative in its `Initiative` property.
 | --- | --- | --- | --- |
 | [ADR-NNN-slug](<path from Docs layout>) | … | Proposed · Accepted · Rejected · Superseded | link · none |
 
+## Outcome
+
+Filled when proposing `done`: the result against the hypothesis and its measure, with
+evidence (data, link, release). A missing measure is written `not measured` with how it
+would be measured; never invented.
+
 ## Status log
 
 Status and horizon changes, each confirmed by the engineer (core/07 §4).

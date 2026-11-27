@@ -313,6 +313,8 @@ This repository is augmented with foundational enterprise rules and on-demand sk
   - [`10-visual-communication`](.agents/rules/10-visual-communication.md) — Diagram encoding, palette, legend & text emphasis
   - [`11-clarity-first`](.agents/rules/11-clarity-first.md) — Clear → act; ambiguous → resolve until clear; never guess
   - [`12-modularity`](.agents/rules/12-modularity.md) — One responsibility per file; enforced by `.agents/tools/check-modularity.sh`
+  - [`13-architecture-docs`](.agents/rules/13-architecture-docs.md) — ADR a reader can follow: views, anti-patterns, reader test
+  - [`14-execution-economy`](.agents/rules/14-execution-economy.md) — Checkpoint output and stop, one runner, report on signal
 - **On-Demand Skills**:
   - [`arch-designer`](.agents/skills/arch-designer/SKILL.md) — System design workflow with 9 pillars & C4 diagrams
   - [`tech-writer`](.agents/skills/tech-writer/SKILL.md) — High-signal technical documentation & diagram crafting

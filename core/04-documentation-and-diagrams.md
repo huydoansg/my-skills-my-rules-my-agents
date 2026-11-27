@@ -1,6 +1,7 @@
 # ARCHITECTURE DOCUMENTATION & MERMAID DIAGRAM STANDARDS
 
 Architecture documentation must be concise, punchy, and diagram-driven. Long-winded prose is discouraged.
+Which views an ADR needs and how to write it so a reader can follow it: [`13-architecture-docs`](13-architecture-docs.md).
 
 ## 1. THE 4 MANDATORY ARCHITECTURE VIEWS
 

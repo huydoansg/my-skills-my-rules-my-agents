@@ -42,6 +42,11 @@ flowchart LR
    Docs layout table to its `AGENTS.md` (section 5).
 6. **Give agents access to both repos** when they work in a code repo, for example by
    opening the brain as an additional working directory (Claude Code: `--add-dir ../acme-brain`).
+7. **Optional, Claude Code:** copy `snippets/claude-settings.json` of the kit to
+   `.claude/settings.json` in the brain and each code repo (skip if one exists; merge by
+   hand). It allows read-only commands, asks before commit, push, reset and delete, and
+   denies reading `.env` secrets; `.env.example` stays readable. Add the project's doc
+   checks as hooks once it has them.
 
 ## 3. Structure
 
@@ -118,7 +123,8 @@ flowchart LR
 | --- | --- |
 | Initiative created / status or horizon changed | Card, `initiatives/README.md`, `initiatives/roadmap.md` |
 | First ADR for an initiative (→ `planning`) | Card ADR table, ADR `Initiative` property, `technical-roadmap.md`, `product-roadmap.md` for type `product`, initiatives index and roadmap |
-| ADR Accepted | `decisions/README.md`, `technical-roadmap.md`, `architecture.md`, affected component cards |
+| ADR Accepted | `decisions/README.md`, `technical-roadmap.md`, `architecture.md`, *Target state* of affected component cards |
+| ADR delivered | Component cards: *Target state* → *Current state*; `architecture.md` if containers changed; roadmaps (skill `brain-sync`) |
 | Plan ready / done | Master plan register, `technical-roadmap.md` (and `product-roadmap.md` when a milestone completes) |
 | Contract changed | The contract file, then every component card that links it |
 

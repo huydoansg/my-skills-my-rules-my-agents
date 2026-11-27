@@ -21,6 +21,8 @@ NNN-DDMMYYYY-slug/
   Never reuse a number, even for `dropped` initiatives.
 - `DDMMYYYY`: the date the initiative was created. `slug`: lowercase kebab-case, ASCII.
 - ADRs stay in `decisions/`; the card links to them and each ADR names the initiative.
+- An initiative has 0..n ADRs; an ADR serves 0 or 1 initiative. Work that needs no
+  technical decision moves from `exploring` to `in-progress` without an ADR.
 
 ## Lifecycle
 
@@ -32,8 +34,9 @@ stateDiagram-v2
   [*] --> idea
   idea --> exploring: research starts
   exploring --> planning: first ADR created for it
+  exploring --> in_progress: work starts that needs no technical decision
   planning --> in_progress: a master plan is active
-  in_progress --> done: every linked ADR delivered
+  in_progress --> done: every linked ADR delivered, or the work without ADR is finished
   idea --> parked
   exploring --> parked
   planning --> parked
@@ -50,8 +53,8 @@ stateDiagram-v2
 | idea | captured; little or no research |
 | exploring | context and research being gathered; ambiguity expected |
 | planning | at least one ADR (Proposed or Accepted) exists for it |
-| in-progress | at least one master plan of a linked ADR is `active` |
-| done | every linked ADR is delivered (master plans `done`) |
+| in-progress | at least one master plan of a linked ADR is `active`, or work that needs no technical decision has started |
+| done | every linked ADR is delivered (master plans `done`), or the work without ADR is finished; the card's *Outcome* is filled |
 | parked | paused; may resume |
 | dropped | will not be done; reason recorded |
 
@@ -63,3 +66,4 @@ stateDiagram-v2
 | First ADR created for it (→ `planning`) | Card ADR table; ADR `Initiative` property; `technical-roadmap.md` (Initiative column); `product-roadmap.md` too when type is `product`; this index; `roadmap.md` |
 | Linked ADR Accepted, Rejected or Superseded | Card ADR table; this index |
 | Linked master plan active / done | Card status (`in-progress` / `done` when all delivered); this index; `roadmap.md` |
+| Work without ADR starts / ends (engineer reports it) | Card status (`in-progress` / `done`) and *Outcome*; this index; `roadmap.md` |

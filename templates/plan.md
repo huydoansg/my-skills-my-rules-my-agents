@@ -19,14 +19,22 @@ Mermaid for flows and order (core/10). Delete every comment and unused row befor
 | Executor | <model tier / person> · Autonomy: attended · unattended |
 
 > **Executor rules**
-> 1. Read §1–§6, then one task at a time, in the order of §8.
+> 1. One plan per session: read §1–§6 of this file (nothing else is required), then one task
+>    at a time, in the order of §8.
 > 2. Edit only the files listed in the task. Never change §1–§6.
 > 3. After each step, run `Run` and compare with `Expect`. Paste the decisive output line into §10.
 > 4. **Stop** when the output is not `Expect`, a file outside the list must change, a tool,
 >    harness, script or dependency that no task lists is needed, the code contradicts the
 >    plan or the ADR, or anything is unclear. Add a question to §6 and report.
 >    Never guess. Outside these cases, continue without asking.
-> 5. Never delete or weaken a test or an AC. End each session clean and update Handoff.
+> 5. Never delete or weaken a test or an AC, and never write your own acceptance check: the
+>    checks are the planner's. Evidence is what someone else can re-run (command, exit code,
+>    decisive output line, commit); your own test counts or self-assessment are not evidence.
+> 6. Each task ends at its checkpoint output: record it in §10, report, stop. Before a
+>    retry, read the contract or fixture; fix a repeated failure at its cause instead of
+>    creating more resources. Full logs go to files; report only a checkpoint pass, a
+>    difference that changes the work, or a blocker (`core/14`).
+> 7. End each session clean and update Handoff.
 
 ## 1. Goal
 
@@ -39,7 +47,19 @@ Demo: `cwd: <dir>` `$ <command>` → `<expected>`
 - **In:** …
 - **Out:** … (name the tempting adjacent work)
 - **Do not touch:** `<paths>`
-- **Keep working** (existing behavior → guard): … → `<test>`
+- **Keep working:** see the behavior contract below.
+
+Behavior contract (implementation-planning "Behavior contract"): what consumers observe
+today and must still observe, traced by reading the code. Any difference not listed in the
+second table is a defect.
+
+| Item | Consumers | Must stay the same (API, payload, response, stored data, events, external calls, logs) | Source read (`path:line`) | Check |
+| --- | --- | --- | --- | --- |
+| … | … | … | … | `<test>` |
+
+| Intended difference | ADR reason (D-, I-) |
+| --- | --- |
+| … | … |
 
 ## 3. Context
 
@@ -159,6 +179,8 @@ feedback for this template.
 
 ## 12. Ready gate (planner self-review)
 
+- [ ] The behavior contract (§2) is traced by reading the cited code; every row has a check; every
+      intended difference cites an ADR reason.
 - [ ] Every item in §4 maps to a task; every task cites a §4 item and an AC, and has Why and Do not.
 - [ ] Each step allows exactly one reasonable action; no banned vague word, no check verb
       without a command, no scope word without a count or list (core/06 §7).
@@ -173,8 +195,10 @@ feedback for this template.
 - [ ] Builder check: a fresh subagent on the executor's model tier, reading only this file,
       restates the goal, T1 (files, command, expected output) and one Do not correctly;
       its questions (if any) are answered in one round. Checked with: <model>.
+- [ ] Removal check: a fresh agent reading the whole plan finds nothing that can be removed
+      while the outcome and the behavior contract still hold.
 
-Approved by · when · reference · revision + hash.
+Approved by · <who> · YYYY-MM-DD · "<the engineer's words, verbatim>" · rev N · <commit or content hash> (core/07 §3).
 
 ## Revision history
 

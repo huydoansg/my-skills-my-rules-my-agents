@@ -36,5 +36,20 @@ Activate this skill when reviewing code, conducting PR assessments, or auditing 
    - Check for `any` (TypeScript), untyped dicts (Python), `_ = err` (Go), or `.unwrap()` (Rust).
    - Are edge cases (null, empty list, network timeout, rate limiting) covered by explicit tests?
 
-4. **Output Findings**:
-   - Output structured findings table: File | Line | Issue | Severity (High / Med / Low) | Recommended Remediation.
+4. **Verify Each Finding**:
+   - Record base and head commit and the target branch; read the whole diff and follow the
+     callers and callees it touches. For a changed shared type, constant or facade, find its
+     consumers.
+   - Every suspected issue needs a concrete scenario and evidence. Drop it when the code or a
+     test disproves it; keep unverified suspicions apart from confirmed findings.
+   - Label how each finding was confirmed: **traced** (followed through the code path) or
+     **reproduced** (run and observed, naming the layer). A passing build or unrelated test
+     does not make a finding reproduced.
+   - A review changes no code or commit on the reviewed branch. Temporary tests run in a
+     separate worktree and are removed afterwards.
+
+5. **Output Findings**:
+   - Output structured findings table: File | Line | Issue | Severity (High / Med / Low) | Confirmed (traced · reproduced) | Recommended Remediation.
+   - Priority is separate from verification level. Each issue is described in one place. A
+     suggested fix is optional and must follow the target architecture; a finding stands
+     without one.

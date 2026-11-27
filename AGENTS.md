@@ -21,6 +21,8 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Visual Communication (diagram encoding, palette, legend, emphasis)**: [`core/10-visual-communication.md`](core/10-visual-communication.md)
 - **Clarity First (no ambiguity at any stage)**: [`core/11-clarity-first.md`](core/11-clarity-first.md)
 - **Modularity (one responsibility per file, enforced by script)**: [`core/12-modularity.md`](core/12-modularity.md)
+- **Architecture documents (ADR a reader can follow: views, anti-patterns, reader test)**: [`core/13-architecture-docs.md`](core/13-architecture-docs.md)
+- **Execution economy (checkpoint output and stop, one runner, report on signal)**: [`core/14-execution-economy.md`](core/14-execution-economy.md)
 - **Workflow (chat → ADR → plans → implement → verify)**: [`workflow/workflow.md`](workflow/workflow.md)
 
 ### Specialized Tech Stack Conventions
@@ -44,6 +46,8 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 - **Implementation Planning**: [`skills/implementation-planning/SKILL.md`](skills/implementation-planning/SKILL.md)
 - **Investigate & Bugfix**: [`skills/investigate-bugfix/SKILL.md`](skills/investigate-bugfix/SKILL.md)
 - **Implementation Verification**: [`skills/implementation-verification/SKILL.md`](skills/implementation-verification/SKILL.md)
+- **Research (grounded, chat first, saved at the right level)**: [`skills/research/SKILL.md`](skills/research/SKILL.md)
+- **Brain Sync (indexes, roadmaps, component Current/Target state)**: [`skills/brain-sync/SKILL.md`](skills/brain-sync/SKILL.md)
 - **SDK API Evolution (backward-compatible changes)**: [`skills/sdk-api-evolution/SKILL.md`](skills/sdk-api-evolution/SKILL.md)
 - **SDK Release (SemVer bump, changelog, release notes, migration guide)**: [`skills/sdk-release/SKILL.md`](skills/sdk-release/SKILL.md)
 - **Architecture Designer**: [`skills/arch-designer/SKILL.md`](skills/arch-designer/SKILL.md)
@@ -82,5 +86,6 @@ You must adhere strictly to the engineering rules, architectural pillars, and co
 9. **Visual Communication**: Draw only when a picture is clearer; one visual channel = one meaning, standard palette, legend, at most 3 highlights; emphasis via bold, italic, ~~old~~ → <ins>new</ins> and lists (see `core/10-visual-communication.md`).
 10. **Clarity First**: Clear → act. Ambiguous → brainstorm, research or investigate until it is clear; if it cannot be resolved in scope, stop and ask. Never guess, never document or implement an unresolved point (see `core/11-clarity-first.md`).
 11. **Modularity**: one responsibility per file; never several modules in one file; new module → new file; thin `main`; over-limit files may not grow. Enforced by `tools/check-modularity.sh` (git pre-commit + CI), not by memory (see `core/12-modularity.md`).
+12. **Execution Economy**: name each batch's output before running tools and stop when it is met; one runner for repeated cases, logs to files; report on signal (see `core/14-execution-economy.md`).
 
 Full policy block installed into target projects: [`snippets/agents-policy.md`](snippets/agents-policy.md).
